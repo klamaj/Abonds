@@ -1,1 +1,201 @@
-<p>home works!</p>
+<section class="p-4">
+    <!-- search -->
+    <div>
+        <form [formGroup]="searchForm" (keyup)="search()">
+            <div class="flex flex-row items-center ">
+                <!-- search-form -->
+                <input 
+                    type="text"
+                    placeholder="Search..."
+                    formControlName="search"
+                    autocomplete="off"
+                    class="primary h-12 rounded-full text-sm w-full"
+                />
+                <!-- filter -->
+                <div class="relative -ml-11">
+                    <button data-modal-target="filter" data-modal-toggle="filter" class="bg-white rounded-full p-2" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_101_1194)">
+                                <path d="M12 11.25V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 3.75V8.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M18.75 18.75V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M18.75 3.75V15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M21 15.75H16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M5.25 15.75V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M5.25 3.75V12.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 12.75H7.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14.25 8.25H9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_101_1194">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+                </div>
+                <!-- den ksero -->
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- filter modal -->
+<div id="filter" tabindex="-1" aria-hidden="true" class="hidden overflow-y-scroll fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full">
+    <div class="w-full h-full bg-[#F2F2F2] py-6 px-4">
+        <!-- logo -->
+        <div class="w-full flex justify-center items-center pb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="98" height="32" viewBox="0 0 98 32" fill="none">
+                <path d="M30.5254 27.8519C31.2014 27.4605 31.54 26.9715 31.5413 26.385C31.5388 26.1438 31.4742 25.9074 31.3537 25.6984C31.2333 25.4895 31.061 25.3151 30.8535 25.1921C30.3229 24.8585 29.7034 24.6941 29.0772 24.7205H27.9756V31.6879H29.1163C30.0222 31.6879 30.7454 31.5015 31.2859 31.1287C31.5363 30.9781 31.7429 30.7648 31.8855 30.5098C32.028 30.2548 32.1015 29.967 32.0986 29.6749C32.0986 28.8112 31.5742 28.2036 30.5254 27.8519ZM28.915 25.5612C28.9802 25.5612 29.0585 25.5612 29.1499 25.5612C29.5059 25.5428 29.8588 25.6353 30.1601 25.8258C30.2771 25.9023 30.3726 26.0073 30.4378 26.1309C30.5031 26.2544 30.5358 26.3926 30.5329 26.5323C30.5374 26.6899 30.5014 26.846 30.4283 26.9857C30.3552 27.1254 30.2475 27.2439 30.1154 27.33C29.7517 27.545 29.3333 27.6492 28.9113 27.6301L28.915 25.5612ZM30.6671 30.4335C30.3689 30.6944 29.8097 30.8268 28.9896 30.8268H28.9131V28.4447H29.2337C29.7142 28.4196 30.1918 28.5314 30.6112 28.7671C30.764 28.8534 30.891 28.9788 30.9791 29.1305C31.0673 29.2822 31.1133 29.4547 31.1126 29.6301C31.1144 29.9041 30.9653 30.1707 30.6671 30.4335Z" fill="#231F20"/>
+                <path d="M43.057 28.1586C43.0609 27.6752 42.9633 27.1964 42.7707 26.753C42.5781 26.3096 42.2946 25.9116 41.9386 25.5845C41.5859 25.2348 41.1671 24.959 40.7065 24.773C40.246 24.5871 39.753 24.4948 39.2564 24.5016C38.7529 24.4926 38.2526 24.583 37.784 24.7676C37.3155 24.9521 36.8879 25.2272 36.5258 25.5771C36.1643 25.9022 35.8761 26.3006 35.6804 26.7457C35.4847 27.1908 35.3859 27.6724 35.3906 28.1586C35.3825 28.6547 35.4778 29.1471 35.6703 29.6044C35.8628 30.0616 36.1485 30.4738 36.509 30.8147C37.2396 31.5176 38.2136 31.911 39.2275 31.9127C40.2414 31.9145 41.2167 31.5244 41.9498 30.824C42.3089 30.4807 42.5928 30.0665 42.7834 29.6076C42.974 29.1488 43.0671 28.6554 43.057 28.1586ZM39.29 30.9172C38.5245 30.9361 37.7821 30.6537 37.2229 30.1307C36.9523 29.8882 36.7369 29.5906 36.5912 29.2578C36.4455 28.9249 36.373 28.5647 36.3785 28.2015C36.3741 27.8425 36.4442 27.4866 36.5844 27.1561C36.7246 26.8257 36.9318 26.5279 37.193 26.2816C37.4513 26.0222 37.7592 25.8176 38.0984 25.6799C38.4375 25.5421 38.8009 25.4742 39.1669 25.4801C39.5438 25.4696 39.9191 25.5338 40.271 25.6692C40.6229 25.8045 40.9445 26.0082 41.2173 26.2686C41.4851 26.5144 41.6976 26.8144 41.8406 27.1486C41.9836 27.4828 42.0539 27.8436 42.0467 28.2071C42.0499 28.5649 41.979 28.9195 41.8385 29.2486C41.698 29.5777 41.4909 29.8742 41.2303 30.1195C40.9767 30.3776 40.6733 30.5815 40.3384 30.7186C40.0036 30.8558 39.6443 30.9233 39.2825 30.9172H39.29Z" fill="#231F20"/>
+                <path d="M51.6161 29.7294L46.4717 24.4414V31.6772H47.4223V26.734L52.5667 31.9997V24.7191H51.6161V29.7294Z" fill="#231F20"/>
+                <path d="M57.9198 24.7197H56.2329V31.6871H57.931C59.2171 31.6871 60.1963 31.3354 60.8685 30.6321C61.1893 30.3155 61.4438 29.9381 61.6172 29.5221C61.7907 29.1061 61.8796 28.6597 61.8788 28.209C61.8822 27.3047 61.5317 26.435 60.9021 25.7859C60.2497 25.0764 59.2556 24.721 57.9198 24.7197ZM60.6132 29.3702C60.4327 29.7135 60.1702 30.0068 59.8489 30.2239C59.5432 30.433 59.1972 30.5758 58.8331 30.6433C58.3047 30.718 57.7711 30.7498 57.2376 30.7384H57.1835V25.648H57.6644C58.2377 25.6286 58.8102 25.7042 59.3587 25.8716C59.8037 26.041 60.1834 26.3471 60.4435 26.7458C60.7066 27.127 60.8614 27.5724 60.8912 28.0346C60.9211 28.4968 60.825 28.9584 60.6132 29.3702Z" fill="#231F20"/>
+                <path d="M69.1521 28.485C68.9772 28.2718 68.7703 28.0869 68.5389 27.937C68.2072 27.7281 67.8579 27.5485 67.4951 27.4002C67.1551 27.27 66.8356 27.0918 66.5463 26.8708C66.4612 26.8043 66.3921 26.7195 66.344 26.6227C66.296 26.526 66.2702 26.4197 66.2686 26.3116C66.2676 26.1937 66.2962 26.0775 66.3519 25.9736C66.4076 25.8697 66.4886 25.7815 66.5873 25.717C66.8323 25.5523 67.1237 25.4706 67.4187 25.484C67.6671 25.4693 67.9148 25.5235 68.1344 25.6406C68.3385 25.7756 68.5261 25.9338 68.6936 26.1122L69.4634 25.4952C69.2095 25.1662 68.8741 24.9092 68.4904 24.7497C68.1269 24.5911 67.7351 24.5074 67.3385 24.5036C66.8036 24.49 66.2832 24.6783 65.8809 25.0311C65.6922 25.185 65.5403 25.3793 65.4364 25.5996C65.3326 25.8199 65.2794 26.0606 65.2807 26.3042C65.2792 26.5036 65.3153 26.7015 65.387 26.8876C65.4685 27.0881 65.5825 27.2739 65.7243 27.4374C65.8797 27.6229 66.0634 27.7827 66.2686 27.9109C66.5559 28.0824 66.857 28.2296 67.1689 28.3508C67.4667 28.4627 67.7522 28.6051 68.0207 28.7758C68.2006 28.8998 68.3529 29.0597 68.468 29.2455C68.584 29.4136 68.6487 29.6117 68.6544 29.8158C68.6581 29.9635 68.6293 30.1101 68.57 30.2454C68.5107 30.3807 68.4225 30.5013 68.3115 30.5987C68.074 30.8087 67.7653 30.92 67.4485 30.91C66.7352 30.91 66.2052 30.5185 65.8585 29.7357L64.9023 30.0097C65.0934 30.5805 65.4527 31.0802 65.9331 31.443C66.3826 31.7633 66.9228 31.9311 67.4746 31.9221C67.7569 31.9271 68.0375 31.8756 68.2996 31.7706C68.5618 31.6656 68.8003 31.5093 69.0011 31.3107C69.2038 31.1218 69.3646 30.8924 69.4731 30.6375C69.5816 30.3826 69.6354 30.1078 69.6311 29.8307C69.633 29.5916 69.5939 29.354 69.5156 29.128C69.4319 28.8946 69.3089 28.6771 69.1521 28.485Z" fill="#231F20"/>
+                <path d="M4.66045 13.6067H12.0416L14.0528 18.0615H16.5412L8.33053 0L0.187012 18.0615H2.65859L4.66045 13.6067ZM8.33053 5.42404L11.1358 11.6309H5.54395L8.33053 5.42404Z" fill="#231F20"/>
+                <path d="M27.0068 0.668945H24.6582V18.0613H32.6731V15.7127H27.0068V0.668945Z" fill="#231F20"/>
+                <path d="M71.0105 7.3586H62.6954V0.668945H60.3208V18.0613H62.6954V9.70716H71.0105V18.0613H73.3571V0.668945H71.0105V7.3586Z" fill="#231F20"/>
+                <path d="M85.5319 13.6067H92.9131L94.9317 18.0615H97.4201L89.2094 0L81.0659 18.0615H83.5356L85.5319 13.6067ZM89.202 5.42404L92.0147 11.6309H86.4229L89.202 5.42404Z" fill="#231F20"/>
+                <path d="M43.5746 11.1837H47.4031C48.1396 11.1779 48.8674 11.0249 49.5438 10.7336C50.2202 10.4423 50.8315 10.0186 51.3416 9.48748C51.827 8.9881 52.2065 8.39593 52.4576 7.74641C52.7087 7.0969 52.8262 6.4034 52.803 5.70742C52.6837 2.94321 50.2643 0.693444 47.3976 0.674805H41.2261V18.0616H43.5746V11.1837ZM47.364 3.01963C49.0024 3.01963 50.391 4.27033 50.4581 5.81553C50.4667 6.19443 50.399 6.57119 50.2591 6.92341C50.1192 7.27563 49.9098 7.59613 49.6436 7.86586C49.3499 8.17471 48.9962 8.42033 48.6042 8.58764C48.2122 8.75494 47.7902 8.84042 47.364 8.83883H43.5746V3.01777L47.364 3.01963Z" fill="#231F20"/>
+                <path d="M21.3215 28.0342H0.186393C0.136959 28.0342 0.0895488 28.0538 0.0545933 28.0888C0.0196378 28.1237 0 28.1711 0 28.2206C0 28.27 0.0196378 28.3174 0.0545933 28.3524C0.0895488 28.3873 0.136959 28.407 0.186393 28.407H21.3215C21.371 28.407 21.4184 28.3873 21.4533 28.3524C21.4883 28.3174 21.5079 28.27 21.5079 28.2206C21.5079 28.1711 21.4883 28.1237 21.4533 28.0888C21.4184 28.0538 21.371 28.0342 21.3215 28.0342Z" fill="#231F20"/>
+                <path d="M97.4202 28.0342H76.287C76.2375 28.0342 76.1901 28.0538 76.1552 28.0888C76.1202 28.1237 76.1006 28.1711 76.1006 28.2206C76.1006 28.27 76.1202 28.3174 76.1552 28.3524C76.1901 28.3873 76.2375 28.407 76.287 28.407H97.4202C97.4697 28.407 97.5171 28.3873 97.552 28.3524C97.587 28.3174 97.6066 28.27 97.6066 28.2206C97.6066 28.1711 97.587 28.1237 97.552 28.0888C97.5171 28.0538 97.4697 28.0342 97.4202 28.0342Z" fill="#231F20"/>
+            </svg>
+        </div>
+        <!-- filters -->
+        <div class="flex justify-start items-center gap-3 pb-10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <g clip-path="url(#clip0_100_867)">
+                    <path d="M12 11.25V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 3.75V8.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.75 18.75V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.75 3.75V15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 15.75H16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.25 15.75V20.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.25 3.75V12.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 12.75H7.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.25 8.25H9.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_100_867">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+            <p class="text-xl font-bold">Filters</p>
+        </div>
+        <!-- form -->
+        <div class="flex flex-col gap-8">
+            <!-- Gender -->
+            <div class="space-y-2">
+                <p class="text-sm">Gender</p>
+                <select id="countries" class="bg-[#E6E6E6] hover:bg-[#CCCCCC] h-12 border-none rounded-full text-black text-sm block w-max p-3">
+                    <option selected value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <!-- Age -->
+            <div class="space-y-2">
+                <div>
+                    <p class="text-sm">Age</p>
+                </div>
+                <div class="w-max bg-[#E6E6E6] flex justify-center items-center p-1 gap-3 rounded-full">
+                    <input type="text" name="age-from" class="w-12 h-10 text-sm rounded-full border-none focus:ring-0 text-center" value="18">
+                    <p class="text-sm text-[#8E8E8E]">to</p>
+                    <input type="text" name="age-to" class="w-12 h-10 text-sm rounded-full border-none focus:ring-0 text-center" value="99">
+                </div>
+            </div>
+            <!-- Satus -->
+            <div>
+                <div class="space-y-2">
+                    <p class="text-sm">Status: All</p>
+                    <ul class="grid grid-cols-3 bg-[#E6E6E6] p-1 gap-3 rounded-full w-max">
+                        <li class="w-10 h-10">
+                            <input type="radio" id="all" name="status" value="all" class="hidden peer" required checked>
+                            <label for="all" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white peer-checked:font-bold">                           
+                                <p class="text-black text-xs">All</p>
+                            </label>
+                        </li>
+                        <li class="w-10 h-10">
+                            <input type="radio" id="divorced" name="status" value="divorced" class="hidden peer">
+                            <label for="divorced" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g clip-path="url(#clip0_98_760)">
+                                        <path d="M12 6.34058L10.8919 5.2334C10.1839 4.52554 9.28189 4.04349 8.29995 3.84821C7.31801 3.65294 6.30022 3.75319 5.37526 4.1363C4.4503 4.51941 3.65969 5.16817 3.10341 6.00057C2.54713 6.83296 2.25014 7.81161 2.25 8.81277C2.25 15.0003 12 20.2503 12 20.2503C12 20.2503 21.75 15.0003 21.75 8.81277C21.7499 7.81161 21.4529 6.83296 20.8966 6.00057C20.3403 5.16817 19.5497 4.51941 18.6247 4.1363C17.6998 3.75319 16.682 3.65294 15.7 3.84821C14.7181 4.04349 13.8161 4.52554 13.1081 5.2334L10.5 7.84058L13.3294 10.6709L11.25 12.7503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_98_760">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                        <li class="w-10 h-10">
+                            <input type="radio" id="free" name="status" value="free" class="hidden peer">
+                            <label for="free" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g clip-path="url(#clip0_98_757)">
+                                        <path d="M12 20.25C12 20.25 2.25 15 2.25 8.8125C2.25 7.46984 2.78337 6.18217 3.73277 5.23277C4.68217 4.28337 5.96984 3.75 7.3125 3.75C9.43031 3.75 11.2444 4.90406 12 6.75C12.7556 4.90406 14.5697 3.75 16.6875 3.75C18.0302 3.75 19.3178 4.28337 20.2672 5.23277C21.2166 6.18217 21.75 7.46984 21.75 8.8125C21.75 15 12 20.25 12 20.25Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_98_757">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            <!-- Tags -->
+            <div class="space-y-2">
+                <p class="text-sm">Tags</p>
+                <button id="dropdownTagsButton" data-dropdown-toggle="dropdownTags" class="bg-[#E6E6E6] flex justify-between items-center p-4 rounded-full text-sm w-full" type="button">
+                    Interests
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#clip0_98_769)">
+                            <path d="M13 6L8 11L3 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_98_769">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+
+                <!-- Dropdown options -->
+                <div id="dropdownTags" class="px-4 pt-2 hidden w-full">
+                    <div class="w-full bg-[#E6E6E6] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.25)] max-h-44 overflow-y-auto">
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                        <p>ofmeo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Close button -->
+    <div class="w-full flex justify-center absolute bottom-12 left-0">
+        <button data-modal-hide="filter" type="button" class="bg-[#6144C6] rounded-[15px] w-16 h-16 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] inline-flex justify-center items-center cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <g clip-path="url(#clip0_98_749)">
+                    <path d="M25 7L7 25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M25 25L7 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_98_749">
+                    <rect width="32" height="32" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+        </button>
+    </div>
+</div>

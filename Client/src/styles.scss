@@ -2,3 +2,24 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+// Primary input
+input.primary {
+    background-color: #E6E6E6;
+    border: none;
+}
+
+input.primary::placeholder, input.primary::-moz-placeholder {
+    color: #808080;
+}
+
+input.primary:hover {
+    background-color: #CCCCCC;
+}
+
+input.primary:focus {
+    background-color: #E6E6E6;
+    color: black;
+    border-bottom: 2px solid black;
+    --tw-ring-color: transparent;
+}
