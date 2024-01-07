@@ -1,6 +1,6 @@
 <section class="p-4">
     <!-- search -->
-    <div>
+    <div class="pb-6">
         <form [formGroup]="searchForm" (keyup)="search()">
             <div class="flex flex-row items-center ">
                 <!-- search-form -->
@@ -35,8 +35,94 @@
                     </button>
                 </div>
                 <!-- den ksero -->
+                <div class="rounded-full w-10 h-10 bg-[#E6E6E6] flex justify-center items-center ml-2">
+                    <p class="text-sm text-[#808080]">0</p>
+                </div>
             </div>
         </form>
+    </div>
+    <!-- content -->
+    <div class="w-full h-full flex justify-center items-center">
+        <!-- noConent
+        <div class="w-full pt-[220px] flex flex-col justify-center items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="74" height="74" viewBox="0 0 74 74" fill="none">
+                <g clip-path="url(#clip0_101_1231)">
+                    <path d="M66.7533 63.5938C66.5503 63.9454 66.2583 64.2374 65.9066 64.4404C65.555 64.6433 65.1561 64.7501 64.7501 64.7501H9.25007C8.84434 64.7496 8.44587 64.6425 8.09465 64.4393C7.74344 64.2362 7.45185 63.9442 7.24916 63.5928C7.04648 63.2413 6.93984 62.8427 6.93994 62.437C6.94005 62.0312 7.04689 61.6327 7.24976 61.2813C11.6522 53.6703 18.4365 48.2128 26.3539 45.6257C22.4376 43.2943 19.3949 39.7417 17.693 35.5137C15.9911 31.2856 15.7242 26.6158 16.9332 22.2213C18.1422 17.8269 20.7603 13.9508 24.3855 11.1883C28.0106 8.42581 32.4423 6.92969 37.0001 6.92969C41.5578 6.92969 45.9895 8.42581 49.6147 11.1883C53.2398 13.9508 55.8579 17.8269 57.067 22.2213C58.276 26.6158 58.0091 31.2856 56.3072 35.5137C54.6053 39.7417 51.5626 43.2943 47.6462 45.6257C55.5637 48.2128 62.348 53.6703 66.7504 61.2813C66.9538 61.6326 67.0611 62.0312 67.0616 62.4372C67.0622 62.8431 66.9558 63.242 66.7533 63.5938Z" fill="#808080"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_101_1231">
+                    <rect width="74" height="74" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+            <p class="text-center text-[#808080]">There aren't any customers registrations yet.</p>
+        </div> -->
+
+        <!-- hasContent -->
+        <div class="space-y-1 w-full">
+            <div class="w-full bg-white rounded-2xl flex justify-start items-center p-3 gap-3">
+                <div>
+                    <img class="w-16 h-16 rounded-full border border-[#808080]" src="./assets/img/asset-1.png" alt="image">
+                </div>
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <p class="text-sm">Pavlos Papadopoulos</p>
+                    <div class="flex justify-start items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#clip0_97_272)">
+                                <path d="M6.5 14C8.98528 14 11 11.9853 11 9.5C11 7.01472 8.98528 5 6.5 5C4.01472 5 2 7.01472 2 9.5C2 11.9853 4.01472 14 6.5 14Z" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.68188 6.31812L13.5 2.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.5 2.5H13.5V5.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_97_272">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <p class="text-sm text-[#808080]">Male • 24 • Single</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full bg-[#E6E6E6] rounded-2xl flex justify-start items-center p-3 gap-3">
+                <div class="flex justify-center items-center">
+                    <img class="w-16 h-16 rounded-full border border-[#808080] z-50" src="./assets/img/asset-1.png" alt="image">
+                    <img class="w-16 h-16 rounded-full border border-[#808080] -ml-8" src="./assets/img/asset-1.png" alt="image">
+                </div>
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <p class="text-sm">Pavlos Papadopoulos</p>
+                    <p class="text-sm">Pavlos Papadopoulos</p>
+                    <div class="flex justify-start items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#clip0_97_272)">
+                                <path d="M6.5 14C8.98528 14 11 11.9853 11 9.5C11 7.01472 8.98528 5 6.5 5C4.01472 5 2 7.01472 2 9.5C2 11.9853 4.01472 14 6.5 14Z" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.68188 6.31812L13.5 2.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.5 2.5H13.5V5.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_97_272">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <p class="text-sm text-[#808080]">Male • 24</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#clip0_97_556)">
+                                <path d="M8 10.5C10.4853 10.5 12.5 8.48528 12.5 6C12.5 3.51472 10.4853 1.5 8 1.5C5.51472 1.5 3.5 3.51472 3.5 6C3.5 8.48528 5.51472 10.5 8 10.5Z" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 10.5V15" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M5.5 13H10.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_97_556">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <p class="text-sm text-[#808080]">Female • 24</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
