@@ -12,7 +12,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.searchForm = this.fb.group({
-      search: new FormControl('', [Validators.required])
+      search: new FormControl(''),
+      gender: new FormControl(''),
     });
   }
 

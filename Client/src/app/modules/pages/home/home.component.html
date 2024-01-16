@@ -2,7 +2,7 @@
     <!-- search -->
     <div class="pb-6">
         <form [formGroup]="searchForm" (keyup)="search()">
-            <div class="flex flex-row items-center ">
+            <div class="flex flex-row items-center lg:gap-3">
                 <!-- search-form -->
                 <input 
                     type="text"
@@ -11,8 +11,55 @@
                     autocomplete="off"
                     class="primary h-12 rounded-full text-sm w-full"
                 />
+
+                <!-- DE: Gender -->
+                <div class="hidden lg:block">
+                    <ul class="grid grid-cols-3 bg-[#E6E6E6] p-1 gap-3 rounded-full w-max">
+                        <li class="w-10 h-10">
+                            <input type="radio" id="all" name="gender" value="all" class="hidden peer" required checked>
+                            <label for="all" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white peer-checked:font-bold">                           
+                                <p class="text-black text-xs">All</p>
+                            </label>
+                        </li>
+                        <li class="w-10 h-10">
+                            <input type="radio" id="divorced" name="gender" value="divorced" class="hidden peer">
+                            <label for="divorced" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g opacity="0.5" clip-path="url(#clip0_162_389)">
+                                        <path d="M9.75 21C13.4779 21 16.5 17.9779 16.5 14.25C16.5 10.5221 13.4779 7.5 9.75 7.5C6.02208 7.5 3 10.5221 3 14.25C3 17.9779 6.02208 21 9.75 21Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14.5228 9.47719L20.25 3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M15.75 3.75H20.25V8.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_162_389">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                        <li class="w-10 h-10">
+                            <input type="radio" id="free" name="gender" value="female" class="hidden peer">
+                            <label for="free" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g opacity="0.5" clip-path="url(#clip0_162_394)">
+                                        <path d="M12 15.75C15.7279 15.75 18.75 12.7279 18.75 9C18.75 5.27208 15.7279 2.25 12 2.25C8.27208 2.25 5.25 5.27208 5.25 9C5.25 12.7279 8.27208 15.75 12 15.75Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15.75V22.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M8.25 19.5H15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_162_394">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
                 <!-- filter -->
-                <div class="relative -ml-11">
+                <div class="relative -ml-11 lg:hidden">
                     <button data-modal-target="filter" data-modal-toggle="filter" class="bg-white rounded-full p-2" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <g clip-path="url(#clip0_101_1194)">
@@ -35,7 +82,7 @@
                     </button>
                 </div>
                 <!-- den ksero -->
-                <div class="rounded-full w-10 h-10 bg-[#E6E6E6] flex justify-center items-center ml-2">
+                <div class="rounded-full w-10 h-10 bg-[#E6E6E6] flex justify-center items-center ml-2 lg:hidden">
                     <p class="text-sm text-[#808080]">0</p>
                 </div>
             </div>
