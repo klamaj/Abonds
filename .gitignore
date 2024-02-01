@@ -1,4 +1,26 @@
+# Workspce
+.vscode
+
+# Client && Dashboard
+dist/
+
+# dotnet
+appsettings.*
+
+# dotnet
 obj
 bin
-.vscode
-dist/
+
+# db
+*.db-shm
+*.db-wal
+*.db
+
+# Logs
+Logs/
+
+# DefaultData
+users.json
+
+# mac
+.DS_Store
