@@ -1,4 +1,5 @@
 using System.Reflection;
+using API.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -10,12 +11,9 @@ Log.Logger = new LoggerConfiguration()
     .Configuration(builder.Configuration)
     .CreateLogger();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -35,6 +33,12 @@ builder.Services.AddSwaggerGen(c =>
     }
 );
 
+// Database configuration
+builder.Services.AddDBConnection(builder.Configuration);
+
+// Identity Extensions
+builder.Services.AddIdentityServiceExtensions(builder.Configuration);
+
 // Use Serilog
 builder.Host.UseSerilog();
 
@@ -47,8 +51,15 @@ app.UseCors(
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(/*options =>
+    {
+        options.SerializeAsV2 = true;
+    }*/);
+    app.UseSwaggerUI(/*options => 
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    }*/);
 }
 
 // UseSaticFiles
