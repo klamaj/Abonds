@@ -39,6 +39,9 @@ builder.Services.AddDBConnection(builder.Configuration);
 // Identity Extensions
 builder.Services.AddIdentityServiceExtensions(builder.Configuration);
 
+// Add EmailConfiguration
+builder.Services.AddEmailConfiguration(builder.Configuration);
+
 // Use Serilog
 builder.Host.UseSerilog();
 

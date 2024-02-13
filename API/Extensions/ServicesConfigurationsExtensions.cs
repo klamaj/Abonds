@@ -8,7 +8,7 @@ namespace API.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<ITokenService, TokenService>();
-
+            services.AddScoped<IEmailSender, EmailSender>();
             return services;
         }
     }

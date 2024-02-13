@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.DTOs
 {
-    public class LoginDto
+    public class ForgotPasswordDto
     {
         [Required]
+        [EmailAddress]
         public string? Email { get; set; }
         [Required]
-        [StringLength(int.MaxValue, MinimumLength = 8)]
-        public string? Password { get; set; }
+        public string? ClientURI { get; set; }
     }
 }
