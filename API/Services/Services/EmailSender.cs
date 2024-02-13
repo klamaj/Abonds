@@ -23,7 +23,11 @@ namespace API.Services.Services
         // Create Email Message
         private MimeMessage CreateEmailMessage(MessageModel message)
         {
-            var emailMessage =  new MimeMessage();
+            var emailMessage = new MimeMessage();
+            emailMessage.From.Add(new MailboxAddress("Abonds Agency", _emailConfiguration.From!));
+            emailMessage.To.AddRange(message.To);
+            emailMessage.Subject = message.Subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
 
             return emailMessage;
         }

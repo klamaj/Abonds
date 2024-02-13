@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using API.Services.Interfaces;
 using Core.DTOs;
 using Core.Models;

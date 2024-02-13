@@ -13,7 +13,7 @@ namespace API.Extensions
         {
             services.AddIdentityCore<UserModel>(options => 
             {
-                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireNonAlphanumeric = true;
                 options.User.RequireUniqueEmail = true;
                 options.Tokens.AuthenticatorIssuer = "JWT";
                 // options.SignIn.RequireConfirmedEmail = true;
@@ -24,6 +24,9 @@ namespace API.Extensions
             .AddRoleValidator<RoleValidator<RoleModel>>()
             .AddEntityFrameworkStores<DatabaseContext>()
             .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(2));
 
             // Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
