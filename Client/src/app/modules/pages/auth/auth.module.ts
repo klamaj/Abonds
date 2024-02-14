@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 export const accountRoutes = [
   {
@@ -31,7 +33,11 @@ export const accountRoutes = [
     CommonModule,
     RouterModule.forChild(accountRoutes),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
+  ],
+  providers: [
+    AuthService
   ]
 })
 export class AuthModule { }

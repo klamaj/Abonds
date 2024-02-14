@@ -54,15 +54,8 @@ app.UseCors(
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(/*options =>
-    {
-        options.SerializeAsV2 = true;
-    }*/);
-    app.UseSwaggerUI(/*options => 
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    }*/);
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 // UseSaticFiles

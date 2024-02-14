@@ -15,6 +15,7 @@ bin
 *.db-shm
 *.db-wal
 *.db
+Migrations/
 
 # Logs
 Logs/
