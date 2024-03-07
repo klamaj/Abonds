@@ -15,6 +15,8 @@ namespace Infrastructure.Data
         }
 
         public DbSet<ClientModel> Clients { get; set; }
+        public DbSet<InterestModel> Interests { get; set; }
+        public DbSet<SubInterestModel> SubInterests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
