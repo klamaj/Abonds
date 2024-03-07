@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from 'src/app/core/core.module';
 
 export const pagesRoutes: Routes = [
   {
@@ -19,7 +20,8 @@ export const pagesRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(pagesRoutes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CoreModule
   ]
 })
 export class PagesModule { }

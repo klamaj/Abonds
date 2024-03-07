@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+import { noop, tap } from 'rxjs';
+import { login } from '../services/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -11,20 +17,37 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   type: string = 'password';
 
-  constructor(private fb: FormBuilder) {
-
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private store: Store<AppState>,
+  ) {
     this.loginForm = this.generateLoginFormControl();
   }
 
-  ngOnInit(): void {
-      
-  }
+  ngOnInit(): void { }
 
   // Login
-  login(): void {
-    
+  doLogin(): void {
+    let obj = new Object({
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
+    });
+    this.auth.login(obj)
+      .pipe(
+        tap( user => {
+          this.store.dispatch(login({user}));
+
+          this.router.navigateByUrl('/');
+        })
+      )
+      .subscribe(
+        noop,
+        () => alert("Login failed")
+      )
   }
 
+  // Generate login Form
   generateLoginFormControl(): FormGroup {
     return new FormGroup({
       email: new FormControl(undefined, [Validators.email, Validators.required]),

@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthService } from './services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { authReducer } from './reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './services/auth.effects';
+import { AuthGuard } from './services/auth.guard';
 
 export const accountRoutes = [
   {
@@ -34,10 +39,22 @@ export const accountRoutes = [
     RouterModule.forChild(accountRoutes),
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature("auth", authReducer),
+    EffectsModule.forFeature([AuthEffects])
   ],
   providers: [
     AuthService
   ]
 })
-export class AuthModule { }
+export class AuthModule {
+  static forRoot(): ModuleWithProviders<AuthModule> {
+    return {
+      ngModule: AuthModule,
+      providers: [
+        AuthService,
+        AuthGuard
+      ]
+    }
+  }
+}
