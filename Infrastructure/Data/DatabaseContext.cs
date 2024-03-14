@@ -1,6 +1,7 @@
 using System.Reflection;
 using Core.Models;
 using Core.Models.Clients;
+using Core.Models.Questions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,9 @@ namespace Infrastructure.Data
         public DbSet<ClientModel> Clients { get; set; }
         public DbSet<InterestModel> Interests { get; set; }
         public DbSet<SubInterestModel> SubInterests { get; set; }
+        public DbSet<QuestionCategoryModel> QuestionCategories { get; set; }
+        public DbSet<QuestionModel> Questions { get; set; }
+        public DbSet<QuestionAnswerModel> QuestionsAnswers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
