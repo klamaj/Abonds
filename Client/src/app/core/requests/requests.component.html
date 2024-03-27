@@ -123,6 +123,29 @@
                     </div>
                 </div>
             </div>
+
+            <form #f="ngForm" [formGroup]="rejectForm" (ngSubmit)="rejectUser()">
+                <div class="grid space-y-2 pt-10">
+                    <label for="message" class="text-sm">Message to the client</label>
+                    <div>
+                        <textarea class="rounded-[10px] w-full text-black bg-[#E6E6E6] border-none appearance-none focus:ring-black focus:ring-2"
+                            formControlName="message"
+                            name="message" 
+                            id="message" 
+                            cols="30" 
+                            rows="10"
+                            placeholder="Write your message here...">
+                        </textarea>
+                    </div>
+                    <div class="flex justify-center items-center me-4">
+                        <input checked id="black-checkbox" type="checkbox" value="1" class="w-4 h-4 text-black bg-[#E6E6E6] border-gray-300 rounded focus:ring-black focus:ring-2">
+                        <label for="black-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reject client</label>
+                    </div>
+                    <div class="w-full flex justify-center items-center pt-8">
+                        <button type="submit" class="w-full max-w-52 h-12 bg-black text-white text-sm font-bold rounded-full">Reject & Send email</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
