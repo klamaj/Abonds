@@ -1,0 +1,63 @@
+<div class="w-full bg-white px-4 pt-6 pb-8 rounded-[20px] relative">
+
+    <form #f="ngForm" class="w-full" [formGroup]="questionForm">
+
+        <div class="flex justify-between items-center w-full gap-6">
+            <!-- choice -->
+            <div class="w-full">
+                <select name="type" id="type" class="border-2 border-[#E6E6E6] h-12 w-full rounded-full flex justify-between items-center p-2 pr-2 hover:bg-[#E6E6E6] focus:ring-0 focus:ring-transparent">
+                    <option value="radio">Single choice</option>
+                    <option value="checkbox">Multiple choice</option>
+                    <option value="range">Gramic range</option>
+                    <option value="textarrea">Text</option>
+                </select>
+            </div>
+            <!-- trash icon -->
+            <div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_125_453)">
+                        <path d="M20.25 5.25H3.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.75 9.75V15.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14.25 9.75V15.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.75 5.25V19.5C18.75 19.6989 18.671 19.8897 18.5303 20.0303C18.3897 20.171 18.1989 20.25 18 20.25H6C5.80109 20.25 5.61032 20.171 5.46967 20.0303C5.32902 19.8897 5.25 19.6989 5.25 19.5V5.25" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M15.75 5.25V3.75C15.75 3.35218 15.592 2.97064 15.3107 2.68934C15.0294 2.40804 14.6478 2.25 14.25 2.25H9.75C9.35218 2.25 8.97064 2.40804 8.68934 2.68934C8.40804 2.97064 8.25 3.35218 8.25 3.75V5.25" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_125_453">
+                            <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- required -->
+        <div class="mt-8">
+            <label class="inline-flex items-center mb-5 cursor-pointer w-full justify-between">
+                <span class="text-sm text-[#808080]">Required?</span>
+                <input type="checkbox" value="" formControlName="required" class="sr-only peer">
+                <div class="relative w-[72px] h-10 bg-[#E6E6E6] peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-transparent rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-white after:border after:rounded-full after:h-8 after:w-8 after:transition-all peer-checked:bg-[#4FE393]"></div>
+            </label>
+        </div>
+
+        <!-- Question Title -->
+        <div class="relative">
+            <input
+                type="text" 
+                id="title"
+                formControlName="title"
+                [ngClass]="[questionForm.controls['title'].invalid && (questionForm.controls['title'].touched || questionForm.controls['title'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                class="block rounded-[10px] h-12 w-full text-sm text-black text-bold bg-[#E6E6E6] border-none appearance-none  focus:ring-black focus:ring-2 peer" placeholder=" " />
+            <label 
+                for="title"
+                class="absolute text-sm text-[#808080] duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                Question title
+            </label>
+        </div>
+
+        <app-answer-form formControlName="answers" [type]="questionForm.value.type"></app-answer-form>
+
+    </form>
+
+
+</div>

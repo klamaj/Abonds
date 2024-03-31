@@ -24,7 +24,7 @@ namespace API.Services.Services
         private MimeMessage CreateEmailMessage(MessageModel message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Abonds Agency", _emailConfiguration.From!));
+            emailMessage.From.Add(new MailboxAddress(_emailConfiguration.SenderName!, _emailConfiguration.From!));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = message.Content };
@@ -39,8 +39,8 @@ namespace API.Services.Services
             {
                 try 
                 {
-                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, false);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, _emailConfiguration.EnableSsl);
+                    // client.AuthenticationMechanisms.Remove("XOAUTH2");
                     await client.AuthenticateAsync(_emailConfiguration.Username, _emailConfiguration.Password);
 
                     await client.SendAsync(message);

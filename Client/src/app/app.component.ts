@@ -12,7 +12,19 @@ export class AppComponent implements OnInit {
 
   constructor(public router: Router) {}
 
+  pageTitle = "";
+
   ngOnInit(): void {
+    this.pageTitle = this.setPageTitle();
     initFlowbite();
+  }
+
+  setPageTitle(): string {
+    if (this.router.url.includes("questions-interests")) {
+      return "Questions & Interests";
+    }
+    else {
+      return "Good morning Lila";
+    }
   }
 }
