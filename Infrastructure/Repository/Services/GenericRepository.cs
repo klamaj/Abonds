@@ -57,7 +57,6 @@ namespace Infrastructure.Repository.Services
 
             return null!;
         }
-
         private async Task<bool> TExists(int id)
         {
             return await _context.Set<T>().AnyAsync(c => c.Id == id);

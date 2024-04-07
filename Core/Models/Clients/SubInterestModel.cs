@@ -7,6 +7,6 @@ namespace Core.Models.Clients
         [JsonPropertyName("name")]
         public string? SubInterestName { get; set; }
         public InterestModel? Interest { get; set; }
-        public int IntrestId { get; set; }
+        public int InterestId { get; set; }
     }
 }

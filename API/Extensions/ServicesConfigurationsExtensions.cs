@@ -1,5 +1,7 @@
 using API.Services.Interfaces;
 using API.Services.Services;
+using Infrastructure.Repository.ClientsRepository.Interfaces;
+using Infrastructure.Repository.ClientsRepository.Services;
 using Infrastructure.Repository.Interfaces;
 using Infrastructure.Repository.Services;
 
@@ -11,6 +13,7 @@ namespace API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IInterestsRepo, InterestsRepo>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             return services;
         }

@@ -10,6 +10,10 @@ import { QuestionsComponent } from './questions-interests/questions/questions.co
 import { QuestionCategoryComponent } from './questions-interests/questions/question-category/question-category.component';
 import { QuestionFormComponent } from './questions-interests/questions/question-category/question-form/question-form.component';
 import { AnswerFormComponent } from './questions-interests/questions/question-category/question-form/answer-form/answer-form.component';
+import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
+import { InterestEntityService } from './questions-interests/interests/services/interest-entity.service';
+import { InterestsDataService } from './questions-interests/interests/services/interests-data.service';
+import { InterestsResolver } from './questions-interests/interests/services/interests.resolver';
 
 export const pagesRoutes: Routes = [
   {
@@ -18,9 +22,17 @@ export const pagesRoutes: Routes = [
   },
   {
     path: 'questions-interests',
-    component: QuestionsInterestsComponent
+    component: QuestionsInterestsComponent,
+    resolve: {
+      interest: InterestsResolver
+    }
   }
 ];
+
+// Entity metadata
+const entityMetadata: EntityMetadataMap = {
+  Interest: {}
+};
 
 @NgModule({
   declarations: [
@@ -30,7 +42,7 @@ export const pagesRoutes: Routes = [
     QuestionsComponent,
     QuestionCategoryComponent,
     QuestionFormComponent,
-    AnswerFormComponent,
+    AnswerFormComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +50,24 @@ export const pagesRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     CoreModule
+  ],
+  providers: [
+    InterestEntityService,
+    InterestsDataService,
+    InterestsResolver
   ]
 })
-export class PagesModule { }
+
+export class PagesModule {
+
+  constructor(
+    private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private interestsService: InterestsDataService
+  ) {
+
+    eds.registerMetadataMap(entityMetadata);
+
+    entityDataService.registerService('Interest', interestsService);
+  }
+}

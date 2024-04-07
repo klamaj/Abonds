@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using API.Extensions;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -12,7 +13,12 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add services to the container.
-builder.Services.AddControllers();
+// builder.Services.AddControllers().AddJsonOptions(x =>
+//     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+builder.Services.AddControllers().AddNewtonsoftJson(x =>
+    x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 builder.Services.AddServices();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

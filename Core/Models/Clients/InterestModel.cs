@@ -4,9 +4,9 @@ namespace Core.Models.Clients
 {
     public class InterestModel : BaseModel
     {
-        [JsonPropertyName("name")]
+        [JsonPropertyName("interestName")]
         public string? InterestName { get; set; }
-        [JsonPropertyName("color")]
+        [JsonPropertyName("interestColor")]
         public string? InterestColor { get; set; }
         public ICollection<SubInterestModel>? SubInterests { get; set; }
     }

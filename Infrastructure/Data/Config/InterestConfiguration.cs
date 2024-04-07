@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Config
         {
             builder.HasMany(i => i.SubInterests)
                 .WithOne(s => s.Interest)
-                .HasForeignKey(s => s.IntrestId)
+                .HasForeignKey(s => s.InterestId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Property(i => i.InterestColor).HasMaxLength(7);
         }
