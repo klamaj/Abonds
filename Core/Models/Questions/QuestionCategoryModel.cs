@@ -4,9 +4,9 @@ namespace Core.Models.Questions
 {
     public class QuestionCategoryModel : BaseModel
     {
-        [JsonPropertyName("title")]
+        // [JsonPropertyName("title")]
         public string? QuestionCategoryTitle { get; set; }
-        [JsonPropertyName("questions")]
+        // [JsonPropertyName("questions")]
         public ICollection<QuestionModel>? Questions { get; set; }
     }
 }

@@ -34,7 +34,8 @@ namespace API.Controllers.Questions
         [HttpGet]
         public async Task<IReadOnlyList<QuestionCategoryModel>> GetQuestionCategories()
         {
-            return await _questionRepo.ListAllAsync();
+            var entity = await _context.QuestionCategories.Include(x => x.Questions).ThenInclude(q => q.QuestionAnswers).ToListAsync();
+            return entity;
         }
 
         /// <summary>
@@ -56,9 +57,48 @@ namespace API.Controllers.Questions
         [HttpPost]
         public async Task<ActionResult<QuestionCategoryModel>> AddQuestionCategory([FromBody] QuestionCategoryModel questionCategory)
         {
-            var questionCat = await _questionRepo.AddAsync(questionCategory);
+            QuestionCategoryModel questionCat = new QuestionCategoryModel();
+            questionCat.QuestionCategoryTitle = questionCategory.QuestionCategoryTitle;
 
-            return Ok(questionCat);
+            var res = await _context.QuestionCategories.AddAsync(questionCat);
+
+            await _context.SaveChangesAsync();
+
+            if (questionCategory.Questions is not null)
+            {
+                foreach(var quest in questionCategory.Questions)
+                {
+                    QuestionModel question = new QuestionModel();
+                    question.QuestionTitle = quest.QuestionTitle;
+                    question.QuestionCategoryId = res.Entity.Id;
+                    question.QuestionType = quest.QuestionType;
+                    question.Required = quest.Required;
+
+                    var addQuestion = await _context.Questions.AddAsync(question);
+
+                    await _context.SaveChangesAsync();
+
+                    if (quest.QuestionAnswers is not null)
+                    {
+                        foreach(var ans in quest.QuestionAnswers)
+                        {
+                            QuestionAnswerModel answer = new QuestionAnswerModel();
+                            answer.QuestionId = addQuestion.Entity.Id;
+                            answer.AnswerValue = ans.AnswerValue;
+
+                            var addAnswer = await _context.QuestionsAnswers.AddAsync(answer);
+                        }
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+
+            var response = await _context.QuestionCategories.FindAsync(res.Entity.Id);
+            var questions = await _context.Questions.Include(q => q.QuestionAnswers).Where(q => q.QuestionCategoryId == response!.Id).ToListAsync();
+
+            response!.Questions = questions;
+
+            return Ok(response);
         }
 
         /// <summary>

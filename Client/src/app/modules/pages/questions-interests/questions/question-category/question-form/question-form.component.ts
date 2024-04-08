@@ -1,70 +1,98 @@
-import { Component, forwardRef, OnDestroy } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { Question, QuestionForm } from '../models/question.model';
-import { Answer } from '../models/answer.model';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Question } from '../../models/question.model';
+import { Answer } from '../../models/answer.model';
+import { QuestionEntityService } from '../../services/question-entity.service';
 
 @Component({
   selector: 'app-question-form',
   templateUrl: './question-form.component.html',
-  styleUrls: ['./question-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => QuestionFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting:forwardRef(() => QuestionFormComponent),
-      multi: true
-    }
-  ]
+  styleUrls: ['./question-form.component.scss']
 })
-export class QuestionFormComponent implements ControlValueAccessor, Validator, OnDestroy {
+export class QuestionFormComponent implements OnInit {
 
-  destroySubject = new Subject<void>();
+  questionForm: FormGroup;
+  singleQuestionForm: FormGroup;
+  answerForm: FormGroup;
 
-  // Question Form
-  questionForm = new FormGroup<QuestionForm>({
-    title: new FormControl<string>('', Validators.required),
-    type: new FormControl<string>('', Validators.required),
-    required: new FormControl<boolean>(false, Validators.required),
-    answers: new FormArray<FormControl<Answer | null>>([])
-  });
+  questionDisp: boolean = true;
+  answerDisp: boolean = false;
 
-  // propagates value changes to parent form control when nested question form changes
-  registerOnChange(fn: any): void {
-      this.questionForm.valueChanges
-        .pipe(takeUntil(this.destroySubject))
-        .subscribe(fn);
+  questions: Question[] = new Array<Question>;
+  answers: Answer[] = new Array<Answer>;
+
+  constructor(private questionService: QuestionEntityService) {
+    this.questionForm = new FormGroup({
+      questionCategoryTitle: new FormControl('', [Validators.required])
+    });
+
+    // Single Question Form
+    this.singleQuestionForm = new FormGroup({
+      questionTitle: new FormControl('', [Validators.required]),
+      questionType: new FormControl('', [Validators.required]),
+      required: new FormControl(false)
+    });
+
+    this.answerForm = new FormGroup({
+      answerValue: new FormControl('', [Validators.required])
+    });
   }
 
-  // marks parent form control as touched when nested question form changes
-  registerOnTouched(fn: any): void {
-      this.questionForm.valueChanges
-        .pipe(takeUntil(this.destroySubject))
-        .subscribe(fn);
+  ngOnInit(): void {
+      
   }
 
-  // disabled nested question form when parent form control is disabled
-  setDisabledState(isDisabled: boolean): void {
-    isDisabled ? this.questionForm.disable() : this.questionForm.enable();
+  addQuestion(): void {
+    let obj = {
+      id: 0,
+      questionCategoryTitle: this.questionForm.value.questionCategoryTitle,
+      questions: this.questions
+    }
+
+    this.questionService.add(obj).subscribe(
+      res => {
+        console.log(res)
+      }
+    )
   }
 
-  // writes value to nested question form when value is set to parent form control
-  writeValue(question: Question): void {
-    this.questionForm.patchValue(question, { emitEvent: false });
+  displayQuestionForm(): void {
+    this.questionDisp = true;
   }
 
-  // propagates validation errors from nested question form to parent form control
-  validate(control: AbstractControl<any, any>): ValidationErrors | null {
-    return this.questionForm.valid ? null : {question: true};
+  saveSingleQuestion(): void {
+    let obj = {
+      questionTitle: this.singleQuestionForm.value.questionTitle,
+      questionType: this.singleQuestionForm.value.questionType,
+      required: this.singleQuestionForm.value.required,
+      questionCategoryId: 0,
+      id: 0,
+      questionAnswers: this.answers
+    }
+    this.questions.push(obj);
+    console.log(this.questions);
+
+    this.answers = new Array<Answer>;
+    
+    this.singleQuestionForm.reset();
+    this.questionDisp = false;
   }
 
-  // needed to unsubscribe from observables when question component is destroyed
-  ngOnDestroy(): void {
-    this.destroySubject.next();
-    this.destroySubject.complete();
+  displayAnswerForm(): void {
+    this.answerDisp = true;
+  }
+
+  saveAnswers(): void {
+    let obj = {
+      answerValue: this.answerForm.value.answerValue,
+      questionId: 0,
+      id: 0
+    }
+
+    this.answers.push(obj);
+    console.log(this.answers);
+
+    this.answerForm.reset();
+    this.answerDisp = false;
   }
 }

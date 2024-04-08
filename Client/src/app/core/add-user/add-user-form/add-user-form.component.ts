@@ -33,6 +33,6 @@ export class AddUserFormComponent implements OnInit {
   }
 
   addUser(): void {
-    console.log('boom')
+    // console.log('boom')
   }
 }

@@ -8,12 +8,16 @@ import { QuestionsInterestsComponent } from './questions-interests/questions-int
 import { InterestsComponent } from './questions-interests/interests/interests.component';
 import { QuestionsComponent } from './questions-interests/questions/questions.component';
 import { QuestionCategoryComponent } from './questions-interests/questions/question-category/question-category.component';
-import { QuestionFormComponent } from './questions-interests/questions/question-category/question-form/question-form.component';
-import { AnswerFormComponent } from './questions-interests/questions/question-category/question-form/answer-form/answer-form.component';
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
 import { InterestEntityService } from './questions-interests/interests/services/interest-entity.service';
 import { InterestsDataService } from './questions-interests/interests/services/interests-data.service';
 import { InterestsResolver } from './questions-interests/interests/services/interests.resolver';
+import { ProfileComponent } from './profile/profile.component';
+import { QuestionEntityService } from './questions-interests/questions/services/question-entity.service';
+import { QuestionDataService } from './questions-interests/questions/services/questions-data.service';
+import { QuestionsResolver } from './questions-interests/questions/services/questions.resolver';
+import { QuestionFormComponent } from './questions-interests/questions/question-category/question-form/question-form.component';
+import { QuestionComponent } from './questions-interests/questions/question/question.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -24,14 +28,34 @@ export const pagesRoutes: Routes = [
     path: 'questions-interests',
     component: QuestionsInterestsComponent,
     resolve: {
-      interest: InterestsResolver
+      interest: InterestsResolver,
+      question: QuestionsResolver
+    }
+  },
+  {
+    path: 'profile/:id',
+    component: ProfileComponent
+  },
+  {
+    path: 'add-question',
+    component: QuestionFormComponent,
+    resolve: {
+      question: QuestionsResolver
+    }
+  },
+  {
+    path: 'question/:id',
+    component: QuestionComponent,
+    resolve: {
+      question: QuestionsResolver
     }
   }
 ];
 
 // Entity metadata
 const entityMetadata: EntityMetadataMap = {
-  Interest: {}
+  Interest: {},
+  Question: {}
 };
 
 @NgModule({
@@ -41,8 +65,9 @@ const entityMetadata: EntityMetadataMap = {
     InterestsComponent,
     QuestionsComponent,
     QuestionCategoryComponent,
+    ProfileComponent,
     QuestionFormComponent,
-    AnswerFormComponent
+    QuestionComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +79,10 @@ const entityMetadata: EntityMetadataMap = {
   providers: [
     InterestEntityService,
     InterestsDataService,
-    InterestsResolver
+    InterestsResolver,
+    QuestionEntityService,
+    QuestionDataService,
+    QuestionsResolver
   ]
 })
 
@@ -63,11 +91,13 @@ export class PagesModule {
   constructor(
     private eds: EntityDefinitionService,
     private entityDataService: EntityDataService,
-    private interestsService: InterestsDataService
+    private interestsService: InterestsDataService,
+    private questionsService: QuestionDataService
   ) {
 
     eds.registerMetadataMap(entityMetadata);
 
     entityDataService.registerService('Interest', interestsService);
+    entityDataService.registerService('Question', questionsService);
   }
 }

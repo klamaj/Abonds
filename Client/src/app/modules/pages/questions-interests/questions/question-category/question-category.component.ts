@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { QuestionCategoryForm } from './models/question-category.model';
-import { Question } from './models/question.model';
+import { QuestionEntityService } from '../services/question-entity.service';
+import { Observable } from 'rxjs';
+import { QuestionCategory } from '../models/questionCategory.model';
+
 
 @Component({
   selector: 'app-question-category',
@@ -10,16 +12,15 @@ import { Question } from './models/question.model';
 })
 export class QuestionCategoryComponent implements OnInit {
 
-  @Input() questionID: any;
+  questions$: Observable<QuestionCategory[]> = new Observable<QuestionCategory[]>
 
-  categoryQuestionForm = new FormGroup<QuestionCategoryForm>({
-    title: new FormControl<string>(""),
-    questions: new FormArray<FormControl<Question | null>>([])
-  });
+  showForm: boolean = true;
 
-  constructor() {
+  constructor(private questionService: QuestionEntityService) {
     
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.questions$ = this.questionService.entities$;
+  }
 }

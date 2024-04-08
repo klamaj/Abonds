@@ -1,0 +1,178 @@
+<div class="p-8 w-full flex justify-center items-start">
+
+    <div class="w-full max-w-[1120px]">
+
+        <!-- Top Buttons -->
+        <div class="w-full flex justify-between items-center">
+            <!-- Back button -->
+            <div>
+                <button [routerLink]="['/']" type="button" class="rounded-full w-12 h-12 bg-[#E6E6E6] flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <g clip-path="url(#clip0_46_281)">
+                            <path d="M20.25 12H3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.5 5.25L3.75 12L10.5 18.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_46_281">
+                            <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+            </div>
+            <!-- Profile Handle Buttons -->
+            <div class="flex justify-end items-center gap-6">
+                <!-- Upload Contract -->
+                <div class="flex justify-center items-center w-max gap-1 cursor-pointer">
+                    <p class="text-sm text-[#808080]">Upload Contract</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <g clip-path="url(#clip0_166_435)">
+                            <path d="M12 14.25V3.75" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8.25 7.5L12 3.75L15.75 7.5" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_166_435">
+                            <rect width="24" height="24" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <!-- Remove User -->
+                <div>
+                    <button type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#E6E6E6] text-sm font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_87_5003)">
+                                <path d="M20.25 5.25H3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.75 9.75V15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14.25 9.75V15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M18.75 5.25V19.5C18.75 19.6989 18.671 19.8897 18.5303 20.0303C18.3897 20.171 18.1989 20.25 18 20.25H6C5.80109 20.25 5.61032 20.171 5.46967 20.0303C5.32902 19.8897 5.25 19.6989 5.25 19.5V5.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.75 5.25V3.75C15.75 3.35218 15.592 2.97064 15.3107 2.68934C15.0294 2.40804 14.6478 2.25 14.25 2.25H9.75C9.35218 2.25 8.97064 2.40804 8.68934 2.68934C8.40804 2.97064 8.25 3.35218 8.25 3.75V5.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_87_5003">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Remove user
+                    </button>
+                </div>
+                <!-- Remove User -->
+                <div>
+                    <button type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#6144C6] text-sm font-bold text-[#F5F5F5]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_87_4971)">
+                                <path d="M20.25 20.25H9.00004L3.79785 15.0478" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.375 8.625L6.375 17.625" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V15.3103C3.75009 15.1117 3.82899 14.9212 3.96938 14.7806L15.5306 3.21937C15.6713 3.07883 15.862 2.99988 16.0608 2.99988C16.2596 2.99988 16.4503 3.07883 16.5909 3.21937L20.7806 7.40625C20.9212 7.54689 21.0001 7.73758 21.0001 7.9364C21.0001 8.13523 20.9212 8.32592 20.7806 8.46656L9 20.25Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.75 6L18 11.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_87_4971">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Edit user
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <div class="w-full bg-white rounded-[40px] py-10 px-5 flex justify-start items-center gap-4 mt-9">
+            <img class="w-[160px] h-[160px] rounded-full border-2 border-[#D9D9D9]" src="./assets/img/asset-1.png" alt="UserProfilePicture">
+            <div class="grid space-y-5">
+                <p class="text-2xl font-bold">Pavlos Papadopoulos</p>
+                <div class="flex justify-start items-center gap-12">
+                    <p class="text-[#BBBBBB] text-base">16/12/2023 | <span class="text-black">26</span></p>
+                    <div class="flex justify-start items-center gap-2">
+                        <!-- gender -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_172_71)">
+                                <path d="M9.75 21C13.4779 21 16.5 17.9779 16.5 14.25C16.5 10.5221 13.4779 7.5 9.75 7.5C6.02208 7.5 3 10.5221 3 14.25C3 17.9779 6.02208 21 9.75 21Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M14.5229 9.47719L20.2501 3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.75 3.75H20.25V8.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_172_71">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Sex
+                    </div>
+                    <p class="text-sm">Status</p>
+                </div>
+                <p class="text-base text-[#808080]">ppapadopoulos@hotmail.gr</p>
+            </div>
+        </div>
+
+        <!-- Informations -->
+        <div class="w-full mt-10 flex justify-center items-start">
+
+            <!-- Informations Empty -->
+            <div class="flex flex-col justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+                    <g clip-path="url(#clip0_46_307)">
+                        <path d="M32 42C36.4183 42 40 38.4183 40 34C40 29.5817 36.4183 26 32 26C27.5817 26 24 29.5817 24 34C24 38.4183 27.5817 42 32 42Z" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 48C21.3972 46.1371 23.209 44.625 25.2918 43.5836C27.3746 42.5422 29.6713 42 32 42C34.3287 42 36.6254 42.5422 38.7082 43.5836C40.791 44.625 42.6028 46.1371 44 48" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M52 54V10C52 8.89543 51.1046 8 50 8L14 8C12.8954 8 12 8.89543 12 10V54C12 55.1046 12.8954 56 14 56H50C51.1046 56 52 55.1046 52 54Z" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 16H40" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_46_307">
+                        <rect width="64" height="64" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                <p class="text-2xl text-[#808080]">There aren't any informations registered</p>
+            </div>
+        </div>
+
+        <!-- Handle Questions Form -->
+        <div class="w-full mt-16 flex justify-center items-center">
+            <div class="w-full max-w-[800px]">
+                <p class="text-2xl text-[#808080]">Send questions to: <span class="text-black font-bold">Pavlos Papadopoulos</span></p>
+
+                <!-- Questions Form -->
+                <form #f="ngForm" [formGroup]="questionsForm" (ngSubmit)="sendQuestions()">
+                    <div class="flex justify-start items-center gap-24 py-4">
+                        <!-- yes/no radio -->
+                        <div>
+                            <ul class="grid grid-cols-2 p-1 gap-1 rounded-full w-max" [ngClass]="[questionsForm.value.sendQuest === '1' ? 'bg-[#4FE393]' : 'bg-[bg-[#E6E6E6]]']">
+                                <li class="w-10 h-10">
+                                    <input type="radio" id="no" name="sendQuest" value="0" formControlName="sendQuest" class="hidden peer">
+                                    <label for="no" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100 gap-2">                           
+                                        No
+                                    </label>
+                                </li>
+                                <li class="w-10 h-10">
+                                    <input type="radio" id="yes" name="sendQuest" value="1" formControlName="sendQuest" class="hidden peer">
+                                    <label for="yes" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100 gap-2">                           
+                                        Yes
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- questions -->
+                        <div>
+                            <!-- no-questions -->
+                            <div *ngIf="questionsForm.value.sendQuest === '0'">
+                                <p class="text-sm">You have not added any questions.</p>
+                                <p [routerLink]="['/questions-interests']" class="text-sm font-bold text-[#6144C6] cursor-pointer">Move to "Manage Questions"</p>
+                            </div>
+                            <!-- questions select -->
+                            <div *ngIf="questionsForm.value.sendQuest === '1'">
+                                <select id="questionId" formControlName="questionId" class="bg-[#E6E6E6] hover:bg-[#CCCCCC] h-12 border-none rounded-[10px] text-[#808080] text-sm block w-full p-3">
+                                    <option selected value="0">Questions</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

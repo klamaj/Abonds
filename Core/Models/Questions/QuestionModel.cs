@@ -4,16 +4,16 @@ namespace Core.Models.Questions
 {
     public class QuestionModel : BaseModel
     {
-        [JsonPropertyName("title")]
+        // [JsonPropertyName("title")]
         public string? QuestionTitle { get; set; }
-        [JsonPropertyName("type")]
+        // [JsonPropertyName("type")]
         public string QuestionType { get; set; } = "textbox";
-        [JsonPropertyName("answers")]
+        // [JsonPropertyName("answers")]
         public ICollection<QuestionAnswerModel>? QuestionAnswers { get; set; }
-        [JsonPropertyName("required")]
+        // [JsonPropertyName("required")]
         public bool Required { get; set; } = false;
         public QuestionCategoryModel? QuestionCategory { get; set; }
-        [JsonPropertyName("questionId")]
+        // [JsonPropertyName("questionId")]
         public int QuestionCategoryId { get; set; }
     }
 }

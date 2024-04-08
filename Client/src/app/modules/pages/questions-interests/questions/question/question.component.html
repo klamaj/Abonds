@@ -1,0 +1,28 @@
+<div class="w-full flex justify-center items-start mt-12">
+    <div class="w-full max-w-[1180px]">
+        <!-- Category Question -->
+        <div class="w-full">
+            <div class="flex justify-start items-center w-full gap-32">
+                <!-- back button -->
+                <div>
+                    <button type="button" class="w-16 h-16 bg-[#F5F5F5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] rounded-xl flex justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_16_1177)">
+                                <path d="M15 19.5L7.5 12L15 4.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_16_1177">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Question Category Title -->
+                <div *ngIf="(question$ | async) as question">
+                    <p>{{ question.questionCategoryTitle }}</p>
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
