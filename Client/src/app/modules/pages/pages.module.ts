@@ -21,7 +21,7 @@ import { QuestionComponent } from './questions-interests/questions/question/ques
 
 export const pagesRoutes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: HomeComponent
   },
   {

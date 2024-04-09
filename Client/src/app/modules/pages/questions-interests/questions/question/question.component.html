@@ -1,11 +1,11 @@
-<div class="w-full flex justify-center items-start mt-12">
-    <div class="w-full max-w-[1180px]">
+<div class="w-full flex justify-center items-start mt-12" >
+    <div class="w-full max-w-[1180px]" *ngIf="(question$ | async) as question">
         <!-- Category Question -->
         <div class="w-full">
             <div class="flex justify-start items-center w-full gap-32">
                 <!-- back button -->
                 <div>
-                    <button type="button" class="w-16 h-16 bg-[#F5F5F5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] rounded-xl flex justify-center items-center">
+                    <button [routerLink]="['/questions-interests']" routerLinkActive="router-link-active"  type="button" class="w-16 h-16 bg-[#F5F5F5] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)] rounded-xl flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <g clip-path="url(#clip0_16_1177)">
                                 <path d="M15 19.5L7.5 12L15 4.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -19,10 +19,128 @@
                     </button>
                 </div>
                 <!-- Question Category Title -->
-                <div *ngIf="(question$ | async) as question">
-                    <p>{{ question.questionCategoryTitle }}</p>
+                <div>
+                    <p class="text-xl font-bold">{{ question.questionCategoryTitle }}</p>
                 </div>
             </div>   
         </div>
+        <!-- / Question Category Title -->
+
+        <!-- Question card -->
+            <div class="w-full max-w-[800px] mt-6" *ngFor="let item of question.questions">
+                <div class="bg-white rounded-[20px] p-4">
+                    <div class="flex justify-between items-center">
+                        <div class="rounded-full py-1 px-4 w-max border-2 border-[#E6E6E6]">
+                            <!-- radio -->
+                            <div *ngIf="item.questionType == 'radio'" class="flex justify-center items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <circle cx="10" cy="10" r="9" stroke="black" stroke-width="2"/>
+                                </svg>
+                                <p class="text-sm">Radio buttons</p>
+                            </div>
+                            <!-- checkbox -->
+                            <div *ngIf="item.questionType == 'checkbox'" class="flex justify-center items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                    <g clip-path="url(#clip0_15_1024)">
+                                        <path d="M1.875 6.75L4.5 9.375L10.5 3.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_15_1024">
+                                        <rect width="12" height="12" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <p class="text-sm">Check boxes</p>
+                            </div>
+                            <!-- linear -->
+                            <div *ngIf="item.questionType == 'linear'" class="flex justify-center items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <g clip-path="url(#clip0_15_971)">
+                                        <path d="M12.1875 10C12.1875 10.4326 12.0592 10.8556 11.8188 11.2153C11.5785 11.575 11.2368 11.8554 10.8371 12.021C10.4374 12.1866 9.99757 12.2299 9.57324 12.1455C9.14891 12.0611 8.75913 11.8527 8.45321 11.5468C8.14728 11.2409 7.93894 10.8511 7.85453 10.4268C7.77013 10.0024 7.81345 9.56259 7.97901 9.16288C8.14458 8.76317 8.42496 8.42153 8.78469 8.18116C9.14442 7.94079 9.56735 7.8125 10 7.8125C10.5802 7.8125 11.1366 8.04297 11.5468 8.4532C11.957 8.86344 12.1875 9.41984 12.1875 10ZM3.75 7.8125C3.31735 7.8125 2.89442 7.94079 2.53469 8.18116C2.17496 8.42153 1.89458 8.76317 1.72901 9.16288C1.56345 9.56259 1.52013 10.0024 1.60453 10.4268C1.68894 10.8511 1.89728 11.2409 2.2032 11.5468C2.50913 11.8527 2.89891 12.0611 3.32324 12.1455C3.74757 12.2299 4.18741 12.1866 4.58712 12.021C4.98683 11.8554 5.32848 11.575 5.56884 11.2153C5.80921 10.8556 5.9375 10.4326 5.9375 10C5.9375 9.41984 5.70703 8.86344 5.2968 8.4532C4.88656 8.04297 4.33016 7.8125 3.75 7.8125ZM16.25 7.8125C15.8174 7.8125 15.3944 7.94079 15.0347 8.18116C14.675 8.42153 14.3946 8.76317 14.229 9.16288C14.0634 9.56259 14.0201 10.0024 14.1045 10.4268C14.1889 10.8511 14.3973 11.2409 14.7032 11.5468C15.0091 11.8527 15.3989 12.0611 15.8232 12.1455C16.2476 12.2299 16.6874 12.1866 17.0871 12.021C17.4868 11.8554 17.8285 11.575 18.0688 11.2153C18.3092 10.8556 18.4375 10.4326 18.4375 10C18.4375 9.71273 18.3809 9.42828 18.271 9.16288C18.1611 8.89748 17.9999 8.65633 17.7968 8.4532C17.5937 8.25008 17.3525 8.08895 17.0871 7.97901C16.8217 7.86908 16.5373 7.8125 16.25 7.8125Z" fill="black"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_15_971">
+                                        <rect width="20" height="20" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                                <p class="text-sm">Linear</p>
+                            </div>
+                            <!-- text -->
+                            <div *ngIf="item.questionType == 'textbox'" class="flex justify-center items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <g clip-path="url(#clip0_16_1094)">
+                                        <path d="M14.375 3.75V16.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M11.25 3.75V16.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M11.25 12.5H7.5C6.33968 12.5 5.22688 12.0391 4.40641 11.2186C3.58594 10.3981 3.125 9.28532 3.125 8.125C3.125 6.96468 3.58594 5.85188 4.40641 5.03141C5.22688 4.21094 6.33968 3.75 7.5 3.75H16.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_16_1094">
+                                        <rect width="20" height="20" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                    </svg>
+                                <p class="text-sm">Radio buttons</p>
+                            </div>
+                        </div>
+                        <!-- required / delete -->
+                        <div class="flex justify-end items-center gap-3">
+                            <div>
+                                <label class="inline-flex items-center mb-5 cursor-pointer w-full justify-between gap-2">
+                                    <span class="text-sm text-[#808080]">Required?</span>
+                                    <input type="checkbox" [checked]="item.required" class="sr-only peer">
+                                    <div class="relative w-[72px] h-10 bg-[#E6E6E6] peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-transparent rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-white after:border after:rounded-full after:h-8 after:w-8 after:transition-all peer-checked:bg-[#4FE393]"></div>
+                                </label>
+                            </div>
+                            <div class="-mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g clip-path="url(#clip0_16_1112)">
+                                        <path d="M20.25 5.25H3.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M9.75 9.75V15.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14.25 9.75V15.75" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.75 5.25V19.5C18.75 19.6989 18.671 19.8897 18.5303 20.0303C18.3897 20.171 18.1989 20.25 18 20.25H6C5.80109 20.25 5.61032 20.171 5.46967 20.0303C5.32902 19.8897 5.25 19.6989 5.25 19.5V5.25" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M15.75 5.25V3.75C15.75 3.35218 15.592 2.97064 15.3107 2.68934C15.0294 2.40804 14.6478 2.25 14.25 2.25H9.75C9.35218 2.25 8.97064 2.40804 8.68934 2.68934C8.40804 2.97064 8.25 3.35218 8.25 3.75V5.25" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_16_1112">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question title -->
+                    <div class="relative w-full mt-6">
+                        <input
+                            type="text" 
+                            id="questionTitle"
+                            class="block rounded-[10px] h-12 w-full text-sm text-black text-bold bg-[#E6E6E6] border-none appearance-none  focus:ring-black focus:ring-2 peer" [value]="item.questionTitle" placeholder=" " disabled/>
+                        <label 
+                            for="questionTitle"
+                            class="absolute text-sm text-[#808080] duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                            Question title
+                        </label>
+                    </div>
+                    <!-- Answers -->
+                    <div class="w-full mt-6">
+                        <div class="flex justify-start items-center gap-4 pb-2" *ngFor="let answer of item.questionAnswers">
+                            <!-- circle -->
+                            <svg *ngIf="item.questionType == 'radio'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <circle cx="10" cy="10" r="9" stroke="#CECECE" stroke-width="2"/>
+                            </svg>
+                            <!-- square -->
+                            <svg *ngIf="item.questionType == 'checkbox'" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="1" y="1" width="18" height="18" rx="4" stroke="#B3B3B3" stroke-width="2"/>
+                            </svg>
+                            <p class="text-sm">{{ answer.answerValue }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / Question Card -->
+            <div class="w-full flex justify-center items-center">
+                <button type="button" (click)="removeCategory(question.id)" class="bg-transparent border-2 border-black rounded-full py-2 px-6">Remove all</button>
+            </div>
     </div>
 </div>

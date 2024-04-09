@@ -5,14 +5,16 @@
         <!-- question categories -->
         <div class="grid grid-cols-2 gap-10">
 
-            <div *ngFor="let item of questions$ | async" class="p-6 bg-white rounded-[20px] w-full">
-                <p class="text-[20px] font-bold">{{ item.questionCategoryTitle }}</p>
-                <!-- <p class="pt-3 text-sm">These questions are for ...</p> -->
-                <p class="pt-16 text-right text-[#808080] text-xs">Created by lila</p>
+            <div *ngFor="let item of questions$ | async">
+                <div [routerLink]="['/question/' + item.id]" class="p-6 bg-white rounded-[20px] w-full relative h-[200px] cursor-pointer">
+                    <p class="text-[20px] font-bold">{{ item.questionCategoryTitle }}</p>
+                    <!-- <p class="pt-3 text-sm">These questions are for ...</p> -->
+                    <p class="absolute bottom-4 right-4 text-right text-[#808080] text-xs">Created by lila</p>
+                </div>
             </div>
 
             <!-- Add Question Category -->
-            <div class="px-6 pt-8 pb-6 rounded-[20px] w-full border-2 border-[#E6E6E6] hover:border-black cursor-pointer">
+            <div [routerLink]="['/add-question']" class="px-6 pt-8 pb-6 rounded-[20px] w-full border-2 border-[#E6E6E6] hover:border-black cursor-pointer">
                 <div class="w-full flex justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
                         <g clip-path="url(#clip0_18_290)">

@@ -6,6 +6,7 @@ import { IconsModule } from '../shared/icons/icons.module';
 import { AddUserFormComponent } from './add-user/add-user-form/add-user-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RequestsComponent } from './requests/requests.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -20,7 +21,8 @@ import { RequestsComponent } from './requests/requests.component';
     CommonModule,
     IconsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     NavComponent,
