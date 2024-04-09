@@ -18,11 +18,17 @@ import { QuestionDataService } from './questions-interests/questions/services/qu
 import { QuestionsResolver } from './questions-interests/questions/services/questions.resolver';
 import { QuestionFormComponent } from './questions-interests/questions/question-category/question-form/question-form.component';
 import { QuestionComponent } from './questions-interests/questions/question/question.component';
+import { ClientEntityService } from './home/services/client-entity.service';
+import { ClientsDataService } from './home/services/clients-data.service';
+import { ClientsResolver } from './home/services/clients.resolver';
 
 export const pagesRoutes: Routes = [
   {
     path: 'dashboard',
-    component: HomeComponent
+    component: HomeComponent,
+    resolve: {
+      client: ClientsResolver
+    }
   },
   {
     path: 'questions-interests',
@@ -34,7 +40,10 @@ export const pagesRoutes: Routes = [
   },
   {
     path: 'profile/:id',
-    component: ProfileComponent
+    component: ProfileComponent,
+    resolve: {
+      client: ClientsResolver
+    }
   },
   {
     path: 'add-question',
@@ -55,7 +64,8 @@ export const pagesRoutes: Routes = [
 // Entity metadata
 const entityMetadata: EntityMetadataMap = {
   Interest: {},
-  Question: {}
+  Question: {},
+  Client: {}
 };
 
 @NgModule({
@@ -82,7 +92,10 @@ const entityMetadata: EntityMetadataMap = {
     InterestsResolver,
     QuestionEntityService,
     QuestionDataService,
-    QuestionsResolver
+    QuestionsResolver,
+    ClientEntityService,
+    ClientsDataService,
+    ClientsResolver
   ]
 })
 
@@ -92,12 +105,14 @@ export class PagesModule {
     private eds: EntityDefinitionService,
     private entityDataService: EntityDataService,
     private interestsService: InterestsDataService,
-    private questionsService: QuestionDataService
+    private questionsService: QuestionDataService,
+    private clientsService: ClientsDataService
   ) {
 
     eds.registerMetadataMap(entityMetadata);
 
     entityDataService.registerService('Interest', interestsService);
     entityDataService.registerService('Question', questionsService);
+    entityDataService.registerService('Client', clientsService);;
   }
 }

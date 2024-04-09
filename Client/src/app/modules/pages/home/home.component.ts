@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Client } from './models/client.model';
+import { ClientEntityService } from './services/client-entity.service';
+import { ClientService } from './services/client.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +12,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class HomeComponent implements OnInit {
 
+  clients$: Observable<Client[] | undefined> = new Observable<Client[]>
+
   searchForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+  private fb: FormBuilder,
+  private clientService: ClientEntityService,
+  public calcAge: ClientService) {
     this.searchForm = this.fb.group({
       search: new FormControl(''),
       gender: new FormControl(''),
@@ -18,10 +27,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      
+      this.clients$ = this.clientService.entities$;
   }
 
   search(): void{
 
   }
+
+  
 }

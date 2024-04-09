@@ -1,6 +1,10 @@
+using Core.DTOs;
 using Core.Models.Clients;
+using Infrastructure.Data;
 using Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace API.Controllers.Clients
 {
@@ -8,8 +12,10 @@ namespace API.Controllers.Clients
     {
         private readonly ILogger<ClientsController> _logger;
         private readonly IGenericRepository<ClientModel> _clientRepo;
-        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo)
+        private readonly DatabaseContext _context;
+        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo, DatabaseContext context)
         {
+            _context = context;
             _clientRepo = clientRepo;
             _logger = logger;
         }
@@ -29,7 +35,24 @@ namespace API.Controllers.Clients
         public async Task<IReadOnlyList<ClientModel>> GetClients()
         {
             // _logger.LogInformation("List all clients");
-            return await _clientRepo.ListAllAsync();
+            var entities = await _context.Clients.ToListAsync();
+
+            List<ClientModel> client = new List<ClientModel>();
+            // List<ClientDto> clientDto = new List<ClientDto>();
+
+            // foreach (var entity in entities)
+            // {
+            //     ClientDto client = new ClientDto();
+            //     client.Client = entity;
+            //     if (entity.MatchedUserId != null)
+            //     {
+            //         var user = await _context.Clients.FindAsync(entity.MatchedUserId);
+            //         client.MtachedClient = user;
+            //     }
+
+            //     clientDto.Add(client);
+            // }
+            return entities;
         }
 
         /// <summary>
@@ -87,8 +110,6 @@ namespace API.Controllers.Clients
         public async Task<ActionResult<ClientModel>> AddClient([FromBody] ClientModel clientModel)
         {
             var client = await _clientRepo.AddAsync(clientModel);
-
-            // _logger.LogInformation($"Client added with ID: {client.Id}");
             return Ok(client);
         }
 
@@ -119,11 +140,15 @@ namespace API.Controllers.Clients
         [HttpPut]
         public async Task<ActionResult<ClientModel>> UpdateClient([FromBody] ClientModel clientModel)
         {
+            if (clientModel.MatchedUserId.HasValue)
+            {
+                var user = await _clientRepo.GetByIdAsync(clientModel.MatchedUserId!.Value);
+                user.MatchedUserId = clientModel.Id;
+                await _clientRepo.UpdateAsync(user);
+            }
+
             var client = await _clientRepo.UpdateAsync(clientModel);
-
-            if (client is null) return NotFound($"Client {clientModel.Id} not found");
-
-            return Ok(client);
+            return (client);
         }
 
         /// <summary>

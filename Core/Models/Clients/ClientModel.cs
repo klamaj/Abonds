@@ -11,5 +11,7 @@ namespace Core.Models.Clients
         public string? ProfileImagePath { get; set; }
         public string? Sex { get; set; }
         public PersonalStatus Status { get; set; } = PersonalStatus.Free;
+        public int? MatchedUserId { get; set; }
+        public ClientModel? MatchedUser { get; set; }
     }
 }
