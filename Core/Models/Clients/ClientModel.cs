@@ -13,5 +13,9 @@ namespace Core.Models.Clients
         public PersonalStatus Status { get; set; } = PersonalStatus.Free;
         public int? MatchedUserId { get; set; }
         public ClientModel? MatchedUser { get; set; }
+        public int? ContractId { get; set; }
+        public ContractModel? Contract { get; set; }
+        public bool QuestionsSend { get; set; } = false;
+        public ICollection<ClientInerestModel>? ClientInterests { get; set; }
     }
 }

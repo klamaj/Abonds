@@ -12,6 +12,10 @@ namespace Infrastructure.Data.Config
                 .WithOne()
                 .HasForeignKey<ClientModel>(u => u.MatchedUserId)
                 .IsRequired(false);
+            
+            builder.HasOne(c => c.Contract)
+                .WithOne(x => x.Client)
+                .HasForeignKey<ContractModel>(x => x.ClientId);
         }
     }
 }

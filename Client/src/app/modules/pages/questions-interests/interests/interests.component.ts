@@ -115,6 +115,7 @@ export class InterestsComponent implements OnInit {
       res => {
         console.log(res);
         this.subIntAddDisp = false;
+        this.subInterestForm.reset();
       }
     )
   }

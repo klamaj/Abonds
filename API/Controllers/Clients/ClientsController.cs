@@ -1,5 +1,8 @@
+using API.Services.Interfaces;
 using Core.DTOs;
 using Core.Models.Clients;
+using Core.Models.EmailModels;
+using Core.Models.Questions;
 using Infrastructure.Data;
 using Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +16,10 @@ namespace API.Controllers.Clients
         private readonly ILogger<ClientsController> _logger;
         private readonly IGenericRepository<ClientModel> _clientRepo;
         private readonly DatabaseContext _context;
-        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo, DatabaseContext context)
+        private readonly IEmailSender _emailSender;
+        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo, DatabaseContext context, IEmailSender emailSender)
         {
+            _emailSender = emailSender;
             _context = context;
             _clientRepo = clientRepo;
             _logger = logger;
@@ -35,23 +40,7 @@ namespace API.Controllers.Clients
         public async Task<IReadOnlyList<ClientModel>> GetClients()
         {
             // _logger.LogInformation("List all clients");
-            var entities = await _context.Clients.ToListAsync();
-
-            List<ClientModel> client = new List<ClientModel>();
-            // List<ClientDto> clientDto = new List<ClientDto>();
-
-            // foreach (var entity in entities)
-            // {
-            //     ClientDto client = new ClientDto();
-            //     client.Client = entity;
-            //     if (entity.MatchedUserId != null)
-            //     {
-            //         var user = await _context.Clients.FindAsync(entity.MatchedUserId);
-            //         client.MtachedClient = user;
-            //     }
-
-            //     clientDto.Add(client);
-            // }
+            var entities = await _context.Clients.Include(x => x.Contract).ToListAsync();
             return entities;
         }
 
@@ -172,6 +161,100 @@ namespace API.Controllers.Clients
             if (client is null) return NotFound($"Client {id} not found");
             
             return Ok($"Client {client.Id} successfully deleted");
+        }
+
+        /// <summary>
+        /// Get Contract by ClientId
+        /// </summary>
+        /// <param name="clientId" example="32">int</param>
+        /// <returns>ContractModel</returns>
+        /// <response code="200">Contract</response>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /Clients/32/Contract
+        ///
+        /// </remarks>
+        /// <response code="404">Contract not Found</response>
+        [HttpGet("{clientId}/Contract")]
+        public async Task<ActionResult> GetContractByClientId(int clientId)
+        {
+            var entity = await _context.Contracts.Where(x => x.ClientId == clientId).FirstOrDefaultAsync();
+            if (entity == null) return NotFound();
+            return Ok(entity);
+        }
+
+        [HttpPost("{clientId}/Contract")]
+        public async Task<ActionResult<ClientModel>> AddContractToClient(int clientId, [FromBody] ContractModel contract)
+        {
+            contract.ClientId = clientId;
+            var entity = await _context.Contracts.AddAsync(contract);
+            await _context.SaveChangesAsync();
+
+            var client = await _context.Clients.FindAsync(clientId);
+            client!.ContractId = entity.Entity.Id;
+
+            var res = await _clientRepo.UpdateAsync(client);
+            return (res);
+        }
+
+        [HttpPost("{clientId}/SendMessage")]
+        public async Task<ActionResult> SendMessageToClient(int clientId, [FromBody] MessageDto content)
+        {
+            var client = await _context.Clients.FindAsync(clientId);
+            var message = new MessageModel(new string[] { client!.Email! }, "Message from Alpha Bonds", content.Message!);
+            await _emailSender.SendEmailAsync(message);
+
+            return Ok($"Message successfully sent");
+        }
+
+        [HttpGet("{clinetId}/Interests")]
+        public async Task<ActionResult> GetClientInterests(int clinetId)
+        {
+            // var entity = await _context.Interests.Include(x => x.SubInterests).ThenInclude(x => x.ClientInterests.Where(c => c.ClientId == clinetId)).ToListAsync();
+            
+            var res = await _context.ClientInterests.Where(x => x.ClientId == clinetId).ToListAsync();
+
+            foreach (var item in res)
+            {
+                var sub = await _context.SubInterests.FindAsync(item.SubInterestId);
+
+                
+            }
+
+
+            return Ok(res);
+        }
+
+        [HttpPost("{clinetId}/Interests")]
+        public async Task<ActionResult> AddInterestsToClient(int clinetId, [FromBody] List<ClientInerestModel> clientInerests)
+        {
+            // foreach (var item in clientInerests)
+            // {
+            //     item.ClientId = clinetId;
+            //     await _context.ClientInterests.AddAsync(item);
+            // }
+            // await _context.SaveChangesAsync();
+            var entities = await _context.Clients.Include(x => x.Contract).Include(s => s.ClientInterests).ThenInclude(s => s.SubInterest).ThenInclude(i => i.Interest).FirstOrDefaultAsync(x => x.Id == clinetId);
+            return Ok(entities);
+        }
+
+        [HttpPost("SubmitForm")]
+        public async Task<ActionResult> SubmitAnswersForm([FromBody] List<ClientAnswerModel> model)
+        {
+            foreach (var item in model )
+            {
+                await _context.AddAsync(item);
+            }
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpGet("{clientId}/Answers")]
+        public async Task<ActionResult> GetClientAnswers(int clientId)
+        {
+            var entity = await _context.ClientAnswers.Where(c => c.ClientId == clientId).Include(x => x.Question).ToListAsync();
+            return Ok(entity);
         }
     }
 }

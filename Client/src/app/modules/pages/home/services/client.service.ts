@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Contract } from '../models/contract.model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   // Calculate Age
   calculateAge(value: string | any): number {
@@ -23,5 +27,10 @@ export class ClientService {
       case 2: return "InRelationship";
       default: return "Undefined";
     }
+  }
+
+  // Send Message to Client
+  sendMessage(clientId: number, obj: any): Observable<string> {
+    return this.http.post<string>(`${environment.apiUrl}/Clients/${clientId}/SendMessage`, obj);
   }
 }

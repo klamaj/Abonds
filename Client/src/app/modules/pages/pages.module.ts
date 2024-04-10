@@ -42,7 +42,8 @@ export const pagesRoutes: Routes = [
     path: 'profile/:id',
     component: ProfileComponent,
     resolve: {
-      client: ClientsResolver
+      client: ClientsResolver,
+      question: QuestionsResolver
     }
   },
   {

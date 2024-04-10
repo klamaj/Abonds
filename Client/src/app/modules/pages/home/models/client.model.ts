@@ -1,3 +1,5 @@
+import { Contract } from "./contract.model";
+
 export interface Client {
     firstName: string;
     lastName: string;
@@ -8,4 +10,7 @@ export interface Client {
     matchedUserId: null | number;
     matchedUser: null | Client;
     id: number;
+    contractId: number | null;
+    contract: Contract | null;
+    questionsSend: boolean;
 }

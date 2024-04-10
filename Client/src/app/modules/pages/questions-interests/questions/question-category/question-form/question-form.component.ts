@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Question } from '../../models/question.model';
 import { Answer } from '../../models/answer.model';
 import { QuestionEntityService } from '../../services/question-entity.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question-form',
@@ -21,7 +22,7 @@ export class QuestionFormComponent implements OnInit {
   questions: Question[] = new Array<Question>;
   answers: Answer[] = new Array<Answer>;
 
-  constructor(private questionService: QuestionEntityService) {
+  constructor(private questionService: QuestionEntityService, private router: Router) {
     this.questionForm = new FormGroup({
       questionCategoryTitle: new FormControl('', [Validators.required])
     });
@@ -49,9 +50,12 @@ export class QuestionFormComponent implements OnInit {
       questions: this.questions
     }
 
+    console.log(obj);
+
     this.questionService.add(obj).subscribe(
       res => {
-        console.log(res)
+        // console.log(res)
+        this.router.navigateByUrl('/questions-interests');
       }
     )
   }
@@ -64,13 +68,13 @@ export class QuestionFormComponent implements OnInit {
     let obj = {
       questionTitle: this.singleQuestionForm.value.questionTitle,
       questionType: this.singleQuestionForm.value.questionType,
-      required: this.singleQuestionForm.value.required,
+      required: this.singleQuestionForm.value.required === null ? false  : true,
       questionCategoryId: 0,
       id: 0,
       questionAnswers: this.answers
     }
     this.questions.push(obj);
-    console.log(this.questions);
+    // console.log(this.questions);
 
     this.answers = new Array<Answer>;
     

@@ -21,6 +21,9 @@ namespace Infrastructure.Data
         public DbSet<QuestionCategoryModel> QuestionCategories { get; set; }
         public DbSet<QuestionModel> Questions { get; set; }
         public DbSet<QuestionAnswerModel> QuestionsAnswers { get; set; }
+        public DbSet<ContractModel> Contracts { get; set; }
+        public DbSet<ClientInerestModel> ClientInterests { get; set; }
+        public DbSet<ClientAnswerModel> ClientAnswers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
