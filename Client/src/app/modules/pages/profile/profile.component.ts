@@ -9,6 +9,7 @@ import { QuestionCategory } from '../questions-interests/questions/models/questi
 import { QuestionEntityService } from '../questions-interests/questions/services/question-entity.service';
 import { ObservableNotification } from '@ngrx/effects/src/utils';
 import { Contract } from '../home/models/contract.model';
+import { ClientQuestionCat } from '../home/models/client-answers.model';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +20,9 @@ export class ProfileComponent implements OnInit {
 
   client$: Observable<Client | undefined> = new Observable<Client>;
   questions$: QuestionCategory[] = [];
+  clientAnswers$: ClientQuestionCat[] = [];
+
+  
 
   displayQuestionList: boolean = false;
 
@@ -56,6 +60,13 @@ export class ProfileComponent implements OnInit {
         map(clients => clients.find(client => client.id === Number(CLIENT_ID)))
       );
 
+    this.clientService.getAnswers(CLIENT_ID).subscribe(
+      answers => {
+        console.log(answers);
+        this.clientAnswers$ = answers
+      }
+    );
+
     this.questionsService.entities$.subscribe(
       res =>  {
         this.questions$ = res;
@@ -72,5 +83,9 @@ export class ProfileComponent implements OnInit {
     this.clientService.sendMessage(clientId, obj).subscribe(
       res => console.log(res)
     )
+  }
+
+  numSequesnce(n: number): Array<number> {
+    return Array(n);
   }
 }

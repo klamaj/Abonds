@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Contract } from '../models/contract.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ClientAnswers, ClientQuestionCat } from '../models/client-answers.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,10 @@ export class ClientService {
   // Send Message to Client
   sendMessage(clientId: number, obj: any): Observable<string> {
     return this.http.post<string>(`${environment.apiUrl}/Clients/${clientId}/SendMessage`, obj);
+  }
+
+  // Get Client Answers
+  getAnswers(clientId: any): Observable<ClientQuestionCat[]> {
+    return this.http.get<ClientQuestionCat[]>(`${environment.apiUrl}/Clients/${clientId}/Answers`);
   }
 }

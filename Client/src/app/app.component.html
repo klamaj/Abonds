@@ -1,17 +1,11 @@
-<main>
-    <header class="absolute bottom-12 w-full flex justify-center items-center lg:left-3 lg:w-max lg:h-screen lg:top-0">
+<main class="bg-[#F2F2F2]">
+    <header class="fixed bottom-12 w-full flex justify-center items-center lg:left-3 lg:w-max lg:h-screen lg:top-0">
         <div class="flex justify-center lg:flex-col items-center gap-2">
             <app-nav></app-nav>
             <app-add-user></app-add-user>
         </div>
     </header>
-    <section class="h-screen w-screen bg-[#F2F2F2] lg:pl-[124px] lg:pt-10 lg:pr-8 overflow-y-scroll">
-        <!-- DE: Header-->
-        <!-- <div class="lg:flex justify-between items-center hidden">
-            <div>
-                <p class="text-black text-[32px]">{{ pageTitle }}</p>
-            </div>
-        </div> -->
+    <section class="h-full w-full bg-[#F2F2F2] lg:pl-[124px] lg:pt-10 lg:pr-8 overflow-y-scroll">
         <!-- logo -->
         <div class="w-full flex justify-center items-center pb-6 lg:hidden" [ngClass]="[router.url.includes('account') ? 'hidden' : '']">
             <svg xmlns="http://www.w3.org/2000/svg" width="98" height="32" viewBox="0 0 98 32" fill="none">
