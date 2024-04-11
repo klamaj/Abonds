@@ -244,16 +244,99 @@ namespace API.Controllers.Clients
         {
             foreach (var item in model )
             {
-                await _context.AddAsync(item);
+                await _context.ClientAnswers.AddAsync(item);
             }
             await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpGet("{clientId}/Answers")]
-        public async Task<ActionResult> GetClientAnswers(int clientId)
+        public async Task<ActionResult<IReadOnlyList<CategoryDto>>> GetClientAnswers(int clientId)
         {
-            var entity = await _context.ClientAnswers.Where(c => c.ClientId == clientId).Include(x => x.Question).ToListAsync();
+            var answeredForm = await _context.AnsweredForms.Where(x => x.ClientId == clientId).ToListAsync();
+
+            var categoryDtos = new List<CategoryDto>();
+
+            foreach (var form in answeredForm)
+            {
+                // Create Category Dto
+                var categoryDto = new CategoryDto();
+                var entity = await _context.QuestionCategories.FindAsync(form.QuestionCategoryId);
+                categoryDto.QuestionCategory = entity!.QuestionCategoryTitle;
+
+                // Get Questions
+                var questions = await _context.Questions.Where(q => q.QuestionCategoryId == form.QuestionCategoryId).ToListAsync();
+
+                var questionDtos = new List<QuestionDto>();
+
+                foreach (var question in questions)
+                {
+                    // Create Question Dto
+                    var questionDto = new QuestionDto();
+                    questionDto.QuestionTitle = question.QuestionTitle;
+                    questionDto.QuestionType = question.QuestionType;
+
+                    var clientAnswers = await _context.ClientAnswers.Where(x => x.QuestionId == question.Id && x.ClientId == clientId).ToListAsync();
+
+                    var answersDtos = new List<AnswerDto>();
+
+                    if (question.QuestionType == "textbox" || question.QuestionType == "linear")
+                    {
+                        var answerDto = new AnswerDto();
+                        answerDto.AnswerValue = clientAnswers[0].AnswerValue;
+                        answerDto.Selected = true;
+                        answersDtos.Add(answerDto);
+                    }
+                    else if (question.QuestionType == "radio")
+                    {
+                        var answers = await _context.QuestionsAnswers.Where(q => q.QuestionId == question.Id).ToListAsync();
+
+                        foreach (var answer in answers)
+                        {
+                            var answerDto = new AnswerDto();
+                            answerDto.AnswerValue = answer.AnswerValue;
+                            answerDto.Selected = (answer.Id.ToString() == clientAnswers[0].AnswerValue) ? true : false;
+                            answersDtos.Add(answerDto);
+                        }
+                    }
+                    else
+                    {
+                        var answers = await _context.QuestionsAnswers.Where(q => q.QuestionId == question.Id).ToListAsync();
+                        foreach (var answer in answers)
+                        {
+                            var answerDto = new AnswerDto();
+                            answerDto.AnswerValue = answer.AnswerValue;
+                            foreach(var clientAns in clientAnswers)
+                            {
+                                if (answer.Id.ToString() == clientAns.AnswerValue)
+                                {
+                                    answerDto.Selected = true;
+                                    break;
+                                }
+                            }
+                            answersDtos.Add(answerDto);
+                        }
+                    }
+
+                    questionDto.Answers = answersDtos;
+
+                    questionDtos.Add(questionDto);
+                }
+
+                categoryDto.Questions = questionDtos;
+
+                categoryDtos.Add(categoryDto);
+            }
+
+            return Ok(categoryDtos);
+        }
+
+        [HttpPost("{clientId}/FormModel")]
+        public async Task<ActionResult> FormModel(int clientId, [FromBody] AnsweredFormModel model)
+        {
+            model.ClientId = clientId;
+            var entity = await _context.AnsweredForms.AddAsync(model);
+            await _context.SaveChangesAsync();
             return Ok(entity);
         }
     }

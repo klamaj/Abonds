@@ -14,6 +14,8 @@ namespace Core.Models.Questions
         [JsonProperty]
         public QuestionModel? Question { get; set; }
         [JsonProperty]
-        public ICollection<string>? AnswerValue { get; set; }
+        public string? AnswerValue { get; set; }
+        public int? FormAnsweredId { get; set; }
+        public AnsweredFormModel? AnsweredFormModel { get; set; }
     }
 }
