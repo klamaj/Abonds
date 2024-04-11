@@ -21,6 +21,7 @@ import { QuestionComponent } from './questions-interests/questions/question/ques
 import { ClientEntityService } from './home/services/client-entity.service';
 import { ClientsDataService } from './home/services/clients-data.service';
 import { ClientsResolver } from './home/services/clients.resolver';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 
 export const pagesRoutes: Routes = [
   {
@@ -78,7 +79,8 @@ const entityMetadata: EntityMetadataMap = {
     QuestionCategoryComponent,
     ProfileComponent,
     QuestionFormComponent,
-    QuestionComponent
+    QuestionComponent,
+    EditProfileComponent,
   ],
   imports: [
     CommonModule,

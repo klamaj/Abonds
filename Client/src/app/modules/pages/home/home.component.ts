@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   public calcAge: ClientService) {
     this.searchForm = this.fb.group({
       search: new FormControl(''),
-      gender: new FormControl(''),
+      gender: new FormControl('all'),
     });
   }
 
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   }
 
   search(): void{
-
+    console.log(this.searchForm.value);
   }
 
   

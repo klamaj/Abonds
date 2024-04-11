@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { Client } from '../home/models/client.model';
@@ -10,6 +10,7 @@ import { QuestionEntityService } from '../questions-interests/questions/services
 import { ObservableNotification } from '@ngrx/effects/src/utils';
 import { Contract } from '../home/models/contract.model';
 import { ClientQuestionCat } from '../home/models/client-answers.model';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-profile',
@@ -21,10 +22,12 @@ export class ProfileComponent implements OnInit {
   client$: Observable<Client | undefined> = new Observable<Client>;
   questions$: QuestionCategory[] = [];
   clientAnswers$: ClientQuestionCat[] = [];
+  partnerAnswers$: ClientQuestionCat[] = [];
 
-  
+  @ViewChild(EditProfileComponent) child: EditProfileComponent | undefined;
 
   displayQuestionList: boolean = false;
+  editClient: boolean = false;
 
   questionsForm: FormGroup;
   sendMessageForm: FormGroup;
@@ -55,23 +58,42 @@ export class ProfileComponent implements OnInit {
     // Acitvated Route get: CLIENT_ID
     const CLIENT_ID = this.route.snapshot.paramMap.get('id');
 
-    this.client$ = this.clientEntityService.entities$
-      .pipe(
-        map(clients => clients.find(client => client.id === Number(CLIENT_ID)))
+    // Get Clients
+    this.client$ = this.clientEntityService.entities$.pipe(
+      map(clients => clients.find(client => client.id === Number(CLIENT_ID)))
+    );
+    
+    // Get Client Answers
+    if(this.client$.pipe(map(client => client?.answeredQuestions == true))) {
+      this.clientService.getAnswers(CLIENT_ID).subscribe(
+        answers => {
+          // console.log('Client',answers);
+          this.clientAnswers$ = answers;
+        }
       );
+    }
 
-    this.clientService.getAnswers(CLIENT_ID).subscribe(
-      answers => {
-        console.log(answers);
-        this.clientAnswers$ = answers
+    // Partner Answers
+    this.client$.subscribe(
+      res => {
+        if(res?.matchedUserId != null) {
+          this.clientService.getAnswers(res?.matchedUserId).subscribe(
+            answers => {
+              console.log('Partner Answers', answers)
+              this.partnerAnswers$ = answers
+            })
+        }
       }
-    );
+    )
 
-    this.questionsService.entities$.subscribe(
-      res =>  {
-        this.questions$ = res;
-      }
-    );
+    // Get Questions
+    if(this.client$.pipe(map(client => client?.questionsSend == false))) {
+      this.questionsService.entities$.subscribe(
+        res => {
+          this.questions$ = res;
+        }
+      );
+    }
   }
 
   sendMessage(clientId: number): void {
@@ -85,7 +107,12 @@ export class ProfileComponent implements OnInit {
     )
   }
 
+  // Linear Helper
   numSequesnce(n: number): Array<number> {
     return Array(n);
+  }
+
+  updateClient(): void {
+    this.child!.updateClient();
   }
 }

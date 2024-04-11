@@ -16,13 +16,13 @@
                 <div class="hidden lg:block">
                     <ul class="grid grid-cols-3 bg-[#E6E6E6] p-1 gap-3 rounded-full w-max">
                         <li class="w-10 h-10">
-                            <input type="radio" id="all" name="gender" value="all" class="hidden peer" required checked>
+                            <input type="radio" id="all" name="gender" formControlName="gender" value="all" class="hidden peer" required>
                             <label for="all" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white peer-checked:font-bold">                           
                                 <p class="text-black text-xs">All</p>
                             </label>
                         </li>
                         <li class="w-10 h-10">
-                            <input type="radio" id="divorced" name="gender" value="divorced" class="hidden peer">
+                            <input type="radio" id="divorced" name="gender" formControlName="gender" value="divorced" class="hidden peer">
                             <label for="divorced" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <g opacity="0.5" clip-path="url(#clip0_162_389)">
@@ -39,7 +39,7 @@
                             </label>
                         </li>
                         <li class="w-10 h-10">
-                            <input type="radio" id="free" name="gender" value="female" class="hidden peer">
+                            <input type="radio" id="free" name="gender" formControlName="gender" value="female" class="hidden peer">
                             <label for="free" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">                           
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                     <g opacity="0.5" clip-path="url(#clip0_162_394)">

@@ -1,4 +1,4 @@
-<div class="p-8 w-full flex justify-center items-start">
+<div class="p-8 w-full flex justify-center items-start mb-32">
 
     <div *ngIf="client$ | async as client" class="w-full max-w-[1120px]">
 
@@ -75,7 +75,7 @@
                 </div>
                 <!-- Remove User -->
                 <div>
-                    <button type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#6144C6] text-sm font-bold text-[#F5F5F5]">
+                    <button (click)="editClient = true" *ngIf="!editClient" type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#6144C6] text-sm font-bold text-[#F5F5F5]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <g clip-path="url(#clip0_87_4971)">
                                 <path d="M20.25 20.25H9.00004L3.79785 15.0478" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -91,13 +91,33 @@
                         </svg>
                         Edit user
                     </button>
+                    <button *ngIf="editClient" (click)="updateClient()" type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#6144C6] text-sm font-bold text-[#F5F5F5]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_87_4971)">
+                                <path d="M20.25 20.25H9.00004L3.79785 15.0478" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15.375 8.625L6.375 17.625" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V15.3103C3.75009 15.1117 3.82899 14.9212 3.96938 14.7806L15.5306 3.21937C15.6713 3.07883 15.862 2.99988 16.0608 2.99988C16.2596 2.99988 16.4503 3.07883 16.5909 3.21937L20.7806 7.40625C20.9212 7.54689 21.0001 7.73758 21.0001 7.9364C21.0001 8.13523 20.9212 8.32592 20.7806 8.46656L9 20.25Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.75 6L18 11.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_87_4971">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        Save Changes
+                    </button>
                 </div>
             </div>
         </div>
         <!-- / Top Buttons -->
 
+        <!-- Edit user form -->
+        <app-edit-profile *ngIf="editClient" [client]="client"></app-edit-profile>
+        <!-- / Edit user form -->
+
         <!-- User Profile -->
-        <div *ngIf="client.matchedUserId === null" class="w-full bg-white rounded-[40px] py-10 px-5 flex justify-start items-center gap-4 mt-9">
+        <div *ngIf="client.matchedUserId === null && !editClient" class="w-full bg-white rounded-[40px] py-10 px-5 flex justify-start items-center gap-4 mt-9">
             <img class="w-[160px] h-[160px] rounded-full border-2 border-[#D9D9D9]" src="./assets/img/asset-1.png" alt="UserProfilePicture">
             <div class="grid space-y-5">
                 <p class="text-2xl font-bold">{{ client.firstName }} {{ client.lastName }}</p>
@@ -127,7 +147,7 @@
         <!-- / User Profile -->
 
         <!-- Relationship Profile -->
-        <div *ngIf="client.matchedUserId != null" class="w-full bg-white rounded-[40px] py-10 px-5 mt-9">
+        <div *ngIf="client.matchedUserId != null && !editClient" class="w-full bg-white rounded-[40px] py-10 px-5 mt-9">
             <div class="grid grid-cols-3 gap-6">
                 <!-- Client -->
                 <div class="w-full justify-self-end space-y-6">
@@ -235,7 +255,7 @@
             <!-- / Informations Empty -->
 
             <!-- Email has been sent - No Answers -->
-            <div *ngIf="client.questionsSend" class="flex flex-col justify-center items-center">
+            <div *ngIf="client.questionsSend && clientAnswers$.length <= 0" class="flex flex-col justify-center items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
                     <g clip-path="url(#clip0_46_307)">
                         <path d="M32 42C36.4183 42 40 38.4183 40 34C40 29.5817 36.4183 26 32 26C27.5817 26 24 29.5817 24 34C24 38.4183 27.5817 42 32 42Z" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -257,12 +277,79 @@
 
         <!-- Client Answers -->
         <div *ngIf="clientAnswers$.length > 0" class="w-full mt-10 flex flex-col justify-center items-center">
-            <div class="w-full max-w-[800px]">
-                <p class="text-2xl font-bold">Answers</p>
+            <div class="w-full">
+                <p class="text-2xl font-bold">Answers {{ client.firstName }}</p>
             </div>
-            <div *ngFor="let item of clientAnswers$" class="w-full max-w-[800px] mt-10 space-y-6">
+            <div *ngFor="let item of clientAnswers$" class="w-full mt-10 space-y-6">
                 <p class="text-xl">{{ item.questionCategory }}</p>
                 <!-- Answer -->
+                <div class="w-full grid grid-cols-2 gap-4">
+                    <div *ngFor="let question of item.questions" class="w-full bg-white rounded-[20px] p-4">
+                        <p class="text-sm text-[#808080]">{{ question.questionTitle }}</p>
+                        <div class="flex justify-start items-center w-full mt-10">
+                            <div class="w-max">
+                                <p class="text-sm text-[#808080]">Answer: {{ client.firstName }}</p>
+                            </div>
+                            <!-- <div class="pt-[1px] bg-[#E6E6E6] w-full"></div> -->
+                        </div>
+                        <div class="w-full mt-8 space-y-4">
+                            <div *ngFor="let answer of question.answers">
+                                <!-- Checkbox - Radio -->
+                                <div *ngIf="question.questionType != 'textbox' && question.questionType != 'linear' " class="flex justify-start items-center gap-4">
+                                    <!-- Circle Not Selected -->
+                                    <svg *ngIf="question.questionType == 'radio' && !answer.selected" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <circle cx="10" cy="10" r="9" stroke="#B3B3B3" stroke-width="2"/>
+                                    </svg>
+                                    <!-- Circle Selected -->
+                                    <svg *ngIf="question.questionType == 'radio' && answer.selected" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="10" cy="10" r="9" stroke="black" stroke-width="2"/>
+                                    </svg>
+                                    <!-- Square Not Selected -->
+                                    <svg *ngIf="question.questionType == 'checkbox' && !answer.selected" width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1" y="1" width="17" height="18" rx="4" stroke="#B3B3B3" stroke-width="2"/>
+                                    </svg>
+                                    <!-- Square Selected -->
+                                    <svg *ngIf="question.questionType == 'checkbox' && answer.selected" width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1" y="1" width="17" height="18" rx="4" fill="black" stroke="black" stroke-width="2"/>
+                                    </svg>
+                                    <p [ngClass]="[answer.selected ? 'text-black' : 'text-[#808080]' ]" class="text-sm">{{ answer.answerValue }}</p>
+                                </div>
+                                <!-- Linear -->
+                                <div *ngIf="question.questionType == 'linear'" class="flex justify-start items-center gap-8">
+                                    <div *ngFor="let n of numSequesnce(10); let i = index;" class="grid space-y-2 justify-items-center">
+                                        <!-- Circle Not Selected -->
+                                        <svg *ngIf="answer.answerValue != i.toString()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <circle cx="10" cy="10" r="9" stroke="#B3B3B3" stroke-width="2"/>
+                                        </svg>
+                                        <!-- Circle Selected -->
+                                        <svg *ngIf="answer.answerValue == i.toString()" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <circle cx="10" cy="10" r="9" stroke="black" stroke-width="2"/>
+                                        </svg>
+                                        <p class="text-sm text-[#808080]">{{ i }}</p>
+                                    </div>
+                                </div>
+                                <!-- Textbox -->
+                                <div *ngIf="question.questionType == 'textbox'" class="flex justify-center items-center ">
+                                    <p class="text-sm">{{ answer.answerValue }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Answer -->
+            </div>            
+        </div>
+        <!-- / Client Answers -->
+
+        <!-- Partner Answers -->
+        <div *ngIf="partnerAnswers$.length > 0" class="w-full mt-10 flex flex-col justify-center items-center mt-32">
+            <div class="w-full">
+                <p class="text-2xl font-bold">Answers {{ client.matchedUser?.firstName }}</p>
+            </div>
+            <div *ngFor="let item of partnerAnswers$" class="w-full mt-10 space-y-6">
+                <p class="text-xl">{{ item.questionCategory }}</p>
+                <!-- Answer -->
+                <div class="w-full grid grid-cols-2 gap-4">
                 <div *ngFor="let question of item.questions" class="w-full bg-white rounded-[20px] p-4">
                     <p class="text-sm text-[#808080]">{{ question.questionTitle }}</p>
                     <div class="flex justify-start items-center w-full mt-10">
@@ -314,10 +401,11 @@
                         </div>
                     </div>
                 </div>
+                </div>
                 <!-- / Answer -->
             </div>
         </div>
-        <!-- / Client Answers -->
+        <!-- / Partner Answers -->
 
         <!-- Handle Questions Form -->
         <div *ngIf="client.matchedUserId === null" class="w-full mt-16 flex justify-center items-center">
@@ -398,5 +486,6 @@
                 <!-- / Send email -->
             </div>
         </div>
+        <!-- / Handle Questions Form -->
     </div>
 </div>

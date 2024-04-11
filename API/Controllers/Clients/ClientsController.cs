@@ -44,6 +44,24 @@ namespace API.Controllers.Clients
             return entities;
         }
 
+        [HttpGet("Singles")]
+        public async Task<ActionResult<ReturnSinglesDto>> ReturnSingles([FromQuery] string gender)
+        {
+            var entities = await _context.Clients.Where(c => c.MatchedUserId == null && c.Sex == gender).ToListAsync();
+
+            var res = new List<ReturnSinglesDto>();
+
+            foreach(var item in entities)
+            {
+                var client = new ReturnSinglesDto();
+                client.Id = item.Id;
+                client.Name = $"{item.FirstName} {item.LastName}";
+                res.Add(client);
+            }
+
+            return Ok(res);
+        }
+
         /// <summary>
         /// Get Client by Id
         /// </summary>
@@ -282,10 +300,13 @@ namespace API.Controllers.Clients
 
                     if (question.QuestionType == "textbox" || question.QuestionType == "linear")
                     {
-                        var answerDto = new AnswerDto();
-                        answerDto.AnswerValue = clientAnswers[0].AnswerValue;
-                        answerDto.Selected = true;
-                        answersDtos.Add(answerDto);
+                        if (clientAnswers.Count > 0)
+                        {
+                            var answerDto = new AnswerDto();
+                            answerDto.AnswerValue = clientAnswers[0].AnswerValue;
+                            answerDto.Selected = true;
+                            answersDtos.Add(answerDto);
+                        }
                     }
                     else if (question.QuestionType == "radio")
                     {

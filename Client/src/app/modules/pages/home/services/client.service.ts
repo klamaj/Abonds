@@ -4,6 +4,7 @@ import { Contract } from '../models/contract.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ClientAnswers, ClientQuestionCat } from '../models/client-answers.model';
+import { Single } from '../models/single.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,10 @@ export class ClientService {
   // Get Client Answers
   getAnswers(clientId: any): Observable<ClientQuestionCat[]> {
     return this.http.get<ClientQuestionCat[]>(`${environment.apiUrl}/Clients/${clientId}/Answers`);
+  }
+
+  // Get Singles
+  getSingles(type: string): Observable<Single[]> {
+    return this.http.get<Single[]>(`${environment.apiUrl}/Clients/Singles?gender=${type}`);
   }
 }

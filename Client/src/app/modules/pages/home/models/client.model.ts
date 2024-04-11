@@ -13,4 +13,5 @@ export interface Client {
     contractId: number | null;
     contract: Contract | null;
     questionsSend: boolean;
+    answeredQuestions: boolean;
 }

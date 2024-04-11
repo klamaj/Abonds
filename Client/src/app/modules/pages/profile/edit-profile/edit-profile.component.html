@@ -1,0 +1,181 @@
+<div class="w-full bg-white rounded-[40px] py-10 px-5 flex justify-start items-center gap-4 mt-9">
+
+    <img class="w-[160px] h-[160px] rounded-full border-2 border-[#D9D9D9]" src="./assets/img/asset-1.png" alt="UserProfilePicture">
+
+    <form class="w-full" #f="ngForm" [formGroup]="clientForm" (keyup)="updateClient()">
+
+        <div class="grid space-y-5">
+
+            <!-- Name inputs -->
+            <div class="w-full flex justify-center items-center gap-3">
+                <!-- First name -->
+                <div class="relative w-full">
+                    <input
+                        type="text" 
+                        id="firstName"
+                        formControlName="firstName"
+                        [ngClass]="[clientForm.controls['firstName'].invalid && (clientForm.controls['firstName'].touched || clientForm.controls['firstName'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                        class="block rounded-[10px] h-12 w-full text-sm text-black text-bold bg-[#E6E6E6] border-none appearance-none  focus:ring-black focus:ring-2 peer" placeholder=" " />
+                    <label 
+                        for="firstName"
+                        class="absolute text-sm text-[#808080] duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                        First name
+                    </label>
+                </div>
+                <!-- Last name -->
+                <div class="relative w-full">
+                    <input
+                        type="text" 
+                        id="firstName"
+                        formControlName="firstName"
+                        [ngClass]="[clientForm.controls['firstName'].invalid && (clientForm.controls['firstName'].touched || clientForm.controls['firstName'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                        class="block rounded-[10px] h-12 w-full text-sm text-black text-bold bg-[#E6E6E6] border-none appearance-none  focus:ring-black focus:ring-2 peer" placeholder=" " />
+                    <label 
+                        for="firstName"
+                        class="absolute text-sm text-[#808080] duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                        Last name
+                    </label>
+                </div>
+            </div>
+            <!-- / Name inputs -->
+
+            <!-- Age / Gender -->
+            <div class="flex justify-start items-center gap-12">
+                <p class="text-[#BBBBBB] text-base">{{ client?.dateOfBirth }} | <span class="text-black">{{ this.clientService.calculateAge(client?.dateOfBirth) }}</span></p>
+                <div class="flex justify-start items-center gap-2">
+                    <p class="text-base">Sex</p>
+                    <div>
+                        <ul [ngClass]="[clientForm.value.sex == 'female' ? 'bg-[#FF99AB]' : 'bg-[#E6E6E6]']" class="grid grid-cols-2 p-1 gap-3 rounded-full w-max">
+                            <li class="w-10 h-10">
+                                <input type="radio" id="male" name="sex" formControlName="sex" value="male" class="hidden peer">
+                                <label for="male" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <g opacity="0.5" clip-path="url(#clip0_166_754)">
+                                            <path d="M9.75 21C13.4779 21 16.5 17.9779 16.5 14.25C16.5 10.5221 13.4779 7.5 9.75 7.5C6.02208 7.5 3 10.5221 3 14.25C3 17.9779 6.02208 21 9.75 21Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14.5225 9.47719L20.2496 3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M15.75 3.75H20.25V8.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_166_754">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </label>
+                            </li>
+                            <li class="w-10 h-10">
+                                <input type="radio" id="female" name="sex" formControlName="sex" value="female" class="hidden peer">
+                                <label for="female" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <g opacity="0.5" clip-path="url(#clip0_166_759)">
+                                            <path d="M12 15.75C15.7279 15.75 18.75 12.7279 18.75 9C18.75 5.27208 15.7279 2.25 12 2.25C8.27208 2.25 5.25 5.27208 5.25 9C5.25 12.7279 8.27208 15.75 12 15.75Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M12 15.75V22.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8.25 19.5H15.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_166_759">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                        </defs>
+                                    </svg>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Age / Gender -->
+
+            <!-- Email / Status / Match -->
+            <div class="w-full flex justify-center items-center gap-3">
+                <!-- Email -->
+                <div class="relative w-full">
+                    <input
+                        type="text" 
+                        id="email"
+                        formControlName="email"
+                        [ngClass]="[clientForm.controls['email'].invalid && (clientForm.controls['email'].touched || clientForm.controls['email'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                        class="block rounded-[10px] h-12 w-full text-sm text-black text-bold bg-[#E6E6E6] border-none appearance-none  focus:ring-black focus:ring-2 peer" placeholder=" " />
+                    <label 
+                        for="email"
+                        class="absolute text-sm text-[#808080] duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                        Email
+                    </label>
+                </div>
+                <!-- Status -->
+                <div>
+                    <ul [ngClass]="[clientForm.value.status == '1' ? 'bg-[#FF99AB]' : 'bg-[#E6E6E6]']" class="grid grid-cols-2  p-1 gap-3 rounded-full w-max">
+                        <li class="w-10 h-10">
+                            <input type="radio" id="0" name="status" formControlName="status" value="0" class="hidden peer">
+                            <label for="0" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g opacity="0.5" clip-path="url(#clip0_166_661)">
+                                        <path d="M12 6.34031L10.8919 5.23312C10.1839 4.52526 9.28189 4.04322 8.29995 3.84794C7.31801 3.65266 6.30022 3.75292 5.37526 4.13603C4.4503 4.51914 3.65969 5.1679 3.10341 6.0003C2.54713 6.83269 2.25014 7.81133 2.25 8.8125C2.25 15 12 20.25 12 20.25C12 20.25 21.75 15 21.75 8.8125C21.7499 7.81133 21.4529 6.83269 20.8966 6.0003C20.3403 5.1679 19.5497 4.51914 18.6247 4.13603C17.6998 3.75292 16.682 3.65266 15.7 3.84794C14.7181 4.04322 13.8161 4.52526 13.1081 5.23312L10.5 7.84031L13.3294 10.6706L11.25 12.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_166_661">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                        <li class="w-10 h-10">
+                            <input type="radio" id="1" name="status" formControlName="status" value="1" class="hidden peer">
+                            <label for="1" class="flex justify-center items-center bg-transparent w-full h-full rounded-full cursor-pointer peer-checked:bg-white opacity-50 peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g clip-path="url(#clip0_166_658)">
+                                        <path d="M12 20.25C12 20.25 2.25 15 2.25 8.8125C2.25 7.46984 2.78337 6.18217 3.73277 5.23277C4.68217 4.28337 5.96984 3.75 7.3125 3.75C9.43031 3.75 11.2444 4.90406 12 6.75C12.7556 4.90406 14.5697 3.75 16.6875 3.75C18.0302 3.75 19.3178 4.28337 20.2672 5.23277C21.2166 6.18217 21.75 7.46984 21.75 8.8125C21.75 15 12 20.25 12 20.25Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </g>
+                                    <defs>
+                                        <clipPath id="clip0_166_658">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Match -->
+                <div *ngIf="clientForm.value.status == '1'" class="w-full">
+                    <button id="searchPersonButton" (click)="listDisp = true" class="flex justify-between items-center pl-1 pt-1 pb-1 pr-6 rounded-full bg-[#E6E6E6] h-12 w-full" type="button">
+                        <div *ngIf="hasMatch.id != 0" class="flex justify-start items-center gap-2">
+                            <img class="w-10 h-10" [src]="hasMatch.image" alt="some alt" />
+                            <p class="text-sm">{{ hasMatch.name }}</p>
+                        </div>
+                        <p *ngIf="hasMatch.id == 0" class="pl-6">Search person</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#clip0_166_682)">
+                                <path d="M13 6L8 11L3 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_166_682">
+                                <rect width="16" height="16" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+                    <div *ngIf="listDisp" id="searchPersons" class="z-10 w-full" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 390px);">
+                        <div class="w-full flex justify-center items-center">
+                            <div class="z-10 w-full max-w-[1120px] px-5 flex justify-end  items-center mt-1">
+                                <div class="z-10 bg-[#E6E6E6] h-[340px] overflow-y-scroll p-4 rounded-2xl space-y-3 max-w-[320px] w-full">
+                                    <div class="w-full flex justify-center items-center rounded-full cursor-pointer bg-white">
+
+                                    </div>
+                                    <div *ngFor="let item of singles$" (click)="setMatch(item)"  class="w-full flex justify-start items-center rounded-full cursor-pointer hover:bg-white gap-2">
+                                        <img class="w-12 h-12" src="./assets/img/asset-1.png" alt="some alt" />
+                                        <p class="text-sm">{{ item.name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Email / Status / Match -->
+        </div>
+
+    </form>
+
+</div>

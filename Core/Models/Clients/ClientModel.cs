@@ -16,6 +16,7 @@ namespace Core.Models.Clients
         public int? ContractId { get; set; }
         public ContractModel? Contract { get; set; }
         public bool QuestionsSend { get; set; } = false;
+        public bool AnsweredQuestions { get; set; } = false;
         public ICollection<ClientInerestModel>? ClientInterests { get; set; }
     }
 }
