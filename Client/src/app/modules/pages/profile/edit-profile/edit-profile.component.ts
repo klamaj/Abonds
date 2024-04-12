@@ -4,6 +4,7 @@ import { Client } from '../../home/models/client.model';
 import { ClientService } from '../../home/services/client.service';
 import { ClientEntityService } from '../../home/services/client-entity.service';
 import { Single } from '../../home/models/single.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,7 +14,7 @@ import { Single } from '../../home/models/single.model';
 export class EditProfileComponent implements OnInit {
 
   clientForm: FormGroup;
-  deleteClientForm: FormGroup;
+  notifyForm: FormGroup;
   singles$: Single[] = [];
   hasMatch = {
     id: 0,
@@ -28,7 +29,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(
     private clientEntityService: ClientEntityService,
-    public clientService: ClientService
+    public clientService: ClientService,
+    public router: Router
   ) {
 
     // Client Form
@@ -43,10 +45,10 @@ export class EditProfileComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email])
     });
 
-    // DeleteClientForm
-    this.deleteClientForm = new FormGroup({
-      deleteClientMessage: new FormControl('', Validators.required)
-    });
+    // notify client form
+    this.notifyForm = new FormGroup({
+      notifyUser: new FormControl(false, [Validators.required])
+    })
   }
 
   ngOnInit(): void {
@@ -70,7 +72,7 @@ export class EditProfileComponent implements OnInit {
 
   // Update Client
   updateClient(): void {
-    console.log(this.clientForm.value);
+    // console.log(this.clientForm.value);
     this.changesAlert = true;
   }
 
@@ -83,5 +85,55 @@ export class EditProfileComponent implements OnInit {
     this.hasMatch.id = item.id;
     this.hasMatch.name = item.name;
     this.listDisp = false;
+  }
+
+  saveClient(save: boolean):void {
+
+    // Create object
+    let obj = {
+      id: this.client!.id,
+      firstName: this.clientForm.value.firstName,
+      lastName: this.clientForm.value.lastName,
+      dateOfBirth: this.client?.dateOfBirth,
+      email: this.clientForm.value.email,
+      sex: this.clientForm.value.sex,
+      status: Number(this.clientForm.value.status),
+      matchedUserId: Number(this.clientForm.value.matchedUserId),
+      contractId: this.client?.contractId,
+      contract: this.client?.contract,
+      questionsSend: this.client?.questionsSend,
+      answeredQuestions: this.client?.answeredQuestions
+    }
+
+    if(!save) {
+      this.clientForm.patchValue({ ...this.client });
+      this.clientForm.patchValue({
+        status: this.client?.status.toString()
+      });
+      this.hasMatch = {
+        id: 0,
+        name: '',
+        image: './assets/img/asset-1.png'
+      }
+      this.changesAlert = false;
+    }
+    if (this.notifyForm.value.notifyUser) {
+      this.clientEntityService.update(obj).subscribe(
+        res => {
+          // console.log(res);
+          this.clientService.sendMessage(this.client!.id, {message: res.toString()}).subscribe(
+            rs => /*console.log(rs)*/ window.location.reload(),
+            error => console.error(error)
+          )
+        },
+        error => console.error(error)
+      )
+    }
+    else {
+      this.clientEntityService.update(obj).subscribe(
+        res => /*console.log(res)*/ window.location.reload(),
+        error => console.error(error)
+      )
+    }
   }
 }

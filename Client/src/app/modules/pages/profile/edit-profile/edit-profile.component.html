@@ -204,10 +204,15 @@
             <p *ngIf="client?.email != this.clientForm.value.email">{{ client?.email }} > {{ this.clientForm.value.email }}</p>
             <p *ngIf="client?.sex != this.clientForm.value.sex">{{ client?.sex }} > {{ this.clientForm.value.sex }}</p>
         </div>
-        <input type="">
+        <form #f="ngForm" [formGroup]="notifyForm" class="w-full mt-10">
+            <div class="flex items-center me-4">
+                <input id="notifyUser" type="checkbox" formControlName="notifyUser" value="" class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded focus:ring-black dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="notifyUser" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Notify user for the changes by email.</label>
+            </div>
+        </form>
         <div class="w-full flex justify-center items-center gap-4 mt-24">
-            <button type="button" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-white border-2 border-black">Remove without notification</button>
-            <button type="button" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-black border-2 border-black text-white"></button>
+            <button type="button" (click)="saveClient(false)" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-white border-2 border-black">Continue without saving</button>
+            <button type="button" (click)="saveClient(true)" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-black border-2 border-black text-white">Save and notify client</button>
         </div>
     </div>
 </div>

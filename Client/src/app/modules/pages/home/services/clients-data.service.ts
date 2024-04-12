@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { HttpOptions } from "@ngrx/data/src/dataservices/interfaces";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { Update } from "@ngrx/entity";
 
 @Injectable()
 export class ClientsDataService extends DefaultDataService<Client> {
@@ -19,5 +20,9 @@ export class ClientsDataService extends DefaultDataService<Client> {
 
     override delete(key: number | string, options?: HttpOptions | undefined): Observable<string | number> {
         return this.http.delete<any>(`${environment.apiUrl}/Clients/${key}`);
+    }
+
+    override update(update: Update<any>, options?: HttpOptions | undefined): Observable<Client> {
+        return this.http.put<Client>(`${environment.apiUrl}/Clients`, update.changes);
     }
 }
