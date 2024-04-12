@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ClientAnswers, ClientQuestionCat } from '../models/client-answers.model';
 import { Single } from '../models/single.model';
+import { Client } from '../models/client.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,10 @@ export class ClientService {
   // Get Singles
   getSingles(type: string): Observable<Single[]> {
     return this.http.get<Single[]>(`${environment.apiUrl}/Clients/Singles?gender=${type}`);
+  }
+
+  // Get Client By Id
+  getClientById(id: number): Observable<Client> {
+    return this.http.get<Client>(`${environment.apiUrl}/Clients/${id}`);
   }
 }

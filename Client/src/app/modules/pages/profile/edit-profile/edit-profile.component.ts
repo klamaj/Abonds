@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class EditProfileComponent implements OnInit {
 
   clientForm: FormGroup;
+  matchedClientForm: FormGroup;
   notifyForm: FormGroup;
   singles$: Single[] = [];
   hasMatch = {
@@ -24,8 +25,10 @@ export class EditProfileComponent implements OnInit {
   listDisp: boolean = false;
   changesAlert: boolean = false;
   showMessage: boolean = false;
+  devideAlert: boolean = false;
 
   @Input() client: Client | undefined;
+  matchedClient: Client | undefined;
 
   constructor(
     private clientEntityService: ClientEntityService,
@@ -45,6 +48,18 @@ export class EditProfileComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email])
     });
 
+    // Define mathed form
+    this.matchedClientForm = new FormGroup({
+      id: new FormControl("", [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      dateOfBirth: new FormControl('', [Validators.required]),
+      sex: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
+      matchedUserId: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email])
+    });
+
     // notify client form
     this.notifyForm = new FormGroup({
       notifyUser: new FormControl(false, [Validators.required])
@@ -52,10 +67,30 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.client!.matchedUser);
+    // Values to ClientForm
     this.clientForm.patchValue({...this.client});
     this.clientForm.patchValue({
       status: this.client?.status.toString()
-    })
+    });
+
+    // Values to matchClientForm
+    if (this.client?.matchedUserId != null) {
+      this.clientService.getClientById(this.client?.matchedUserId).subscribe(
+        client => {
+          this.matchedClientForm.patchValue({ ...client });
+          this.matchedClientForm.patchValue({
+            status: client.status.toString()
+          });
+          this.matchedClient = client;
+          this.hasMatch = {
+            id: client.id,
+            name: client.firstName + client.lastName,
+            image: './assets/img/asset-1.png'
+          }
+        }
+      )
+    }
 
     // Get Singles
     if(this.client?.sex == 'male') {
@@ -74,10 +109,6 @@ export class EditProfileComponent implements OnInit {
   updateClient(): void {
     // console.log(this.clientForm.value);
     this.changesAlert = true;
-  }
-
-  findPersons(gender: string): void {
-    
   }
 
   setMatch(item: Single): void{
@@ -114,26 +145,130 @@ export class EditProfileComponent implements OnInit {
         id: 0,
         name: '',
         image: './assets/img/asset-1.png'
+      };
+      if (this.client?.matchedUserId != null) {
+        this.matchedClientForm.patchValue({ ...this.matchedClient });
+        this.matchedClientForm.patchValue({
+          status: this.matchedClient?.status.toString()
+        });
       }
       this.changesAlert = false;
     }
-    if (this.notifyForm.value.notifyUser) {
-      this.clientEntityService.update(obj).subscribe(
+    else {
+      if (this.notifyForm.value.notifyUser) {
+        this.clientEntityService.update(obj).subscribe(
+          res => {
+            console.log('Client Update', res)
+            this.clientService.sendMessage(this.client!.id, { message: res.toString() }).subscribe(
+              rs => { console.log('Client Email', rs)},
+              error => console.error(error)
+            )
+          },
+          error => console.error(error)
+        );
+        if (this.client?.matchedUserId != null) {
+          let objMatch = this.createMatchedObject();
+          this.clientEntityService.update(objMatch).subscribe(
+            res => {
+              console.log('Matched Update', res)
+              this.clientService.sendMessage(this.matchedClient!.id, { message: res.toString() }).subscribe(
+                rs => {console.log('Matched Email',rs) },
+                error => console.error(error)
+              )
+            },
+            error => console.error(error)
+          )
+        }
+        // window.location.reload();
+      }
+      else {
+        this.clientEntityService.update(obj).subscribe(
+          res =>{},
+          error => console.error(error)
+        );
+        if (this.client?.matchedUserId != null) {
+          let objMatch = this.createMatchedObject();
+          this.clientEntityService.update(objMatch).subscribe(
+            res => {},
+            error => console.error(error)
+          )
+        }
+        window.location.reload();
+      }
+    }
+  }
+
+  devideProfile(devide: boolean):void {
+    if(this.client?.matchedUserId != null && !devide) {
+      this.devideAlert = true;
+    }
+    if(this.client?.matchedUserId != null && devide) {
+      let objClient = {
+        id: this.client!.id,
+        firstName: this.clientForm.value.firstName,
+        lastName: this.clientForm.value.lastName,
+        dateOfBirth: this.client?.dateOfBirth,
+        email: this.clientForm.value.email,
+        sex: this.clientForm.value.sex,
+        status: 0,
+        matchedUserId: null,
+        contractId: this.client?.contractId,
+        contract: this.client?.contract,
+        questionsSend: this.client?.questionsSend,
+        answeredQuestions: this.client?.answeredQuestions
+      }
+
+      let objMatch = {
+        id: this.matchedClient!.id,
+        firstName: this.matchedClientForm.value.firstName,
+        lastName: this.matchedClientForm.value.lastName,
+        dateOfBirth: this.matchedClient!.dateOfBirth,
+        email: this.matchedClientForm.value.email,
+        sex: this.matchedClientForm.value.sex,
+        status: 0,
+        matchedUserId: null,
+        contractId: this.matchedClient!.contractId,
+        contract: this.matchedClient!.contract,
+        questionsSend: this.matchedClient!.questionsSend,
+        answeredQuestions: this.matchedClient!.answeredQuestions
+      }
+
+      this.clientEntityService.update(objClient).subscribe(
         res => {
-          // console.log(res);
-          this.clientService.sendMessage(this.client!.id, {message: res.toString()}).subscribe(
-            rs => /*console.log(rs)*/ window.location.reload(),
+          this.clientEntityService.update(objMatch).subscribe(
+            res => {
+              console.log(res);
+              window.location.reload();
+            },
             error => console.error(error)
           )
         },
         error => console.error(error)
       )
     }
-    else {
-      this.clientEntityService.update(obj).subscribe(
-        res => /*console.log(res)*/ window.location.reload(),
-        error => console.error(error)
-      )
-    }
+  }
+
+  keepAccounts(): void {
+    this.clientForm.value.status = '1';
+    this.devideAlert = false;
+  }
+
+  createMatchedObject(): object {
+    let obj = {
+      id: this.matchedClient!.id,
+      firstName: this.matchedClientForm.value.firstName,
+      lastName: this.matchedClientForm.value.lastName,
+      dateOfBirth: this.matchedClient!.dateOfBirth,
+      email: this.matchedClientForm.value.email,
+      sex: this.matchedClientForm.value.sex,
+      status: 0,
+      matchedUserId: null,
+      contractId: this.matchedClient!.contractId,
+      contract: this.matchedClient!.contract,
+      questionsSend: this.matchedClient!.questionsSend,
+      answeredQuestions: this.matchedClient!.answeredQuestions
+    };
+
+    return obj;
   }
 }
