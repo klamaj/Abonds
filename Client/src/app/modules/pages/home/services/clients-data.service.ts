@@ -16,4 +16,8 @@ export class ClientsDataService extends DefaultDataService<Client> {
     override getAll(options?: HttpOptions | undefined): Observable<Client[]> {
         return this.http.get<Client[]>(`${environment.apiUrl}/Clients`);
     }
+
+    override delete(key: number | string, options?: HttpOptions | undefined): Observable<string | number> {
+        return this.http.delete<any>(`${environment.apiUrl}/Clients/${key}`);
+    }
 }

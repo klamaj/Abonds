@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { Client } from '../home/models/client.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClientEntityService } from '../home/services/client-entity.service';
 import { ClientService } from '../home/services/client.service';
 import { QuestionCategory } from '../questions-interests/questions/models/questionCategory.model';
@@ -28,15 +28,19 @@ export class ProfileComponent implements OnInit {
 
   displayQuestionList: boolean = false;
   editClient: boolean = false;
+  deleteAlert: boolean = false;
+  deleteClientDispForm: boolean = false;
 
   questionsForm: FormGroup;
   sendMessageForm: FormGroup;
+  deleteClientForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private clientEntityService: ClientEntityService,
     public clientService: ClientService,
-    private questionsService: QuestionEntityService) {
+    private questionsService: QuestionEntityService,
+    private router: Router) {
 
     this.questionsForm = this.generateQuestionForm();
 
@@ -44,6 +48,11 @@ export class ProfileComponent implements OnInit {
     this.sendMessageForm = new FormGroup({
       messageChek: new FormControl('', [Validators.required]),
       message: new FormControl('', [Validators.required])
+    });
+
+    // Delete Client Form
+    this.deleteClientForm = new FormGroup({
+      deleteClientMessage: new FormControl('', Validators.required)
     });
   }
 
@@ -79,7 +88,7 @@ export class ProfileComponent implements OnInit {
         if(res?.matchedUserId != null) {
           this.clientService.getAnswers(res?.matchedUserId).subscribe(
             answers => {
-              console.log('Partner Answers', answers)
+              // console.log('Partner Answers', answers)
               this.partnerAnswers$ = answers
             })
         }
@@ -112,7 +121,40 @@ export class ProfileComponent implements OnInit {
     return Array(n);
   }
 
+  // Update Client
   updateClient(): void {
     this.child!.updateClient();
+  }
+
+  // Delete client Alert
+  deleteClient(notify: boolean, clientId: number): void {
+    if (!notify) {
+      this.clientEntityService.delete(clientId).subscribe(
+        res => {
+          this.deleteClientDispForm = true;
+          this.router.navigateByUrl('/dashboard');
+        },
+        error => console.error(error)
+      )
+    }
+    else {
+      if(this.deleteClientDispForm) {
+        let obj = {
+          message: this.deleteClientForm.value.deleteClientMessage
+        }
+        this.clientService.sendMessage(clientId, obj).subscribe(
+          res => {
+            this.clientEntityService.delete(clientId).subscribe(
+              res => this.router.navigateByUrl('/dashboard'),
+              error => console.error(error)
+            )
+          },
+          error => console.error(error)
+        )
+      }
+      else {
+        this.deleteClientDispForm = true;
+      }
+    }
   }
 }

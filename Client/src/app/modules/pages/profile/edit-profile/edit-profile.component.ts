@@ -13,6 +13,7 @@ import { Single } from '../../home/models/single.model';
 export class EditProfileComponent implements OnInit {
 
   clientForm: FormGroup;
+  deleteClientForm: FormGroup;
   singles$: Single[] = [];
   hasMatch = {
     id: 0,
@@ -20,6 +21,8 @@ export class EditProfileComponent implements OnInit {
     image: './assets/img/asset-1.png'
   }
   listDisp: boolean = false;
+  changesAlert: boolean = false;
+  showMessage: boolean = false;
 
   @Input() client: Client | undefined;
 
@@ -38,6 +41,11 @@ export class EditProfileComponent implements OnInit {
       status: new FormControl('', [Validators.required]),
       matchedUserId: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email])
+    });
+
+    // DeleteClientForm
+    this.deleteClientForm = new FormGroup({
+      deleteClientMessage: new FormControl('', Validators.required)
     });
   }
 
@@ -60,8 +68,10 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
+  // Update Client
   updateClient(): void {
     console.log(this.clientForm.value);
+    this.changesAlert = true;
   }
 
   findPersons(gender: string): void {

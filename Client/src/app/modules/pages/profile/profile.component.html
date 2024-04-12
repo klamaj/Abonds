@@ -55,7 +55,7 @@
                 </div>
                 <!-- Remove User -->
                 <div>
-                    <button type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#E6E6E6] text-sm font-bold">
+                    <button (click)="deleteAlert = true" type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#E6E6E6] text-sm font-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <g clip-path="url(#clip0_87_5003)">
                                 <path d="M20.25 5.25H3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -487,5 +487,33 @@
             </div>
         </div>
         <!-- / Handle Questions Form -->
+
+        <!-- Delete User Alert -->
+        <div *ngIf="deleteAlert" class="fixed top-0 left-0 bg-[#F6F6F6B2] flex justify-center items-center h-screen w-screen">
+            <div class="bg-white rounded-[20px] pt-10 pb-12 px-14 w-full max-w-[664px] shadow-[0px_0px_40px_0px_rgba(0, 0, 0, 0.25)] flex flex-col justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <g clip-path="url(#clip0_166_801)">
+                        <path d="M26.7021 7.54125L43.1008 36.0169C44.2502 38.0231 42.7652 40.5 40.3989 40.5H7.60144C5.23519 40.5 3.75019 38.0231 4.89956 36.0169L21.2983 7.54125C22.4796 5.48625 25.5208 5.48625 26.7021 7.54125Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 27V19.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M24 36C25.2426 36 26.25 34.9926 26.25 33.75C26.25 32.5074 25.2426 31.5 24 31.5C22.7574 31.5 21.75 32.5074 21.75 33.75C21.75 34.9926 22.7574 36 24 36Z" fill="black"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_166_801">
+                        <rect width="48" height="48" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                <p class="text-[26px] font-bold pt-6">Attention {{ client?.firstName }} will be deleted!</p>
+                <p class="text-[20px] pt-4">The profile will be deleted for the system, do you want to notify the user?</p>
+                <form #f="ngForm" *ngIf="deleteClientDispForm" [formGroup]="deleteClientForm" class="w-full mt-8">
+                    <textarea name="deleteClientMessage" formControlName="deleteClientMessage" id="deleteClientMessage" class="w-full rounded-[20px] border-none bg-[#E6E6E6] focus:ring-0" rows="10"></textarea>
+                </form>
+                <div class="w-full flex justify-center items-center gap-4 mt-24">
+                    <button type="button" (click)="deleteClient(false, client.id)" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-white border-2 border-black">Remove without notification</button>
+                    <button type="button" (click)="deleteClient(true, client.id)" class="w-full h-12 inline-flex justify-center rounded-full items-center bg-black border-2 border-black text-white">Remove & Send email</button>
+                </div>
+            </div>
+        </div>
+        <!-- / Delete User Alert -->
     </div>
 </div>

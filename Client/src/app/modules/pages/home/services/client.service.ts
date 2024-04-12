@@ -22,8 +22,8 @@ export class ClientService {
   }
 
   // Set Client Status
-  setClientStatus(status: number): string {
-    switch (status) {
+  setClientStatus(status: any): string {
+    switch (Number(status)) {
       case 0: return "Single";
       case 1: return "Divorced";
       case 2: return "InRelationship";
