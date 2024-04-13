@@ -178,4 +178,11 @@ export class ProfileComponent implements OnInit {
       res => console.log(res)
     )
   }
+
+  // Send Questions
+  sendQuestions(id: number): void {
+    this.clientService.sendQuestions(id, Number(this.questionsForm.value.questionId)).subscribe(
+      res => window.location.reload()
+    )
+  }
 }

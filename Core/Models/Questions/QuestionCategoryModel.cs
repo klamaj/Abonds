@@ -1,12 +1,14 @@
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Core.Models.Questions
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class QuestionCategoryModel : BaseModel
     {
-        // [JsonPropertyName("title")]
+        [JsonProperty]
         public string? QuestionCategoryTitle { get; set; }
-        // [JsonPropertyName("questions")]
+        [JsonProperty]
         public ICollection<QuestionModel>? Questions { get; set; }
     }
 }

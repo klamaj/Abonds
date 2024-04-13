@@ -478,6 +478,9 @@ namespace API.Controllers.Clients
                 var res = await _context.AccessQuestionForm.AddAsync(accessForm);
                 await _context.SaveChangesAsync();
 
+                client.QuestionsSend = true;
+                var updateRes = await _clientRepo.UpdateAsync(client);
+
                 var message = new MessageModel(new string[] { client!.Email! }, "Message from Alpha Bonds", $"http://localhost:4200?access={accessForm.AccessGuid.ToString()}");
                 await _emailSender.SendEmailAsync(message);
                 return Ok();

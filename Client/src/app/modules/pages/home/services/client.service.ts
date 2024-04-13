@@ -58,4 +58,9 @@ export class ClientService {
     formData.append("file", file);
     return this.http.post<Contract>(`${environment.apiUrl}/Clients/${id}/Contract`, formData);
   }
+
+  // Send Questions
+  sendQuestions(clientId: number, questionId: number) {
+    return this.http.post(`${environment.apiUrl}/Clients/${clientId}/SendQuestion/${questionId}`, null);
+  }
 }

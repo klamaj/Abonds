@@ -418,7 +418,7 @@
         <div *ngIf="client.matchedUserId === null" class="w-full mt-16 flex justify-center items-center">
             <div class="w-full max-w-[800px]">
                 <!-- Questions -->
-                <form *ngIf="!client.questionsSend" class="w-full">
+                <form *ngIf="!client.questionsSend" [formGroup]="questionsForm" class="w-full" >
                     <p class="text-2xl text-[#808080]">Send questions to: <span class="text-black font-bold">{{ client.firstName }} {{ client.lastName }}</span></p>
                     <div class="flex justify-start items-center gap-24 py-4">
                         <!-- yes/no radio -->
@@ -443,6 +443,9 @@
                                     <option selected value="0">Questions</option>
                                     <option *ngFor="let item of questions$" [value]="item.id">{{ item.questionCategoryTitle }}</option>
                                 </select>
+                                <div class="w-full inline-flex justify-center items-center mt-3">
+                                    <button *ngIf="questionsForm.value.questionId != '0'" (click)="sendQuestions(client.id)" type="button" class="bg-black border-2 border-black text-white rounded-full py-2 px-6 disabled:cursor-not-allowed">Send questions</button>
+                                </div>
                             </div>
                         </div>
                     </div>

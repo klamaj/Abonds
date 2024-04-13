@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Client } from 'src/app/modules/pages/home/models/client.model';
 import { ClientEntityService } from 'src/app/modules/pages/home/services/client-entity.service';
+import { ClientService } from 'src/app/modules/pages/home/services/client.service';
 import { QuestionCategory } from 'src/app/modules/pages/questions-interests/questions/models/questionCategory.model';
 import { QuestionEntityService } from 'src/app/modules/pages/questions-interests/questions/services/question-entity.service';
 
@@ -20,7 +21,7 @@ export class AddUserFormComponent implements OnInit {
 
   private anio: number = new Date().getFullYear();  
 
-  constructor(private questionsService: QuestionEntityService, private clientEntityService: ClientEntityService) {
+  constructor(private questionsService: QuestionEntityService, private clientEntityService: ClientEntityService, private clientService: ClientService) {
     this.addUserForm = this.generateAddUserForm();
   }
 
@@ -54,7 +55,14 @@ export class AddUserFormComponent implements OnInit {
     }
 
     this.clientEntityService.add(obj as Client).subscribe(
-      res => this.showForm = false
+      res => {
+        if (this.addUserForm.value.questions != '0' && this.addUserForm.value.questionId !='0') {
+          this.clientService.sendQuestions(res.id, Number(this.addUserForm.value.questionId)).subscribe(
+            res => console.log(res)
+          );
+        }
+        this.showForm = false;
+      }
     )
   }
 

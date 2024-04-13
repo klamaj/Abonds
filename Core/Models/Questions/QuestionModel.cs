@@ -1,19 +1,21 @@
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Core.Models.Questions
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class QuestionModel : BaseModel
     {
-        // [JsonPropertyName("title")]
+        [JsonProperty]
         public string? QuestionTitle { get; set; }
-        // [JsonPropertyName("type")]
+        [JsonProperty]
         public string QuestionType { get; set; } = "textbox";
-        // [JsonPropertyName("answers")]
+        [JsonProperty]
         public ICollection<QuestionAnswerModel>? QuestionAnswers { get; set; }
-        // [JsonPropertyName("required")]
+        [JsonProperty]
         public bool Required { get; set; } = false;
         public QuestionCategoryModel? QuestionCategory { get; set; }
-        // [JsonPropertyName("questionId")]
+        [JsonProperty]
         public int QuestionCategoryId { get; set; }
     }
 }
