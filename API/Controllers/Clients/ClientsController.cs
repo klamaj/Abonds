@@ -264,18 +264,8 @@ namespace API.Controllers.Clients
 
         [HttpGet("{clinetId}/Interests")]
         public async Task<ActionResult> GetClientInterests(int clinetId)
-        {
-            // var entity = await _context.Interests.Include(x => x.SubInterests).ThenInclude(x => x.ClientInterests.Where(c => c.ClientId == clinetId)).ToListAsync();
-            
-            var res = await _context.ClientInterests.Where(x => x.ClientId == clinetId).ToListAsync();
-
-            foreach (var item in res)
-            {
-                var sub = await _context.SubInterests.FindAsync(item.SubInterestId);
-
-                
-            }
-
+        {   
+            var res = await _context.ClientInterests.Include(x => x.SubInterest).Where(x => x.ClientId == clinetId).ToListAsync();
 
             return Ok(res);
         }
@@ -283,12 +273,13 @@ namespace API.Controllers.Clients
         [HttpPost("{clinetId}/Interests")]
         public async Task<ActionResult> AddInterestsToClient(int clinetId, [FromBody] List<ClientInerestModel> clientInerests)
         {
-            // foreach (var item in clientInerests)
-            // {
-            //     item.ClientId = clinetId;
-            //     await _context.ClientInterests.AddAsync(item);
-            // }
-            // await _context.SaveChangesAsync();
+            foreach (var item in clientInerests)
+            {
+                item.ClientId = clinetId;
+                var res = await _context.ClientInterests.AddAsync(item);
+                await _context.SaveChangesAsync();
+            }
+
             var entities = await _context.Clients.Include(x => x.Contract).Include(s => s.ClientInterests).ThenInclude(s => s.SubInterest).ThenInclude(i => i.Interest).FirstOrDefaultAsync(x => x.Id == clinetId);
             return Ok(entities);
         }
@@ -467,6 +458,32 @@ namespace API.Controllers.Clients
             {
                 return img.Height.ToString() + "," + img.Width.ToString();
             }
+        }
+
+        // Send Questions to Client
+        [HttpPost("{clientId}/SendQuestion/{questionId}")]
+        public async Task<ActionResult> SendQuestionsToClient(int clientId, int questionId)
+        {
+            var accessForm = new AccessQuestionFormModel()
+            {
+                AccessGuid = Guid.NewGuid(),
+                ClientId = clientId,
+                QuestionCategoryId = questionId
+            };
+
+            var client = await _context.Clients.FindAsync(clientId);
+
+            if (client != null)
+            {
+                var res = await _context.AccessQuestionForm.AddAsync(accessForm);
+                await _context.SaveChangesAsync();
+
+                var message = new MessageModel(new string[] { client!.Email! }, "Message from Alpha Bonds", $"http://localhost:4200?access={accessForm.AccessGuid.ToString()}");
+                await _emailSender.SendEmailAsync(message);
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

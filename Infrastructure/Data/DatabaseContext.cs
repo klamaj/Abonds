@@ -26,6 +26,7 @@ namespace Infrastructure.Data
         public DbSet<ClientAnswerModel> ClientAnswers { get; set; }
         public DbSet<AnsweredFormModel> AnsweredForms { get; set; }
         public DbSet<ImageModel> Images { get; set; }
+        public DbSet<AccessQuestionFormModel> AccessQuestionForm { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
