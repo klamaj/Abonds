@@ -62,6 +62,7 @@ namespace API.Controllers.Clients
                 var client = new ReturnSinglesDto();
                 client.Id = item.Id;
                 client.Name = $"{item.FirstName} {item.LastName}";
+                client.Image = item.ProfileImagePath;
                 res.Add(client);
             }
 

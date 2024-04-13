@@ -11,6 +11,8 @@ import { ObservableNotification } from '@ngrx/effects/src/utils';
 import { Contract } from '../home/models/contract.model';
 import { ClientQuestionCat } from '../home/models/client-answers.model';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { Image } from '../home/models/image.model';
+import { ImageEntityService } from '../home/services/image-entity.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +25,8 @@ export class ProfileComponent implements OnInit {
   questions$: QuestionCategory[] = [];
   clientAnswers$: ClientQuestionCat[] = [];
   partnerAnswers$: ClientQuestionCat[] = [];
+  clientImages$: Image[] = [];
+  partnerImages$: Image[] = [];
 
   @ViewChild(EditProfileComponent) child: EditProfileComponent | undefined;
 
@@ -38,6 +42,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private clientEntityService: ClientEntityService,
+    private imageEntityService: ImageEntityService,
     public clientService: ClientService,
     private questionsService: QuestionEntityService,
     private router: Router) {
@@ -89,11 +94,18 @@ export class ProfileComponent implements OnInit {
           this.clientService.getAnswers(res?.matchedUserId).subscribe(
             answers => {
               // console.log('Partner Answers', answers)
-              this.partnerAnswers$ = answers
+              this.partnerAnswers$ = answers;
+              this.imageEntityService.getWithQuery(res.matchedUserId!.toString()).subscribe(
+                res => this.partnerImages$ = res
+              )
             })
         }
       }
     )
+
+    this.imageEntityService.getWithQuery(CLIENT_ID!.toString()).subscribe(
+      res => this.clientImages$ = res
+    );
 
     // Get Questions
     if(this.client$.pipe(map(client => client?.questionsSend == false))) {

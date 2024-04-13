@@ -14,4 +14,5 @@ export interface Client {
     contract: Contract | null;
     questionsSend: boolean;
     answeredQuestions: boolean;
+    profileImagePath: string | null;
 }

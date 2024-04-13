@@ -22,6 +22,8 @@ import { ClientEntityService } from './home/services/client-entity.service';
 import { ClientsDataService } from './home/services/clients-data.service';
 import { ClientsResolver } from './home/services/clients.resolver';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { ImagesDataService } from './home/services/images-data.service';
+import { ImageEntityService } from './home/services/image-entity.service';
 
 export const pagesRoutes: Routes = [
   {
@@ -67,7 +69,8 @@ export const pagesRoutes: Routes = [
 const entityMetadata: EntityMetadataMap = {
   Interest: {},
   Question: {},
-  Client: {}
+  Client: {},
+  Image: {}
 };
 
 @NgModule({
@@ -98,7 +101,9 @@ const entityMetadata: EntityMetadataMap = {
     QuestionsResolver,
     ClientEntityService,
     ClientsDataService,
-    ClientsResolver
+    ClientsResolver,
+    ImagesDataService,
+    ImageEntityService
   ]
 })
 
@@ -109,13 +114,15 @@ export class PagesModule {
     private entityDataService: EntityDataService,
     private interestsService: InterestsDataService,
     private questionsService: QuestionDataService,
-    private clientsService: ClientsDataService
+    private clientsService: ClientsDataService,
+    private imagesService: ImagesDataService
   ) {
 
     eds.registerMetadataMap(entityMetadata);
 
     entityDataService.registerService('Interest', interestsService);
     entityDataService.registerService('Question', questionsService);
-    entityDataService.registerService('Client', clientsService);;
+    entityDataService.registerService('Client', clientsService);
+    entityDataService.registerService('Image', imagesService);
   }
 }

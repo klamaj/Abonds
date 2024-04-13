@@ -108,8 +108,8 @@
             <div *ngFor="let item of clients$ | async; let j = index" class="w-full">
                 <div [routerLink]="['/profile', item.id]" routerLinkActive="router-link-active"  [ngClass]="[j % 2 === 0 ? 'bg-white' : 'bg-[#E6E6E6]'] " class="w-full rounded-2xl flex justify-start items-center p-3 gap-3 cursor-pointer">
                     <div class="flex justify-center items-center">
-                        <img class="w-16 h-16 rounded-full border border-[#808080]" src="./assets/img/asset-1.png" alt="image">
-                        <img *ngIf="item.matchedUserId != null" class="w-16 h-16 rounded-full border border-[#808080] -ml-8" src="./assets/img/asset-1.png" alt="image">
+                        <img class="w-16 h-16 rounded-full border border-[#808080]" [src]="'http://localhost:5270/'+ item.profileImagePath" alt="image">
+                        <img *ngIf="item.matchedUserId != null" class="w-16 h-16 rounded-full border border-[#808080] -ml-8" [src]="'http://localhost:5270/'+ item.matchedUser?.profileImagePath" alt="image">
                     </div>
                     <div class="flex flex-col justify-center items-start gap-2">
                         <p class="text-sm">{{ item.firstName }} {{ item.lastName }}</p>

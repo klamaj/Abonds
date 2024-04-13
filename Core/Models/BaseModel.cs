@@ -1,10 +1,11 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Core.Models
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class BaseModel
     {
-        [JsonPropertyName("id")]
+        [JsonProperty]
         public int Id { get; set; }
     }
 }
