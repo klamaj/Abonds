@@ -25,4 +25,9 @@ export class ClientsDataService extends DefaultDataService<Client> {
     override update(update: Update<any>, options?: HttpOptions | undefined): Observable<Client> {
         return this.http.put<Client>(`${environment.apiUrl}/Clients`, update.changes);
     }
+
+    override add(entity: any, options?: HttpOptions | undefined): Observable<Client> {
+        // console.log('Entity', entity);
+        return this.http.post<any>(`${environment.apiUrl}/Clients`, entity);
+    }
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 
 @Component({
   selector: 'app-add-user',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AddUserComponent {
 
+  @ViewChild(AddUserFormComponent) child: AddUserFormComponent | undefined;
 }

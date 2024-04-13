@@ -7,8 +7,18 @@ import { AddUserFormComponent } from './add-user/add-user-form/add-user-form.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RequestsComponent } from './requests/requests.component';
 import { RouterModule } from '@angular/router';
+import { QuestionEntityService } from '../modules/pages/questions-interests/questions/services/question-entity.service';
+import { QuestionDataService } from '../modules/pages/questions-interests/questions/services/questions-data.service';
+import { ClientEntityService } from '../modules/pages/home/services/client-entity.service';
+import { ClientsDataService } from '../modules/pages/home/services/clients-data.service';
+import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
 
-
+// Entity metadata
+const entityMetadata: EntityMetadataMap = {
+  Interest: {},
+  Question: {},
+  Client: {}
+};
 
 @NgModule({
   declarations: [
@@ -28,6 +38,30 @@ import { RouterModule } from '@angular/router';
     NavComponent,
     AddUserComponent,
     RequestsComponent
+  ],
+  providers: [
+    QuestionEntityService,
+    QuestionDataService,
+    // QuestionsResolver,
+    ClientEntityService,
+    ClientsDataService,
+    // ClientsResolver
   ]
 })
-export class CoreModule { }
+export class CoreModule { 
+
+  constructor(
+    private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    // private interestsService: InterestsDataService,
+    private questionsService: QuestionDataService,
+    private clientsService: ClientsDataService
+  ) {
+
+    eds.registerMetadataMap(entityMetadata);
+
+    // entityDataService.registerService('Interest', interestsService);
+    entityDataService.registerService('Question', questionsService);
+    entityDataService.registerService('Client', clientsService);;
+  }
+}

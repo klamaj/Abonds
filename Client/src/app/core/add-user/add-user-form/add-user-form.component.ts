@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Client } from 'src/app/modules/pages/home/models/client.model';
+import { ClientEntityService } from 'src/app/modules/pages/home/services/client-entity.service';
+import { QuestionCategory } from 'src/app/modules/pages/questions-interests/questions/models/questionCategory.model';
+import { QuestionEntityService } from 'src/app/modules/pages/questions-interests/questions/services/question-entity.service';
 
 @Component({
   selector: 'app-add-user-form',
@@ -10,22 +15,29 @@ export class AddUserFormComponent implements OnInit {
 
   addUserForm: FormGroup;
 
+  questions$: QuestionCategory[] = [];
+  showForm: boolean = false;
+
   private anio: number = new Date().getFullYear();  
 
-  constructor() {
+  constructor(private questionsService: QuestionEntityService, private clientEntityService: ClientEntityService) {
     this.addUserForm = this.generateAddUserForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.questionsService.getAll().subscribe(
+      res => this.questions$ = res
+    );
+  }
 
   generateAddUserForm(): FormGroup {
     return new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      name: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]')]),
-      surname: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z]')]),
-      day: new FormControl(undefined, [Validators.required, Validators.pattern('[0-9]'), Validators.min(1), Validators.max(31)]),
-      month: new FormControl('00', [Validators.required, Validators.pattern('[0-9]')]),
-      year: new FormControl(undefined, [Validators.required, Validators.pattern('[0-9]'), Validators.max(this.anio - 18)]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      day: new FormControl(undefined, [Validators.required, Validators.min(1), Validators.max(31)]),
+      month: new FormControl('00', [Validators.required]),
+      year: new FormControl(undefined, [Validators.required, Validators.max(this.anio - 18)]),
       sex: new FormControl('male',[Validators.required]),
       questions: new FormControl('0', [Validators.required]),
       questionId: new FormControl('0')
@@ -33,6 +45,20 @@ export class AddUserFormComponent implements OnInit {
   }
 
   addUser(): void {
-    // console.log('boom')
+    let obj = {
+      firstName: this.addUserForm.value.firstName,
+      lastName: this.addUserForm.value.lastName,
+      email: this.addUserForm.value.email,
+      dateOfBirth: this.addUserForm.value.day + "-" + this.addUserForm.value.month + "-" + this.addUserForm.value.year,
+      sex: this.addUserForm.value.sex,
+    }
+
+    this.clientEntityService.add(obj as Client).subscribe(
+      res => this.showForm = false
+    )
+  }
+
+  showFormFunc(): void {
+    this.showForm = true;
   }
 }
