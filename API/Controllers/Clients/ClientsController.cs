@@ -147,11 +147,15 @@ namespace API.Controllers.Clients
         [HttpPut]
         public async Task<ActionResult<ClientModel>> UpdateClient([FromBody] ClientModel clientModel)
         {
-            if (clientModel.MatchedUserId.HasValue)
+            if (clientModel.MatchedUserId >  0)
             {
                 var user = await _clientRepo.GetByIdAsync(clientModel.MatchedUserId!.Value);
                 user.MatchedUserId = clientModel.Id;
                 await _clientRepo.UpdateAsync(user);
+            }
+            else 
+            {
+                clientModel.MatchedUserId = null;
             }
 
             var client = await _clientRepo.UpdateAsync(clientModel);
@@ -172,11 +176,19 @@ namespace API.Controllers.Clients
         /// </remarks>
         /// <response code="404">Client not Found</response>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ClientModel>> DeleteClient(int id)
+        public async Task<ActionResult> DeleteClient(int id)
         {
-            var client = await _clientRepo.DeleteAsync(id);
+            var client = await _clientRepo.GetByIdAsync(id);
 
-            if (client is null) return NotFound($"Client {id} not found");
+            if (client.MatchedUserId != null)
+            {
+                var matched = await _clientRepo.GetByIdAsync(client.MatchedUserId.Value);
+                matched.MatchedUserId = null;
+                var res = await _clientRepo.UpdateAsync(matched);
+            }
+            var deleteRes = await _clientRepo.DeleteAsync(id);
+
+            if (deleteRes is null) return NotFound($"Client {id} not found");
             
             return Ok($"Client {client.Id} successfully deleted");
         }

@@ -67,7 +67,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.client!.matchedUser);
+    // console.log(this.client!.matchedUser);
     // Values to ClientForm
     this.clientForm.patchValue({...this.client});
     this.clientForm.patchValue({
@@ -120,21 +120,6 @@ export class EditProfileComponent implements OnInit {
 
   saveClient(save: boolean):void {
 
-    // Create object
-    let obj = {
-      id: this.client!.id,
-      firstName: this.clientForm.value.firstName,
-      lastName: this.clientForm.value.lastName,
-      dateOfBirth: this.client?.dateOfBirth,
-      email: this.clientForm.value.email,
-      sex: this.clientForm.value.sex,
-      status: Number(this.clientForm.value.status),
-      matchedUserId: Number(this.clientForm.value.matchedUserId),
-      contractId: this.client?.contractId,
-      contract: this.client?.contract,
-      questionsSend: this.client?.questionsSend,
-      answeredQuestions: this.client?.answeredQuestions
-    }
 
     if(!save) {
       this.clientForm.patchValue({ ...this.client });
@@ -156,44 +141,10 @@ export class EditProfileComponent implements OnInit {
     }
     else {
       if (this.notifyForm.value.notifyUser) {
-        this.clientEntityService.update(obj).subscribe(
-          res => {
-            console.log('Client Update', res)
-            this.clientService.sendMessage(this.client!.id, { message: res.toString() }).subscribe(
-              rs => { console.log('Client Email', rs)},
-              error => console.error(error)
-            )
-          },
-          error => console.error(error)
-        );
-        if (this.client?.matchedUserId != null) {
-          let objMatch = this.createMatchedObject();
-          this.clientEntityService.update(objMatch).subscribe(
-            res => {
-              console.log('Matched Update', res)
-              this.clientService.sendMessage(this.matchedClient!.id, { message: res.toString() }).subscribe(
-                rs => {console.log('Matched Email',rs) },
-                error => console.error(error)
-              )
-            },
-            error => console.error(error)
-          )
-        }
-        // window.location.reload();
+        if (this.client!.matchedUserId != null) { this.updateMatchedUsers(true) } else  { this.updateSingleClient(true) }
       }
       else {
-        this.clientEntityService.update(obj).subscribe(
-          res =>{},
-          error => console.error(error)
-        );
-        if (this.client?.matchedUserId != null) {
-          let objMatch = this.createMatchedObject();
-          this.clientEntityService.update(objMatch).subscribe(
-            res => {},
-            error => console.error(error)
-          )
-        }
-        window.location.reload();
+        if (this.client!.matchedUserId != null) { this.updateMatchedUsers(false) } else { this.updateSingleClient(false) }
       }
     }
   }
@@ -253,8 +204,25 @@ export class EditProfileComponent implements OnInit {
     this.devideAlert = false;
   }
 
-  createMatchedObject(): object {
+  // Update mathced User Notification
+  updateMatchedUsers(notify: boolean): void {
+    // Create client object
     let obj = {
+      id: this.client!.id,
+      firstName: this.clientForm.value.firstName,
+      lastName: this.clientForm.value.lastName,
+      dateOfBirth: this.client?.dateOfBirth,
+      email: this.clientForm.value.email,
+      sex: this.clientForm.value.sex,
+      status: Number(this.clientForm.value.status),
+      matchedUserId: Number(this.clientForm.value.matchedUserId),
+      contractId: this.client?.contractId,
+      contract: this.client?.contract,
+      questionsSend: this.client?.questionsSend,
+      answeredQuestions: this.client?.answeredQuestions
+    }
+    // Create Matched User Object
+    let matchedObj = {
       id: this.matchedClient!.id,
       firstName: this.matchedClientForm.value.firstName,
       lastName: this.matchedClientForm.value.lastName,
@@ -262,13 +230,71 @@ export class EditProfileComponent implements OnInit {
       email: this.matchedClientForm.value.email,
       sex: this.matchedClientForm.value.sex,
       status: 0,
-      matchedUserId: null,
+      matchedUserId: this.matchedClient!.matchedUserId,
       contractId: this.matchedClient!.contractId,
       contract: this.matchedClient!.contract,
       questionsSend: this.matchedClient!.questionsSend,
       answeredQuestions: this.matchedClient!.answeredQuestions
-    };
+    }
+    
+    if (notify){
+      this.clientEntityService.update(obj).subscribe(
+        res => {
+          // console.log(res);
+          this.clientEntityService.update(matchedObj).subscribe(
+            res => {
+              // console.log(res);
+              this.clientService.sendMessage(obj.id, {message: `Updated client ${obj.id}`}).subscribe();
+              this.clientService.sendMessage(matchedObj.id, { message: `Matched client ${matchedObj.id}`}).subscribe(
+                res => window.location.reload()
+              );
+            }
+          )
+        }
+      )
+    }
+    else {
+      this.clientEntityService.update(obj).subscribe(
+        res => {
+          this.clientEntityService.update(matchedObj).subscribe(
+            res => window.location.reload()
+          )
+        }
+      )
+    }
+  }
 
-    return obj;
+  // Update Client
+  updateSingleClient(notify: boolean): void {
+    // Create client object
+    let obj = {
+      id: this.client!.id,
+      firstName: this.clientForm.value.firstName,
+      lastName: this.clientForm.value.lastName,
+      dateOfBirth: this.client?.dateOfBirth,
+      email: this.clientForm.value.email,
+      sex: this.clientForm.value.sex,
+      status: Number(this.clientForm.value.status),
+      matchedUserId: Number(this.clientForm.value.matchedUserId),
+      contractId: this.client?.contractId,
+      contract: this.client?.contract,
+      questionsSend: this.client?.questionsSend,
+      answeredQuestions: this.client?.answeredQuestions
+    }
+
+    if (notify) {
+      this.clientEntityService.update(obj).subscribe(
+        res => {
+          this.clientService.sendMessage(obj.id, {message: res.toString()}).subscribe(
+            res => window.location.reload()
+          )
+        }
+      )
+    }
+    else {
+      this.clientEntityService.update(obj).subscribe(
+        res => window.location.reload()
+      )
+    }
   }
 }

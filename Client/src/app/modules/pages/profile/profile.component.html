@@ -55,7 +55,7 @@
                 </div>
                 <!-- Remove User -->
                 <div>
-                    <button (click)="deleteAlert = true" type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#E6E6E6] text-sm font-bold">
+                    <button *ngIf="client.matchedUserId == null" (click)="deleteAlert = true" type="button" class="py-2 px-6 flex justify-center items-center gap-3 rounded-full bg-[#E6E6E6] text-sm font-bold">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <g clip-path="url(#clip0_87_5003)">
                                 <path d="M20.25 5.25H3.75" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
