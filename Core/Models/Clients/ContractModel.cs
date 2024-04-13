@@ -6,7 +6,7 @@ namespace Core.Models.Clients
     public class ContractModel : BaseModel
     {
         [JsonProperty]
-        public string? ContratPath  { get; set; }
+        public string? ContractPath  { get; set; }
         [JsonProperty]
         public int ClientId { get; set; }
         public ClientModel? Client { get; set; }

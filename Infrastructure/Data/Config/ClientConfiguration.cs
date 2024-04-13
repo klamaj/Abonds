@@ -15,7 +15,8 @@ namespace Infrastructure.Data.Config
             
             builder.HasOne(c => c.Contract)
                 .WithOne(x => x.Client)
-                .HasForeignKey<ContractModel>(x => x.ClientId);
+                .HasForeignKey<ContractModel>(x => x.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
             
             builder.HasMany(i => i.Images)
                 .WithOne(c => c.Client)

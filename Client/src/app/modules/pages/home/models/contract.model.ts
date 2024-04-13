@@ -1,5 +1,5 @@
 export interface Contract {
     id: number;
-    contratPath: string;
+    contractPath: string;
     clientId: number;
 }

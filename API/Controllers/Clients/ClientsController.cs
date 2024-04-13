@@ -222,17 +222,34 @@ namespace API.Controllers.Clients
         }
 
         [HttpPost("{clientId}/Contract")]
-        public async Task<ActionResult<ClientModel>> AddContractToClient(int clientId, [FromBody] ContractModel contract)
+        public async Task<ActionResult<ClientModel>> AddContractToClient(int clientId, IFormFile file)
         {
-            contract.ClientId = clientId;
-            var entity = await _context.Contracts.AddAsync(contract);
-            await _context.SaveChangesAsync();
+            if (file.Length > 0)
+            {
+                var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
+                var filePath = Path.Combine("wwwroot/contracts", $"{Guid.NewGuid().ToString()}.{fileExt}");
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                var contract = new ContractModel()
+                {
+                    ClientId = clientId,
+                    ContractPath = filePath.ToString()
+                };
+                var res = await _context.Contracts.AddAsync(contract);
+                await _context.SaveChangesAsync();
 
-            var client = await _context.Clients.FindAsync(clientId);
-            client!.ContractId = entity.Entity.Id;
+                var client = await _context.Clients.FindAsync(clientId);
+                client.ContractId = res.Entity.Id;
+                var updateClient = await _clientRepo.UpdateAsync(client);
 
-            var res = await _clientRepo.UpdateAsync(client);
-            return (res);
+                return Ok(res);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost("{clientId}/SendMessage")]
@@ -394,7 +411,6 @@ namespace API.Controllers.Clients
             {
                 var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
                 var filePath = Path.Combine("wwwroot", $"{Guid.NewGuid().ToString()}.{fileExt}");
-                
                 if (!hasImage)
                 {
                     client.ProfileImagePath = Path.GetFileName(filePath);

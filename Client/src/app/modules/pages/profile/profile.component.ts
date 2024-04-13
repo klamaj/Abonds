@@ -169,4 +169,13 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
+
+  // Upload Contrat
+  onFileSelected(event: any, id: number): void {
+    const file: File = event.target.files[0];
+
+    this.clientService.uploadContractToClient(file, id).subscribe(
+      res => console.log(res)
+    )
+  }
 }

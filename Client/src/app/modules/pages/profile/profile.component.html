@@ -23,7 +23,8 @@
             <!-- Profile Handle Buttons -->
             <div class="flex justify-end items-center gap-6">
                 <!-- Upload Contract -->
-                <div *ngIf="client.contractId === null" class="flex justify-center items-center w-max gap-1 cursor-pointer">
+                <input type="file" class="hidden" (change)="onFileSelected($event, client.id)" #fileUpload>
+                <div *ngIf="client.contractId === null" (click)="fileUpload.click()" class="flex justify-center items-center w-max gap-1 cursor-pointer">
                     <p class="text-sm text-[#808080]">Upload Contract</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <g clip-path="url(#clip0_166_435)">
@@ -39,7 +40,7 @@
                     </svg>
                 </div>
                 <div *ngIf="client.contractId != null" class="flex justify-center items-center w-max gap-1 cursor-pointer">
-                    <p class="text-sm text-[#808080]">{{ client.contract?.contratPath }}</p>
+                    <p class="text-sm text-[#808080]">{{ client.contract?.contractPath }}</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <g clip-path="url(#clip0_166_442)">
                             <path d="M15 9L9 15" stroke="#808080" stroke-linecap="round" stroke-linejoin="round"/>

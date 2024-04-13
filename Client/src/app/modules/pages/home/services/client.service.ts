@@ -51,4 +51,11 @@ export class ClientService {
   getClientById(id: number): Observable<Client> {
     return this.http.get<Client>(`${environment.apiUrl}/Clients/${id}`);
   }
+
+  // UploadDocument
+  uploadContractToClient(file: any, id: number): Observable<Contract> {
+    const formData = new FormData();
+    formData.append("file", file);
+    return this.http.post<Contract>(`${environment.apiUrl}/Clients/${id}/Contract`, formData);
+  }
 }
