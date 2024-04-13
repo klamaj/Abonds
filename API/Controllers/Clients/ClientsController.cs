@@ -1,5 +1,7 @@
 using API.Services.Interfaces;
+using AutoMapper;
 using Core.DTOs;
+using Core.Models;
 using Core.Models.Clients;
 using Core.Models.EmailModels;
 using Core.Models.Questions;
@@ -7,6 +9,8 @@ using Infrastructure.Data;
 using Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using SQLitePCL;
 
 namespace API.Controllers.Clients
@@ -17,8 +21,10 @@ namespace API.Controllers.Clients
         private readonly IGenericRepository<ClientModel> _clientRepo;
         private readonly DatabaseContext _context;
         private readonly IEmailSender _emailSender;
-        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo, DatabaseContext context, IEmailSender emailSender)
+        private readonly IMapper _mapper;
+        public ClientsController(ILogger<ClientsController> logger, IGenericRepository<ClientModel> clientRepo, DatabaseContext context, IEmailSender emailSender, IMapper mapper)
         {
+            _mapper = mapper;
             _emailSender = emailSender;
             _context = context;
             _clientRepo = clientRepo;
@@ -371,6 +377,79 @@ namespace API.Controllers.Clients
             var entity = await _context.AnsweredForms.AddAsync(model);
             await _context.SaveChangesAsync();
             return Ok(entity);
+        }
+
+        [HttpPost("{clientId}/Images")]
+        public async Task<ActionResult> AddClientsImages(int clientId, List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            var imagesList = new List<ImageModel>();
+
+            var client = await _context.Clients.FindAsync(clientId);
+            bool hasImage = false;
+
+            foreach (var file in files)
+            {
+                var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
+                var filePath = Path.Combine("wwwroot", $"{Guid.NewGuid().ToString()}.{fileExt}");
+                
+                if (!hasImage)
+                {
+                    client.ProfileImagePath = Path.GetFileName(filePath);
+                    hasImage = true;
+                }
+
+                using (var img = Image.Load(file.OpenReadStream()))
+                {
+                    // var fullPath = Path.Combine(_web.WebRootPath, "uploads", file.FileName);
+                    string newSize = ImageResize(img, 600, 600);
+                    string[] sizeArray = newSize.Split(",");
+                    img.Mutate(x => x.Resize(Convert.ToInt32(sizeArray[1]), Convert.ToInt32(sizeArray[0])));
+                    img.Save(filePath);
+                }
+                var image = new ImageModel()
+                {
+                    ImagePath = Path.GetFileName(filePath),
+                    ClientId = clientId
+                };
+                var entity = await _context.Images.AddAsync(image);
+                await _context.SaveChangesAsync();
+                imagesList.Add(entity.Entity);
+            }
+
+            var res = await _clientRepo.UpdateAsync(client);
+
+            return Ok(imagesList);
+        }
+
+        [HttpGet("{clientId}/Images")]
+        public async Task<IReadOnlyList<ImageModel>> GetImagesByClientId(int clientId)
+        {
+            var entities = await _context.Images.Where(x => x.ClientId == clientId).ToListAsync();
+
+            // var res = _mapper.Map<IReadOnlyList<ImageModel>, IReadOnlyList<ImageDto>>(entities);
+
+            return entities;
+        }
+
+        // Resixe Image
+        private string ImageResize(Image img, int MaxWidth, int MaxHeight)
+        {
+            if (img.Width > MaxWidth || img.Height > MaxHeight)
+            {
+                double widthRatio = (double)img.Width / (double)MaxWidth;
+                double heightRatio = (double)img.Height / (double)MaxHeight;
+                double ratio = Math.Max(widthRatio, heightRatio);
+                int newWidth = (int)(img.Width / ratio);
+                int newHeight = (int)(img.Height / ratio);
+
+                return newHeight.ToString() + "," + newWidth.ToString();
+            }
+            else
+            {
+                return img.Height.ToString() + "," + img.Width.ToString();
+            }
         }
     }
 }

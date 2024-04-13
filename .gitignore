@@ -10,6 +10,7 @@ appsettings.*
 # dotnet
 obj
 bin
+wwwroot
 
 # db
 *.db-shm

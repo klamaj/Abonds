@@ -18,5 +18,6 @@ namespace Core.Models.Clients
         public bool QuestionsSend { get; set; } = false;
         public bool AnsweredQuestions { get; set; } = false;
         public ICollection<ClientInerestModel>? ClientInterests { get; set; }
+        public ICollection<ImageModel>? Images { get; set; }
     }
 }
