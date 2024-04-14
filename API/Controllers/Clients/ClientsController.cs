@@ -283,7 +283,7 @@ namespace API.Controllers.Clients
             if (file.Length > 0)
             {
                 var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
-                var filePath = Path.Combine("wwwroot/contracts", $"{Guid.NewGuid().ToString()}.{fileExt}");
+                var filePath = Path.Combine("Content/contracts", $"{Guid.NewGuid().ToString()}.{fileExt}");
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await file.CopyToAsync(stream);
@@ -435,10 +435,10 @@ namespace API.Controllers.Clients
             foreach (var file in files)
             {
                 var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
-                var filePath = Path.Combine("wwwroot/images", $"{Guid.NewGuid().ToString()}.{fileExt}");
+                var filePath = Path.Combine("Content/images", $"{Guid.NewGuid().ToString()}.{fileExt}");
                 if (!hasImage)
                 {
-                    client.ProfileImagePath = "images/" + Path.GetFileName(filePath);
+                    client.ProfileImagePath = "Content/images/" + Path.GetFileName(filePath);
                     hasImage = true;
                 }
 

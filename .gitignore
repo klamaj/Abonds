@@ -11,12 +11,14 @@ appsettings.*
 obj
 bin
 wwwroot
+publish
 
 # db
 *.db-shm
 *.db-wal
 *.db
 Migrations/
+*.yml
 
 # Logs
 Logs/
@@ -26,3 +28,4 @@ users.json
 
 # mac
 .DS_Store
+abonds-web.service

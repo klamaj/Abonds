@@ -4,6 +4,7 @@ using Core.Models;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -72,6 +73,11 @@ if (app.Environment.IsDevelopment())
 
 // UseSaticFiles
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+    RequestPath = "/Content"
+}); 
 
 app.UseHttpsRedirection();
 
@@ -81,6 +87,7 @@ app.UseAuthorization();
 
 // Use Controller instead of minimalApi
 app.MapControllers();
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

@@ -7,7 +7,7 @@ namespace API.Extensions
     {
         public static IServiceCollection AddDBConnection(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDbContext<DatabaseContext>(x => x.UseSqlite(config.GetConnectionString("Connection")));
+            services.AddDbContext<DatabaseContext>(x => x.UseNpgsql(config.GetConnectionString("Connection")));
 
             return services;
         }
