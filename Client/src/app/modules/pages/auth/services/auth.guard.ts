@@ -6,7 +6,7 @@ import { AppState } from "src/app/reducers";
 import { isLoggedIn } from "./auth.selectors";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
     
     constructor(
         private store: Store<AppState>,
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
                     select(isLoggedIn),
                     tap(loggedIn => {
                         if (!loggedIn) {
-                            this.router.navigateByUrl('/accounts/login');
+                            this.router.navigateByUrl('/account/login');
                         }
                     })
                 )

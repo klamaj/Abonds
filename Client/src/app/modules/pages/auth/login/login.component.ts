@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         tap( user => {
           this.store.dispatch(login({user}));
 
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/webadmin');
         })
       )
       .subscribe(

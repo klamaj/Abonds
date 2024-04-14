@@ -1,5 +1,5 @@
 <main class="bg-[#F2F2F2]">
-    <header class="fixed bottom-12 w-full flex justify-center items-center lg:left-3 lg:w-max lg:h-screen lg:top-0">
+    <header *ngIf="isLoggedIn$" class="fixed bottom-12 w-full flex justify-center items-center lg:left-3 lg:w-max lg:h-screen lg:top-0">
         <div class="flex justify-center lg:flex-col items-center gap-2">
             <app-nav></app-nav>
             <app-add-user></app-add-user>

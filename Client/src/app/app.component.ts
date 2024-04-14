@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { Observable } from 'rxjs';
+import { AppState } from './reducers';
+import { select, Store } from '@ngrx/store';
+import { login } from './modules/pages/auth/services/auth.actions';
+import { isLoggedIn, isLoggedOut } from './modules/pages/auth/services/auth.selectors';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +15,51 @@ import { initFlowbite } from 'flowbite';
 export class AppComponent implements OnInit {
   title = 'Client';
 
-  constructor(public router: Router) {}
+  loading = true;
 
-  pageTitle = "";
+  isLoggedIn$: Observable<boolean> | undefined;
+
+  isLoggedOut$: Observable<boolean> | undefined;
+
+  constructor(public router: Router,
+      private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.pageTitle = this.setPageTitle();
     initFlowbite();
-  }
 
-  setPageTitle(): string {
-    if (this.router.url.includes("questions-interests")) {
-      return "Questions & Interests";
+    const userProfile = localStorage.getItem("user");
+
+    if (userProfile) {
+      this.store.dispatch(login({ user: JSON.parse(userProfile) }));
     }
-    else {
-      return "Good morning Lila";
-    }
+
+    this.router.events.subscribe(event => {
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.loading = true;
+          break;
+        }
+
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError: {
+          this.loading = false;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    });
+
+    this.isLoggedIn$ = this.store
+      .pipe(
+        select(isLoggedIn)
+      );
+
+    this.isLoggedOut$ = this.store
+      .pipe(
+        select(isLoggedOut)
+      );
   }
 }

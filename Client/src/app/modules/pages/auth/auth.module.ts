@@ -43,9 +43,7 @@ export const accountRoutes = [
     StoreModule.forFeature("auth", authReducer),
     EffectsModule.forFeature([AuthEffects])
   ],
-  providers: [
-    AuthService
-  ]
+  providers: []
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {

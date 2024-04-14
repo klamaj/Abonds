@@ -27,7 +27,7 @@ import { ImageEntityService } from './home/services/image-entity.service';
 
 export const pagesRoutes: Routes = [
   {
-    path: 'dashboard',
+    path: '',
     component: HomeComponent,
     resolve: {
       client: ClientsResolver

@@ -7,9 +7,6 @@ import { tap } from "rxjs";
 @Injectable()
 export class AuthEffects {
 
-
-    constructor(private actions$: Actions, private router: Router) {}
-
     // login
     login$ = createEffect(() => 
         this.actions$
@@ -32,4 +29,6 @@ export class AuthEffects {
             ),
         { dispatch: false }
     );
+
+    constructor(private actions$: Actions, private router: Router) { }
 }
