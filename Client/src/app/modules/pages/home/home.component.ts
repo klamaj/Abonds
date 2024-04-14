@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Client } from './models/client.model';
 import { ClientEntityService } from './services/client-entity.service';
 import { ClientService } from './services/client.service';
@@ -12,7 +12,7 @@ import { ClientService } from './services/client.service';
 })
 export class HomeComponent implements OnInit {
 
-  clients$: Observable<Client[] | undefined> = new Observable<Client[]>
+  clients$: Client[] = [];
 
   filtersForm: FormGroup;
 
@@ -30,8 +30,31 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clients$ = this.clientEntityService.entities$;
+    this.search();
   }
 
   
+  search(): void {
+    let search = "?";
+    if (this.filtersForm.value.search != '') {
+      search = `${search}search=${this.filtersForm.value.search}`;
+    }
+    if (this.filtersForm.value.gender != 'all') {
+      
+      search = (search != '?') ? `${search}&gender=${this.filtersForm.value.gender}` : `${search}gender=${this.filtersForm.value.gender}`;
+    }
+    if (this.filtersForm.value.minAge != 18) {
+      search = (search != '?') ? `${search}&ageFrom=${this.filtersForm.value.minAge}` :`${search}ageFrom=${this.filtersForm.value.minAge}`;
+    }
+    if (this.filtersForm.value.maxAge != 99) {
+      search = (search != '?') ? `${search}&ageTo=${this.filtersForm.value.maxAge}` : `${search}ageTo=${this.filtersForm.value.maxAge}`;
+    }
+    if (this.filtersForm.value.status != 'all') {
+      search = (search != '?') ? `${search}&status=${this.filtersForm.value.status}` : `${search}status=${this.filtersForm.value.status}`;
+    }
+
+    this.clientEntityService.getWithQuery(search).subscribe(
+      res => this.clients$ = res
+    );
+  }
 }

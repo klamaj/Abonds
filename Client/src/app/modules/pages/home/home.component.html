@@ -3,7 +3,7 @@
     <div class="w-full max-w-[1120px]">
 
         <!-- Filters -->
-        <form #f="ngForm" [formGroup]="filtersForm" class="w-full">
+        <form #f="ngForm" [formGroup]="filtersForm" (ngSubmit)="search()" class="w-full">
             <div class="w-full flex justify-center items-center gap-3">
                 <!-- search -->
                 <div class="relative w-full">
@@ -121,6 +121,7 @@
 
                 <!-- Interests -->
                 <!-- / Interests -->
+                <button type="submit" class="rounded-full bg-black text-white w-10 h-10 text-center">S</button>
             </div>
         </form>
         <!-- / Filters -->
@@ -128,7 +129,7 @@
         <!-- Clients -->
         <div class="w-full mt-12">
             <table class="w-full border-none rounded-2xl">
-                <tr *ngFor="let item of clients$ | async; let j = index" [ngClass]="[j % 2 === 0 ? 'bg-white' : 'bg-[#E6E6E6]'] " [routerLink]="['/profile', item.id]"   class="w-full rounded-2xl h-20 cursor-pointer">
+                <tr *ngFor="let item of clients$; let j = index" [ngClass]="[j % 2 === 0 ? 'bg-white' : 'bg-[#E6E6E6]'] " [routerLink]="['/profile', item.id]"   class="w-full rounded-2xl h-20 cursor-pointer">
                     <!-- image -->
                     <td class="p-1 rounded-l-2xl w-max">
                         <div class="inline-flex justify-center items-center">
@@ -223,6 +224,22 @@
             </table>
         </div>
         <!-- / Clients -->
+
+        <!-- no clients -->
+        <div *ngIf="clients$.length <= 0" class="w-full flex justify-center items-center flex-col mt-24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none">
+                <g clip-path="url(#clip0_18_545)">
+                    <path d="M86.5987 82.5C86.3354 82.9562 85.9566 83.3349 85.5004 83.5982C85.0442 83.8615 84.5267 84.0001 84 84H12C11.4736 83.9995 10.9567 83.8604 10.5011 83.5969C10.0454 83.3334 9.66715 82.9546 9.40421 82.4987C9.14127 82.0427 9.00292 81.5256 9.00305 80.9992C9.00319 80.4729 9.1418 79.9558 9.40498 79.5C15.1162 69.6262 23.9175 62.5462 34.1887 59.19C29.1081 56.1655 25.1608 51.5568 22.9529 46.0717C20.7451 40.5867 20.3988 34.5285 21.9673 28.8276C23.5357 23.1267 26.9322 18.0982 31.6351 14.5145C36.338 10.9307 42.0872 8.98979 48 8.98979C53.9127 8.98979 59.662 10.9307 64.3649 14.5145C69.0678 18.0982 72.4642 23.1267 74.0327 28.8276C75.6012 34.5285 75.2549 40.5867 73.047 46.0717C70.8392 51.5568 66.8919 56.1655 61.8112 59.19C72.0825 62.5462 80.8837 69.6262 86.595 79.5C86.8589 79.9557 86.9981 80.4729 86.9988 80.9995C86.9994 81.5261 86.8615 82.0436 86.5987 82.5Z" fill="#808080"/>
+                </g>
+                <defs>
+                    <clipPath id="clip0_18_545">
+                    <rect width="96" height="96" fill="white"/>
+                    </clipPath>
+                </defs>
+            </svg>
+            <p class="text-[28px] text-[#808080]">No clients found</p>
+        </div>
+        <!-- / no clients -->
     </div>
 
 </div>

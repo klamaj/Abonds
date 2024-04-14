@@ -234,6 +234,69 @@
         </div>
         <!-- / Relationship Profile -->
 
+        <!-- User interests -->
+        <div *ngIf="clientInterests.length > 0" class="w-full flex justify-start items-center mt-4">
+            <div class="w-full flex flex-wrap justify-start items-center gap-2">
+                <button type="button" class="inline-flex justify-between items-center w-full max-w-[300px] bg-transparent border-2 border-[#E6E6E6] rounded-full h-12 px-4">
+                    Add interests
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#clip0_50_522)">
+                            <path d="M13 6L8 11L3 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_50_522">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+                <div *ngFor="let item of clientInterests" [style.background]="item.subInterestColor" class="inline-flex justify-center items-center gap-1 p-2 rounded-full">
+                    <p class="text-xs">{{ item.subInterest }}</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#clip0_50_568)">
+                            <path d="M12.5 3.5L3.5 12.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.5 12.5L3.5 3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_50_568">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div *ngIf="partnerInterests.length > 0" class="w-full flex flex-wrap justify-start items-center gap-2 border-l-1 border-[#E6E6E6]">
+                <button type="button" class="inline-flex justify-between items-center w-full max-w-[300px] bg-transparent border-2 border-[#E6E6E6] rounded-full h-12 px-4">
+                    Add interests
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#clip0_50_522)">
+                            <path d="M13 6L8 11L3 6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_50_522">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </button>
+                <div *ngFor="let item of partnerInterests" [style.background]="item.subInterestColor" class="inline-flex justify-center items-center gap-1 p-2 rounded-full">
+                    <p class="text-xs">{{ item.subInterest }}</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#clip0_50_568)">
+                            <path d="M12.5 3.5L3.5 12.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12.5 12.5L3.5 3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_50_568">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <!-- / User interests -->
+
         <!-- Informations -->
         <div class="w-full mt-10 flex justify-center items-start">
             <!-- Informations Empty -->

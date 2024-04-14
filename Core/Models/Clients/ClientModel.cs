@@ -33,5 +33,6 @@ namespace Core.Models.Clients
         [JsonProperty]
         public bool AnsweredQuestions { get; set; } = false;
         public ICollection<ImageModel>? Images { get; set; }
+        public List<int>? ClientInterests { get; set; }
     }
 }

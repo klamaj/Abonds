@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ClientAnswers, ClientQuestionCat } from '../models/client-answers.model';
 import { Single } from '../models/single.model';
 import { Client } from '../models/client.model';
+import { ClientInterest } from '../models/client-interests.model';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +63,10 @@ export class ClientService {
   // Send Questions
   sendQuestions(clientId: number, questionId: number) {
     return this.http.post(`${environment.apiUrl}/Clients/${clientId}/SendQuestion/${questionId}`, null);
+  }
+
+  // Get Ineterests
+  getInterest(clientId: number): Observable<ClientInterest[]> {
+    return this.http.get<ClientInterest[]>(`${environment.apiUrl}/Clients/${clientId}/Interests`);
   }
 }

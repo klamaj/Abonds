@@ -522,5 +522,38 @@ namespace API.Controllers.Clients
 
             return BadRequest();
         }
+
+        // Add Interests
+        [HttpPost("{clientId}/Interests")]
+        public async Task<ActionResult> AddInterests(int clientId, List<int> interests)
+        {
+            var client = await _clientRepo.GetByIdAsync(clientId);
+            client.ClientInterests = interests;
+            var updateClient = await _clientRepo.UpdateAsync(client);
+            return Ok(updateClient);
+        }
+
+        // Get Interest
+        [HttpGet("{clientId}/Interests")]
+        public async Task<ActionResult> GetClientInterests(int clientId)
+        {
+            var entity =  await _clientRepo.GetByIdAsync(clientId);
+
+            var subInterestList = new List<SubInterestDto>();
+
+            if (entity.ClientInterests.Count > 0)
+            foreach(var item in entity.ClientInterests)
+            {
+                var sub = new SubInterestDto();
+                var subInterest = await _context.SubInterests.Include(x => x.Interest).FirstOrDefaultAsync(x => x.Id == item);
+                if (subInterest != null)
+                {
+                    sub.SubInterest =  subInterest.SubInterestName;
+                    sub.SubInterestColor = subInterest.Interest.InterestColor;
+                }
+                subInterestList.Add(sub);
+            }
+            return Ok(subInterestList);
+        }
     }
 }

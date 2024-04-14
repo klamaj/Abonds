@@ -43,7 +43,8 @@
                         </svg>
                     </div>
                 </div>
-                <div class="grid p-4 pb-2 gap-3">
+                <div class="flex flex-wrap p-4 pb-2 gap-3">
+                    <!-- here -->
                     <div [style.background]="interest.interestColor"  *ngFor="let item of interest.subInterests" class="rounded-full p-1 flex justify-start items-center w-max gap-4">
                         <p class="text-sm">{{ item.subInterestName }}</p>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

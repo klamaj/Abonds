@@ -13,6 +13,7 @@ import { ClientQuestionCat } from '../home/models/client-answers.model';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { Image } from '../home/models/image.model';
 import { ImageEntityService } from '../home/services/image-entity.service';
+import { ClientInterest } from '../home/models/client-interests.model';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +28,8 @@ export class ProfileComponent implements OnInit {
   partnerAnswers$: ClientQuestionCat[] = [];
   clientImages$: Image[] = [];
   partnerImages$: Image[] = [];
+  clientInterests: ClientInterest[] = [];
+  partnerInterests: ClientInterest[] = [];
 
   @ViewChild(EditProfileComponent) child: EditProfileComponent | undefined;
 
@@ -87,6 +90,10 @@ export class ProfileComponent implements OnInit {
       );
     }
 
+    this.clientService.getInterest(Number(CLIENT_ID)).subscribe(
+      res => this.clientInterests = res
+    );
+
     // Partner Answers
     this.client$.subscribe(
       res => {
@@ -98,7 +105,10 @@ export class ProfileComponent implements OnInit {
               this.imageEntityService.getWithQuery(res.matchedUserId!.toString()).subscribe(
                 res => this.partnerImages$ = res
               )
-            })
+            });
+          this.clientService.getInterest(res.matchedUserId).subscribe(
+            res => this.partnerInterests = res
+          )
         }
       }
     )

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { DefaultDataService, HttpUrlGenerator } from "@ngrx/data";
 import { Client } from "../models/client.model";
 import { HttpClient } from "@angular/common/http";
-import { HttpOptions } from "@ngrx/data/src/dataservices/interfaces";
+import { HttpOptions, QueryParams } from "@ngrx/data/src/dataservices/interfaces";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Update } from "@ngrx/entity";
@@ -29,5 +29,9 @@ export class ClientsDataService extends DefaultDataService<Client> {
     override add(entity: any, options?: HttpOptions | undefined): Observable<Client> {
         // console.log('Entity', entity);
         return this.http.post<any>(`${environment.apiUrl}/Clients`, entity);
+    }
+
+    override getWithQuery(queryParams: string | QueryParams | undefined, options?: HttpOptions | undefined): Observable<Client[]> {
+        return this.http.get<Client[]>(`${environment.apiUrl}/Clients${queryParams}`);
     }
 }
