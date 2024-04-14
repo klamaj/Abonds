@@ -1,5 +1,9 @@
 using System.Reflection;
 using API.Extensions;
+using Core.Models;
+using Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -77,5 +81,20 @@ app.UseAuthorization();
 
 // Use Controller instead of minimalApi
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<DatabaseContext>();
+var userManager = services.GetRequiredService<UserManager<UserModel>>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+try 
+{
+    await context.Database.MigrateAsync();
+    await AppIdentityDbContextSeed.SeedUserAsync(userManager);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "An error occured during migration");
+}
 
 app.Run();
