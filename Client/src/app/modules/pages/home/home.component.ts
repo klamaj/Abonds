@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { Client } from './models/client.model';
 import { ClientEntityService } from './services/client-entity.service';
 import { ClientService } from './services/client.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ import { ClientService } from './services/client.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  baseUrl = environment.apiUrl;
 
   clients$: Client[] = [];
 

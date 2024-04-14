@@ -5,6 +5,7 @@ import { ClientService } from '../../home/services/client.service';
 import { ClientEntityService } from '../../home/services/client-entity.service';
 import { Single } from '../../home/models/single.model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -12,6 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
+
+  baseUrl = environment.apiUrl;
 
   clientForm: FormGroup;
   matchedClientForm: FormGroup;

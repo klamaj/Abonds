@@ -14,6 +14,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { Image } from '../home/models/image.model';
 import { ImageEntityService } from '../home/services/image-entity.service';
 import { ClientInterest } from '../home/models/client-interests.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,8 @@ import { ClientInterest } from '../home/models/client-interests.model';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+
+  baseUrl = environment.apiUrl;
 
   client$: Observable<Client | undefined> = new Observable<Client>;
   questions$: QuestionCategory[] = [];
