@@ -22,7 +22,6 @@ namespace Infrastructure.Data
         public DbSet<QuestionModel> Questions { get; set; }
         public DbSet<QuestionAnswerModel> QuestionsAnswers { get; set; }
         public DbSet<ContractModel> Contracts { get; set; }
-        public DbSet<ClientInerestModel> ClientInterests { get; set; }
         public DbSet<ClientAnswerModel> ClientAnswers { get; set; }
         public DbSet<AnsweredFormModel> AnsweredForms { get; set; }
         public DbSet<ImageModel> Images { get; set; }

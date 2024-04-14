@@ -11,6 +11,5 @@ namespace Core.Models.Clients
         public InterestModel? Interest { get; set; }
         [JsonProperty]
         public int InterestId { get; set; }
-        public ICollection<ClientInerestModel>? ClientInterests { get; set; }
     }
 }

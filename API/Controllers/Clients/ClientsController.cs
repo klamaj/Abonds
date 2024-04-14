@@ -4,6 +4,7 @@ using Core.DTOs;
 using Core.Models;
 using Core.Models.Clients;
 using Core.Models.EmailModels;
+using Core.Models.Enums;
 using Core.Models.Questions;
 using Infrastructure.Data;
 using Infrastructure.Repository.Interfaces;
@@ -43,10 +44,65 @@ namespace API.Controllers.Clients
         ///
         /// </remarks>
         [HttpGet]
-        public async Task<IReadOnlyList<ClientModel>> GetClients()
+        public async Task<IReadOnlyList<ClientModel>> GetClients([FromQuery] string? search, string? gender, string? ageFrom, string? ageTo, string? status)
         {
-            // _logger.LogInformation("List all clients");
-            var entities = await _context.Clients.Include(x => x.Contract).ToListAsync();
+            var entities = new List<ClientModel>();
+            var year = DateTime.Now.Year;
+            if (status is not null)
+            {
+                var stat = (PersonalStatus)Enum.Parse(typeof(PersonalStatus), status);
+                entities = await _context.Clients.Where(c => c.Status == stat).ToListAsync();
+            }
+            if (gender is not null)
+            {
+                if (entities.Count > 0)
+                {
+                    entities = entities.Where(c => c.Sex == gender).ToList();
+                }
+                else
+                {
+                    entities = await _context.Clients.Where(c => c.Sex == gender).ToListAsync();
+                }
+            }
+            if (ageFrom is not null)
+            {
+                if (entities.Count > 0)
+                {
+                    entities.Where(c => c.DateOfBirth.Year <= (year - Int32.Parse(ageFrom))).ToList();
+                }
+                else
+                {
+                    var calcYear = (year - Int32.Parse(ageFrom));
+                    entities = await _context.Clients.Where(c => c.DateOfBirth.Year <= calcYear).ToListAsync();
+                }
+            }
+            if (ageTo is not null)
+            {
+                if (entities.Count > 0)
+                {
+                    entities.Where(c => c.DateOfBirth.Year >= (year - Int32.Parse(ageTo))).ToList();
+                }
+                else
+                {
+                    entities = await _context.Clients.Where(c => c.DateOfBirth.Year <= (year - Int32.Parse(ageTo))).ToListAsync();
+                }
+            }
+            if (search is not null)
+            {
+                if (entities.Count > 0)
+                {
+                    entities = entities.Where(c => c.FirstName.StartsWith(search) || c.LastName.StartsWith(search)).ToList();
+                }
+                else
+                {
+                    entities = await _context.Clients.Where(c => c.FirstName.StartsWith(search) || c.LastName.StartsWith(search)).ToListAsync();
+                }
+            }
+            if (entities.Count <= 0 && (search is null && gender is null && ageFrom is null && ageTo is null && status is null ))
+            {
+                entities = await _context.Clients.Include(x => x.Contract).ToListAsync();
+            }
+
             return entities;
         }
 
@@ -262,28 +318,6 @@ namespace API.Controllers.Clients
             return Ok($"Message successfully sent");
         }
 
-        [HttpGet("{clinetId}/Interests")]
-        public async Task<ActionResult> GetClientInterests(int clinetId)
-        {   
-            var res = await _context.ClientInterests.Include(x => x.SubInterest).Where(x => x.ClientId == clinetId).ToListAsync();
-
-            return Ok(res);
-        }
-
-        [HttpPost("{clinetId}/Interests")]
-        public async Task<ActionResult> AddInterestsToClient(int clinetId, [FromBody] List<ClientInerestModel> clientInerests)
-        {
-            foreach (var item in clientInerests)
-            {
-                item.ClientId = clinetId;
-                var res = await _context.ClientInterests.AddAsync(item);
-                await _context.SaveChangesAsync();
-            }
-
-            var entities = await _context.Clients.Include(x => x.Contract).Include(s => s.ClientInterests).ThenInclude(s => s.SubInterest).ThenInclude(i => i.Interest).FirstOrDefaultAsync(x => x.Id == clinetId);
-            return Ok(entities);
-        }
-
         [HttpPost("SubmitForm")]
         public async Task<ActionResult> SubmitAnswersForm([FromBody] List<ClientAnswerModel> model)
         {
@@ -395,16 +429,16 @@ namespace API.Controllers.Clients
 
             var imagesList = new List<ImageModel>();
 
-            var client = await _context.Clients.FindAsync(clientId);
+            var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == clientId);
             bool hasImage = false;
 
             foreach (var file in files)
             {
                 var fileExt = System.IO.Path.GetExtension(file.FileName).Substring(1);
-                var filePath = Path.Combine("wwwroot", $"{Guid.NewGuid().ToString()}.{fileExt}");
+                var filePath = Path.Combine("wwwroot/images", $"{Guid.NewGuid().ToString()}.{fileExt}");
                 if (!hasImage)
                 {
-                    client.ProfileImagePath = Path.GetFileName(filePath);
+                    client.ProfileImagePath = "images/" + Path.GetFileName(filePath);
                     hasImage = true;
                 }
 

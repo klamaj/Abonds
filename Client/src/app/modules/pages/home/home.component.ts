@@ -14,24 +14,23 @@ export class HomeComponent implements OnInit {
 
   clients$: Observable<Client[] | undefined> = new Observable<Client[]>
 
-  searchForm: FormGroup;
+  filtersForm: FormGroup;
 
   constructor(
   private fb: FormBuilder,
-  private clientService: ClientEntityService,
-  public calcAge: ClientService) {
-    this.searchForm = this.fb.group({
+  private clientEntityService: ClientEntityService,
+  public clientService: ClientService) {
+    this.filtersForm = this.fb.group({
       search: new FormControl(''),
       gender: new FormControl('all'),
+      minAge: new FormControl<number>(18),
+      maxAge: new FormControl<number>(99),
+      status: new FormControl('all')
     });
   }
 
   ngOnInit(): void {
-      this.clients$ = this.clientService.entities$;
-  }
-
-  search(): void{
-    console.log(this.searchForm.value);
+    this.clients$ = this.clientEntityService.entities$;
   }
 
   

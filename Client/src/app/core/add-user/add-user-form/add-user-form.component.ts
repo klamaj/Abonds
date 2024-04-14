@@ -50,7 +50,7 @@ export class AddUserFormComponent implements OnInit {
       firstName: this.addUserForm.value.firstName,
       lastName: this.addUserForm.value.lastName,
       email: this.addUserForm.value.email,
-      dateOfBirth: this.addUserForm.value.day + "-" + this.addUserForm.value.month + "-" + this.addUserForm.value.year,
+      dateOfBirth: this.addUserForm.value.year + "-" + this.addUserForm.value.month + "-" + this.addUserForm.value.day,
       sex: this.addUserForm.value.sex,
     }
 

@@ -11,11 +11,11 @@ namespace Core.Models.Clients
         [JsonProperty]
         public string? LastName { get; set; }
         [JsonProperty]
-        public string? DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
         [JsonProperty]
         public string? Email { get; set; }
         [JsonProperty]
-        public string? ProfileImagePath { get; set; }
+        public string ProfileImagePath { get; set; } = "images/user.svg";
         [JsonProperty]
         public string? Sex { get; set; }
         [JsonProperty]
@@ -32,8 +32,6 @@ namespace Core.Models.Clients
         public bool QuestionsSend { get; set; } = false;
         [JsonProperty]
         public bool AnsweredQuestions { get; set; } = false;
-        [JsonProperty]
-        public ICollection<ClientInerestModel>? ClientInterests { get; set; }
         public ICollection<ImageModel>? Images { get; set; }
     }
 }
