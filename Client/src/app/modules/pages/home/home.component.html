@@ -129,7 +129,7 @@
         <!-- Clients -->
         <div class="w-full mt-12">
             <table class="w-full border-none rounded-2xl">
-                <tr *ngFor="let item of clients$; let j = index" [ngClass]="[j % 2 === 0 ? 'bg-white' : 'bg-[#E6E6E6]'] " [routerLink]="['/profile', item.id]"   class="w-full rounded-2xl h-20 cursor-pointer">
+                <tr *ngFor="let item of clients$; let j = index" [ngClass]="[j % 2 === 0 ? 'bg-white' : 'bg-[#E6E6E6]'] " [routerLink]="['/webadmin/profile', item.id]"   class="w-full rounded-2xl h-20 cursor-pointer">
                     <!-- image -->
                     <td class="p-1 rounded-l-2xl w-max">
                         <div class="inline-flex justify-center items-center">

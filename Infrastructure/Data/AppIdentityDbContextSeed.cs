@@ -15,7 +15,7 @@ namespace Infrastructure.Data
                     UserName = "klamaj@fondivita.com"
                 };
 
-                await userManager.CreateAsync(user, "");
+                await userManager.CreateAsync(user, "Aa123456!");
             }
         }
     }

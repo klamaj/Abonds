@@ -478,17 +478,41 @@
         <!-- / Partner Answers -->
 
         <!-- Handle Questions Form -->
-        <div *ngIf="client.matchedUserId === null" class="w-full mt-16 flex justify-center items-center">
+        <div class="w-full mt-16 flex justify-center items-center">
             <div class="w-full max-w-[800px]">
+                <!-- Cleints -->
+                <form f="ngForm" [formGroup]="selectUserForm" (load)="generateUserForm(client)" [ngClass]="[client.matchedUserId == null] ? 'block': 'block' " class="w-full mt-8 mb-8">
+                    <p class="w-full text-center text-base">Where do you want to send a message?</p>
+                    <div class="w-full flex justify-center items-center gap-6 pt-4">
+                        <div class="inline-flex justify-center items-center gap-2 bg-white px-4 py-5 rounded-[10px]">
+                            <input type="checkbox" name="selectClient" formControlName="selectClient" value="" class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded focus:ring-black dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked/>
+                            <input type="text" name="clientId" formControlName="clientId" hidden>
+                            <div class="inline-flex justify-start items-center gap-2">
+                                <img class="w-8 h-8" class="rounded-full" [src]="baseUrl + client.profileImagePath" alt="image" />
+                                <p class="text-sm">{{ client.firstName }} {{ client.lastName }}</p>
+                            </div>
+                        </div>
+                        <div class="inline-flex justify-center items-center gap-2 bg-white px-4 py-5 rounded-[10px]">
+                            <input type="checkbox" name="matchedClient" formControlName="matchedClient" value="" class="w-4 h-4 text-black bg-gray-100 border-gray-300 rounded focus:ring-black dark:focus:ring-black dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" [checked]="client.matchedUserId != null"/>
+                            <input type="text" name="matchedClientId" formControlName="matchedClientId" hidden/>
+                            <div class="inline-flex justify-start items-center gap-2">
+                                <img class="w-8 h-8" class="rounded-full" [src]="baseUrl + client.matchedUser?.profileImagePath" alt="image" />
+                                <p class="text-sm">{{ client.matchedUser?.firstName }} {{ client.matchedUser?.lastName }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- / Cleints -->
+
                 <!-- Questions -->
-                <form *ngIf="!client.questionsSend" [formGroup]="questionsForm" class="w-full" >
+                <form [formGroup]="questionsForm" class="w-full" >
                     <p class="text-2xl text-[#808080]">Send questions to: <span class="text-black font-bold">{{ client.firstName }} {{ client.lastName }}</span></p>
                     <div class="flex justify-start items-center gap-24 py-4">
                         <!-- yes/no radio -->
                         <div>
                             <div>
                                 <label class="inline-flex items-center mb-5 cursor-pointer w-full justify-between gap-2">
-                                    <input id="sendQuestions" [disabled]="questions$.length <= 0" (change)="displayQuestionList = displayQuestionList === false ? true : false" type="checkbox" value="" class="sr-only peer">
+                                    <input id="sendQuestions" name="sendQuestion" formControlName="sendQuestion" (change)="displayQuestionList = displayQuestionList === false ? true : false" type="checkbox" value="" class="sr-only peer">
                                     <div class="relative w-[72px] h-10 bg-[#E6E6E6] peer-focus:outline-none peer-focus:ring-0 peer-focus:ring-transparent rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-white after:border after:rounded-full after:h-8 after:w-8 after:transition-all peer-checked:bg-[#4FE393]"></div>
                                 </label>
                             </div>
@@ -506,9 +530,7 @@
                                     <option selected value="0">Questions</option>
                                     <option *ngFor="let item of questions$" [value]="item.id">{{ item.questionCategoryTitle }}</option>
                                 </select>
-                                <div class="w-full inline-flex justify-center items-center mt-3">
-                                    <button *ngIf="questionsForm.value.questionId != '0'" (click)="sendQuestions(client.id)" type="button" class="bg-black border-2 border-black text-white rounded-full py-2 px-6 disabled:cursor-not-allowed">Send questions</button>
-                                </div>
+                                <p *ngIf="questionsSuccess" class="text-sm text-[#4FE393] pt-2">Questions successfully sent</p>
                             </div>
                         </div>
                     </div>
@@ -538,7 +560,7 @@
                 <!-- / Contract -->
 
                 <!-- Send email -->
-                <form #f="ngForm" [formGroup]="sendMessageForm" (ngSubmit)="sendMessage(client.id)" class="w-full">
+                <form #f="ngForm" [formGroup]="sendMessageForm" class="w-full">
                     <div class="w-full max-w-[800px]">
                         <p class="text-2xl text-[#808080]">Send email to: <span class="text-black font-bold">{{ client.firstName }} {{ client.lastName }}</span></p>
                         <!-- yes/no radio -->
@@ -551,9 +573,10 @@
                             </div>
                         </div>
                         <textarea name="message" id="message" formControlName="message" class="w-full bg-[#E6E6E6] rounded-[20px] border-none" rows="10"></textarea>
+                        <p *ngIf="messageSuccess" class="text-sm text-[#4FE393] pt-2">Message successfully sent</p>
                     </div>
                     <div class="w-full max-w-[800px] flex justify-center items-center">
-                        <button [disabled]="sendMessageForm.invalid" type="submit" class="bg-black border-2 border-black text-white rounded-full py-2 px-6 disabled:cursor-not-allowed">Send email</button>
+                        <button type="button" (click)="sendMessage()" class="bg-black border-2 border-black text-white rounded-full py-2 px-6 disabled:cursor-not-allowed">Send email</button>
                     </div>
                 </form>
                 <!-- / Send email -->

@@ -52,6 +52,8 @@ export class AppComponent implements OnInit {
       }
     });
 
+   
+
     this.isLoggedIn$ = this.store
       .pipe(
         select(isLoggedIn)
@@ -61,5 +63,8 @@ export class AppComponent implements OnInit {
       .pipe(
         select(isLoggedOut)
       );
+
+    // console.log(this.isLoggedIn$);
+    // console.log(this.isLoggedOut$);
   }
 }

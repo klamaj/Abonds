@@ -15,6 +15,7 @@ export class QuestionFormComponent implements OnInit {
   questionForm: FormGroup;
   singleQuestionForm: FormGroup;
   answerForm: FormGroup;
+  
 
   questionDisp: boolean = true;
   answerDisp: boolean = false;
@@ -55,7 +56,7 @@ export class QuestionFormComponent implements OnInit {
     this.questionService.add(obj).subscribe(
       res => {
         // console.log(res)
-        this.router.navigateByUrl('/questions-interests');
+        this.router.navigateByUrl('/webadmin/questions-interests');
       }
     )
   }

@@ -7,8 +7,6 @@ import { ClientEntityService } from '../home/services/client-entity.service';
 import { ClientService } from '../home/services/client.service';
 import { QuestionCategory } from '../questions-interests/questions/models/questionCategory.model';
 import { QuestionEntityService } from '../questions-interests/questions/services/question-entity.service';
-import { ObservableNotification } from '@ngrx/effects/src/utils';
-import { Contract } from '../home/models/contract.model';
 import { ClientQuestionCat } from '../home/models/client-answers.model';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { Image } from '../home/models/image.model';
@@ -40,10 +38,13 @@ export class ProfileComponent implements OnInit {
   editClient: boolean = false;
   deleteAlert: boolean = false;
   deleteClientDispForm: boolean = false;
+  questionsSuccess: boolean = false;
+  messageSuccess: boolean = false;
 
   questionsForm: FormGroup;
   sendMessageForm: FormGroup;
   deleteClientForm: FormGroup;
+  selectUserForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,10 +66,18 @@ export class ProfileComponent implements OnInit {
     this.deleteClientForm = new FormGroup({
       deleteClientMessage: new FormControl('', Validators.required)
     });
+
+    this.selectUserForm = new FormGroup({
+      selectClient: new FormControl(),
+      clientId: new FormControl(),
+      matchedClient: new FormControl(),
+      matchedClientId: new FormControl()
+    });
   }
 
   generateQuestionForm(): FormGroup {
     return new FormGroup({
+      sendQuestion: new FormControl(false, [Validators.required]),
       questionId: new FormControl('0', [Validators.required])
     });
   }
@@ -130,15 +139,53 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  sendMessage(clientId: number): void {
-    let obj = {
-      message: this.sendMessageForm.value.message
-    }
-    // console.log(obj);
+  // Send Messages
+  sendMessage(): void {
+    console.log(this.selectUserForm.value);
+    // Send to Client
+    // if (this.questionsForm.value.sendQuestion)
+    // {
+    //   if (this.selectUserForm.value.selectClient)
+    //   {
+    //     this.clientService.sendQuestions(this.selectUserForm.value.clientId, this.questionsForm.value.questionId).subscribe(
+    //       res => this.questionsSuccess = true
+    //     )
+    //   }
+    // }
+    // // Send To Client
+    // if (this.sendMessageForm.value.messageChek)
+    // {
+    //   let obj = {
+    //     message: this.sendMessageForm.value.message
+    //   }
+    //   if (this.sendMessageForm.value.selectClient)
+    //   {
+    //     this.clientService.sendMessage(this.selectUserForm.value.clientId, obj).subscribe(
+    //       res => this.messageSuccess = true
+    //     )
+    //   }
+    // }
 
-    this.clientService.sendMessage(clientId, obj).subscribe(
-      res => console.log(res)
-    )
+    // // Send to matched
+    // if (this.questionsForm.value.sendQuestion) {
+    //   if (this.selectUserForm.value.matchedClient) {
+    //     this.clientService.sendQuestions(this.selectUserForm.value.matchedClientId, this.questionsForm.value.questionId).subscribe(
+    //       res => this.questionsSuccess = true
+    //     )
+    //   }
+    // }
+    // // Send To matched
+    // if (this.sendMessageForm.value.messageChek) {
+    //   let obj = {
+    //     message: this.sendMessageForm.value.message
+    //   }
+    //   if (this.sendMessageForm.value.matchedClient)
+    //   {
+    //     this.clientService.sendMessage(this.selectUserForm.value.matchedClientId, obj).subscribe(
+    //       res => this.messageSuccess = true
+    //     )
+    //   }
+    // }
   }
 
   // Linear Helper
@@ -192,10 +239,10 @@ export class ProfileComponent implements OnInit {
     )
   }
 
-  // Send Questions
-  sendQuestions(id: number): void {
-    this.clientService.sendQuestions(id, Number(this.questionsForm.value.questionId)).subscribe(
-      res => window.location.reload()
-    )
+  generateUserForm(client: Client): void {
+    this.selectUserForm.value.selectClient = true;
+    this.selectUserForm.value.matchedClient = false;
+    this.selectUserForm.value.clientId = client.id;
+    this.selectUserForm.value.matchedClientId = client.matchedUserId;
   }
 }

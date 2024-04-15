@@ -42,10 +42,8 @@ const entityMetadata: EntityMetadataMap = {
   providers: [
     QuestionEntityService,
     QuestionDataService,
-    // QuestionsResolver,
     ClientEntityService,
     ClientsDataService,
-    // ClientsResolver
   ]
 })
 export class CoreModule { 
