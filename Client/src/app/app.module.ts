@@ -23,12 +23,16 @@ const routes: Routes = [
   {
     path: 'account',
     loadChildren: () => import('./modules/pages/auth/auth.module').then(m => m.AuthModule),
+  },
+  {
+    path: '',
+    loadChildren: () => import('./modules/web/web.module').then(m => m.WebModule)
   }
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
