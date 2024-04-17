@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
 })
 export class EditProfileComponent implements OnInit {
 
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.baseApiUrl;
 
   clientForm: FormGroup;
   matchedClientForm: FormGroup;

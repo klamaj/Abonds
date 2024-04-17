@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfileComponent implements OnInit {
 
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.baseApiUrl;
 
   client$: Observable<Client | undefined> = new Observable<Client>;
   questions$: QuestionCategory[] = [];
@@ -141,30 +141,30 @@ export class ProfileComponent implements OnInit {
 
   // Send Messages
   sendMessage(): void {
-    console.log(this.selectUserForm.value);
+    // console.log(this.selectUserForm.value);
     // Send to Client
-    // if (this.questionsForm.value.sendQuestion)
-    // {
-    //   if (this.selectUserForm.value.selectClient)
-    //   {
-    //     this.clientService.sendQuestions(this.selectUserForm.value.clientId, this.questionsForm.value.questionId).subscribe(
-    //       res => this.questionsSuccess = true
-    //     )
-    //   }
-    // }
-    // // Send To Client
-    // if (this.sendMessageForm.value.messageChek)
-    // {
-    //   let obj = {
-    //     message: this.sendMessageForm.value.message
-    //   }
-    //   if (this.sendMessageForm.value.selectClient)
-    //   {
-    //     this.clientService.sendMessage(this.selectUserForm.value.clientId, obj).subscribe(
-    //       res => this.messageSuccess = true
-    //     )
-    //   }
-    // }
+    if (this.questionsForm.value.sendQuestion)
+    {
+      // if (this.selectUserForm.value.selectClient)
+      // {
+        this.clientService.sendQuestions(this.selectUserForm.value.clientId, this.questionsForm.value.questionId).subscribe(
+          res => this.questionsSuccess = true
+        )
+      // }
+    }
+    // Send To Client
+    if (this.sendMessageForm.value.messageChek)
+    {
+      let obj = {
+        message: this.sendMessageForm.value.message
+      }
+      // if (this.sendMessageForm.value.selectClient)
+      // {
+        this.clientService.sendMessage(this.selectUserForm.value.clientId, obj).subscribe(
+          res => this.messageSuccess = true
+        )
+      // }
+    }
 
     // // Send to matched
     // if (this.questionsForm.value.sendQuestion) {

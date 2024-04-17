@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.baseApiUrl;
 
   clients$: Client[] = [];
 
