@@ -29,3 +29,4 @@ users.json
 # mac
 .DS_Store
 abonds-web.service
+API/*.json
