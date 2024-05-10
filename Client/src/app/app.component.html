@@ -5,7 +5,7 @@
             <app-add-user></app-add-user>
         </div>
     </header>
-    <section [ngClass]="[router.url.includes('webadmin') ? 'h-full w-full bg-[#F2F2F2] lg:pl-[124px] lg:pt-10 lg:pr-8 overflow-y-scroll' : '']">
+    <section [ngClass]="[router.url.includes('webadmin') ? 'h-full w-full bg-[#F2F2F2] lg:pl-[124px] lg:pt-10 lg:pr-8' : '']">
         <!-- logo -->
         <div class="w-full flex justify-center items-center pb-6 lg:hidden"  *ngIf="isLoggedIn$ | async as isLoggedIn">
             <svg xmlns="http://www.w3.org/2000/svg" width="98" height="32" viewBox="0 0 98 32" fill="none">
@@ -28,3 +28,6 @@
         </div>
     </section>
 </main>
+
+<!-- Cookies -->
+<app-cookies></app-cookies>

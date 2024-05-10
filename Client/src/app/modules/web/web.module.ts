@@ -4,6 +4,10 @@ import { ClientHomeComponent } from './client-home/client-home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './client-home/header/header.component';
 import { ContactComponent } from './client-home/contact/contact.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './client-home/footer/footer.component';
+import { SocialComponent } from './client-home/footer/social/social.component';
+import { CalendarComponent } from './client-home/calendar/calendar.component';
 
 export const routes: Routes = [
   {
@@ -16,11 +20,15 @@ export const routes: Routes = [
   declarations: [
     ClientHomeComponent,
     HeaderComponent,
-    ContactComponent
+    ContactComponent,
+    FooterComponent,
+    SocialComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ]
 })
 export class WebModule { }

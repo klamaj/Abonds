@@ -12,6 +12,9 @@ import { QuestionDataService } from '../modules/pages/questions-interests/questi
 import { ClientEntityService } from '../modules/pages/home/services/client-entity.service';
 import { ClientsDataService } from '../modules/pages/home/services/clients-data.service';
 import { EntityDataService, EntityDefinitionService, EntityMetadataMap } from '@ngrx/data';
+import { CookiesComponent } from './cookies/cookies.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { CookieService } from 'ngx-cookie-service';
 
 // Entity metadata
 const entityMetadata: EntityMetadataMap = {
@@ -25,7 +28,9 @@ const entityMetadata: EntityMetadataMap = {
     NavComponent,
     AddUserComponent,
     AddUserFormComponent,
-    RequestsComponent
+    RequestsComponent,
+    CookiesComponent,
+    PrivacyComponent
   ],
   imports: [
     CommonModule,
@@ -37,13 +42,15 @@ const entityMetadata: EntityMetadataMap = {
   exports: [
     NavComponent,
     AddUserComponent,
-    RequestsComponent
+    RequestsComponent,
+    CookiesComponent
   ],
   providers: [
     QuestionEntityService,
     QuestionDataService,
     ClientEntityService,
     ClientsDataService,
+    CookieService
   ]
 })
 export class CoreModule { 

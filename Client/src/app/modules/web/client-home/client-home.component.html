@@ -1,4 +1,4 @@
-<div class="bg-[#1D0101] px-3 lg:px-8 w-full flex justify-center">
+<div [ngClass]="[this.cookies ? 'overflow-hidden' : '']" class="bg-[#1D0101] px-3 lg:px-8 w-full flex justify-center">
 
     <div class="w-full max-w-[1280px]">
         <!-- Header -->
@@ -199,6 +199,10 @@
         <!-- Contact -->
         <app-contact></app-contact>
         <!-- / Contact -->
+
+        <!-- Footer -->
+        <app-footer></app-footer>
+        <!-- / Footer -->
     </div>
 
 </div>

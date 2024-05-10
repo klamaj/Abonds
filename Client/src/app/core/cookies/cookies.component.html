@@ -1,0 +1,39 @@
+<div class="w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-black bg-opacity-70 px-4 z-[100]">
+    <div class="w-full bg-[#4E0404] rounded-[30px] pt-4 pb-8 px-6 h-max max-h-[560px]">
+        <!-- Header -->
+        <div class="flex justify-between place-items-center">
+            <p class="text-xl font-bold text-white">Cookies</p>
+            <div class="w-12 h-12 rounded-full cursor-pointer inline-flex justify-center items-center bg-[#1D0101]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <g clip-path="url(#clip0_498_1110)">
+                        <path d="M18.75 5.25L5.25 18.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M18.75 18.75L5.25 5.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_498_1110">
+                        <rect width="24" height="24" fill="white"/>
+                        </clipPath>
+                    </defs> 
+                </svg>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="w-full mt-9">
+            <p class="text-white text-base">Our website utilises cookies to enhance user experience, track website usage, manage user sessions, and collect analytical data. You may control the use of cookies at your browser level.</p>
+        </div>
+
+        <!-- Accept / Declinet -->
+        <div class="w-full flex justify-center items-center gap-5 mt-8">
+            <!-- Decline -->
+            <div class="w-full p-[2px] rounded-full bg-gradient-to-r from-[#855307] to-[#FBC473]">
+                <button type="button" (click)="decline()" class="rounded-full bg-[#4E0404] h-[44px] text-[#F7C170] font-bold text-base w-full hover:bg-transparent hover:text-black cursor-pointer focus:bg-[#A97629] focues:text-black">Decline</button>
+            </div>
+
+            <!-- Accept -->
+            <div class="w-full p-[2px] rounded-full bg-gradient-to-r from-[#855307] to-[#FBC473]">
+                <button type="button" (click)="accept()" class="rounded-full bg-[#4E0404] h-[44px] text-[#F7C170] font-bold text-base w-full hover:bg-transparent hover:text-black cursor-pointer focus:bg-[#A97629] focus:text-black">Accept</button>
+            </div>
+        </div>
+    </div>
+</div>
