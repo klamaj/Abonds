@@ -23,3 +23,26 @@ input.primary:focus {
     border-bottom: 2px solid black;
     --tw-ring-color: transparent;
 }
+
+.ngb-dp-weekday {
+    color: #FBDADA !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    // margin-right: 34px;
+    
+}
+
+// .ngb-dp-weekdays {
+//     gap: 32px !important;
+// }
+
+.ngb-dp-week {
+    color: white;
+    gap: 25px;
+}
+
+.ngb-dp-day[tabindex="0"] {
+    background-color: #C5C5C5 !important;
+    // color: #000000 !important;
+    border-radius: 99%;
+}

@@ -1,1 +1,124 @@
-<p>calendar works!</p>
+<div class="bg-[#130101] rounded-[20px] mt-[210px]">
+    <ng-template #c let-dp>
+        <div class="w-full flex flex-col justify-center items-center">        
+            <!-- Calendar -->
+            <div *ngFor="let month of dp.state.months; track month" class="flex flex-col justify-center items-center p-4 bg-[#130101] rounded-[20px]">
+                <!-- month -->
+                <div *ngIf="step == 'date'" class="w-full flex justify-between items-center">
+                    <!-- previous -->
+                    <div class="w-full max-w-12 h-12 bg-[#310202] rounded-full inline-flex justify-center items-center" (click)="navigate(dp, -1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_517_1249)">
+                                <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_517_1249">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <!-- month -->
+                    <div class="w-full text-center">
+                        <p class="text-xl text-[#FFC5C5] font-bold">{{ dp.i18n.getMonthFullName(month.month) }} {{ month.year }}</p>
+                    </div>
+                    <!-- next -->
+                    <div class="w-full max-w-12 h-12 bg-[#310202] rounded-full inline-flex justify-center items-center cursor-pointer" (click)="navigate(dp, +1)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_517_1244)">
+                                <path d="M9 4.5L16.5 12L9 19.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_517_1244">
+                                <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <!-- datepicker -->
+                <ngb-datepicker-month *ngIf="step == 'date'" class="w-full mt-14" [month]="month"></ngb-datepicker-month>
+            </div>
+            <!-- Time Selection -->
+            <div *ngIf="step == 'time'" class="w-full flex justify-start items-center gap-4 p-4">
+                <div class="w-full max-w-12 h-12 bg-[#310202] rounded-full inline-flex justify-center items-center cursor-pointer" (click)="step = 'date'">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <g clip-path="url(#clip0_517_1249)">
+                            <path d="M15 19.5L7.5 12L15 4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                    </svg>
+                </div>
+                <p class="text-xl text-[#FFC5C5] font-bold">Time selection</p>
+            </div>
+            <!-- Time Selection Form -->
+            <div class="w-full p-4">
+                <form #f="ngForm" [formGroup]="timeSelection" class="w-full space-y-2">
+                    <div *ngFor="let item of time" class="w-full rounded-full bg-[#270202] py-[14px] pl-4 flex items-center gap-5">
+                        <input type="radio" id="{{item.id}}" name="time" formControlName="time" [value]="item.value" class="w-4 h-4 text-[#FB9D9D] bg-transparent border-[#FB9D9D] border-2 focus:ring-[#FB9D9D] focus:border-transparent focus:bg-[#FB9D9D]" />
+                        <label for="{{item.id}}" class="text-lg text-white">{{ item.view }}</label>
+                    </div>
+                </form>
+            </div>
+            <!-- Selected -->
+            <div class="w-full bg-[url('http://91.108.102.215/Content/images/abonds-bg-gradient.jpeg')] bg-cover rounded-[20px] mt-16">
+                <div class="w-full px-4 pt-10 pb-12 flex flex-col justify-center items-center">
+                    <!-- Date -->
+                    <div *ngIf="step =='date'" class="w-full text-center text-[#FBDADA]">
+                        <p class="text-2xl">{{ dp.i18n.getDayAriaLabel(selectedDate).split(',', 1)[0] }}</p>
+                        <p class="text-[150px] -mt-12">{{ selectedDate.day }}</p>
+                    </div>
+                    <!-- Time -->
+                    <div class="w-full flex flex-col justify-center items-center text-center text-[#FBDADA]">
+                        <svg *ngIf="timeSelection.value.time != ''" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <g clip-path="url(#clip0_517_1058)">
+                                <path d="M24 7.5C20.4399 7.5 16.9598 8.55568 13.9997 10.5335C11.0397 12.5114 8.73255 15.3226 7.37018 18.6117C6.0078 21.9008 5.65134 25.52 6.34587 29.0116C7.04041 32.5033 8.75474 35.7106 11.2721 38.2279C13.7894 40.7453 16.9967 42.4596 20.4884 43.1541C23.98 43.8487 27.5992 43.4922 30.8883 42.1298C34.1774 40.7675 36.9886 38.4604 38.9665 35.5003C40.9443 32.5402 42 29.0601 42 25.5C41.9945 20.7278 40.0964 16.1526 36.7219 12.7781C33.3474 9.40364 28.7722 7.50546 24 7.5ZM32.5613 19.0613L25.0613 26.5613C24.9219 26.7006 24.7564 26.8112 24.5744 26.8866C24.3923 26.962 24.1971 27.0008 24 27.0008C23.8029 27.0008 23.6078 26.962 23.4257 26.8866C23.2436 26.8112 23.0781 26.7006 22.9388 26.5613C22.7994 26.4219 22.6888 26.2564 22.6134 26.0743C22.538 25.8923 22.4992 25.6971 22.4992 25.5C22.4992 25.3029 22.538 25.1077 22.6134 24.9257C22.6888 24.7436 22.7994 24.5781 22.9388 24.4388L30.4388 16.9388C30.5781 16.7994 30.7436 16.6888 30.9257 16.6134C31.1078 16.538 31.3029 16.4992 31.5 16.4992C31.6971 16.4992 31.8923 16.538 32.0744 16.6134C32.2564 16.6888 32.4219 16.7994 32.5613 16.9388C32.7006 17.0781 32.8112 17.2436 32.8866 17.4257C32.962 17.6077 33.0008 17.8029 33.0008 18C33.0008 18.1971 32.962 18.3923 32.8866 18.5743C32.8112 18.7564 32.7006 18.9219 32.5613 19.0613ZM18 3C18 2.60218 18.158 2.22064 18.4393 1.93934C18.7207 1.65804 19.1022 1.5 19.5 1.5H28.5C28.8978 1.5 29.2794 1.65804 29.5607 1.93934C29.842 2.22064 30 2.60218 30 3C30 3.39782 29.842 3.77936 29.5607 4.06066C29.2794 4.34196 28.8978 4.5 28.5 4.5H19.5C19.1022 4.5 18.7207 4.34196 18.4393 4.06066C18.158 3.77936 18 3.39782 18 3Z" fill="#FBDADA"/>
+                            </g>
+                        </svg>
+                        <p *ngIf="timeSelection.value.time != ''" class="text-[90px] -mt-8">{{ timeSelection.value.time }}</p>
+                        <p *ngIf="timeSelection.value.time == ''" class="text-[22px] text-[#FBDADA]">choose the time that suits you best</p>
+                    </div>
+                    <!-- info -->
+                    <div class="w-full mt-[200px]">
+                        <div class="w-full flex justify-between items-center">
+                            <p *ngIf="step == 'date'" class="text-base text-[#FDCECE]">Next Step</p>
+                            <div *ngIf="step == 'date'" class="flex justify-center items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <g clip-path="url(#clip0_517_1012)">
+                                        <path d="M12 3.75C10.22 3.75 8.47991 4.27784 6.99987 5.26677C5.51983 6.25571 4.36628 7.66131 3.68509 9.30585C3.0039 10.9504 2.82567 12.76 3.17294 14.5058C3.5202 16.2516 4.37737 17.8553 5.63604 19.114C6.89472 20.3726 8.49836 21.2298 10.2442 21.5771C11.99 21.9243 13.7996 21.7461 15.4442 21.0649C17.0887 20.3837 18.4943 19.2302 19.4832 17.7501C20.4722 16.2701 21 14.53 21 12.75C20.9973 10.3639 20.0482 8.07629 18.361 6.38905C16.6737 4.70182 14.3861 3.75273 12 3.75ZM16.2806 9.53063L12.5306 13.2806C12.4609 13.3503 12.3782 13.4056 12.2872 13.4433C12.1961 13.481 12.0986 13.5004 12 13.5004C11.9015 13.5004 11.8039 13.481 11.7128 13.4433C11.6218 13.4056 11.5391 13.3503 11.4694 13.2806C11.3997 13.2109 11.3444 13.1282 11.3067 13.0372C11.269 12.9461 11.2496 12.8485 11.2496 12.75C11.2496 12.6515 11.269 12.5539 11.3067 12.4628C11.3444 12.3718 11.3997 12.2891 11.4694 12.2194L15.2194 8.46938C15.2891 8.39969 15.3718 8.34442 15.4628 8.30671C15.5539 8.26899 15.6515 8.24958 15.75 8.24958C15.8486 8.24958 15.9461 8.26899 16.0372 8.30671C16.1282 8.34442 16.2109 8.39969 16.2806 8.46938C16.3503 8.53906 16.4056 8.62178 16.4433 8.71283C16.481 8.80387 16.5004 8.90145 16.5004 9C16.5004 9.09855 16.481 9.19613 16.4433 9.28717C16.4056 9.37822 16.3503 9.46094 16.2806 9.53063ZM9 1.5C9 1.30109 9.07902 1.11032 9.21967 0.96967C9.36033 0.829018 9.55109 0.75 9.75 0.75H14.25C14.4489 0.75 14.6397 0.829018 14.7803 0.96967C14.921 1.11032 15 1.30109 15 1.5C15 1.69891 14.921 1.88968 14.7803 2.03033C14.6397 2.17098 14.4489 2.25 14.25 2.25H9.75C9.55109 2.25 9.36033 2.17098 9.21967 2.03033C9.07902 1.88968 9 1.69891 9 1.5Z" fill="white"/>
+                                    </g>
+                                    <!-- <defs>
+                                        <clipPath id="clip0_517_1012">
+                                        <rect width="24" height="24" fill="white"/>
+                                        </clipPath>
+                                    </defs> -->
+                                </svg>
+                                <p class="text-base text-[#FDCECE]">Time selection</p>
+                            </div>
+                            <p class="text-[#FB9D9D] text-base">Date of appt.</p>
+                            <p class="text-base text-white">{{ dp.i18n.getDayAriaLabel(selectedDate) }}</p>
+                        </div>
+                        <div *ngIf="(step == 'time' && timeSelection.value.time != '')" class="w-full flex justify-between items-center pt-4">
+                            <p class="text-base text-white">Confirmation cost</p>
+                            <p class="text-xl text-white font-bold">60,00€</p>
+                        </div>
+                        <button (click)="nextStep()" type="button" class="h-16 w-full rounded-full bg-[#C5C5C5] text-[#130101] font-bold text-base mt-10 cursor-pointer disabled:opacity-50">Next & Time Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<div class="w-full bg-[#130101] rounded-[20px]">
+	<ngb-datepicker
+		class="w-full"
+		[displayMonths]="1"
+		[contentTemplate]="c"
+		outsideDays="show"
+		[weekdays]="true"
+		navigation="none"
+        [minDate]="minDate"
+        [(ngModel)]="selectedDate"
+        (ngModelChange)="change($event)"
+	/>
+</div>
