@@ -13,8 +13,9 @@ export class CalendarComponent implements OnInit{
   model: any;
   minDate: NgbDateStruct | any;
   selectedDate: NgbDateStruct;
-  step: string = "time";
+  step: string = "date";
   timeSelection: FormGroup;
+  battonValue: string = "Next & Time Selection";
 
   constructor() {
     this.minDate = new NgbDate (
@@ -45,8 +46,17 @@ export class CalendarComponent implements OnInit{
   nextStep(): void {
     switch (this.step) {
       case "time":
-        console.log(this.timeSelection.value.time);
+        this.step = "personal";
         break;
+      case "date":
+        this.step = "time";
+        this.battonValue = "Next & Personal Infromation";
+        break;
+      case "personal":
+        this.step = "payment";
+        this.battonValue = "Proceed to Payment";
+        break;
+      // TODO: Book Consulation
     }
   }
 

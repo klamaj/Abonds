@@ -1,0 +1,62 @@
+<div class="w-full">
+    <form #f="ngForm" [formGroup]="userRegistrationForm" class="w-full">
+        <div class="w-full grid space-y-8">
+            <!-- email -->
+            <div class="relative">
+                <input
+                    type="text" 
+                    id="email"
+                    formControlName="email"
+                    [ngClass]="[userRegistrationForm.controls['email'].invalid && (userRegistrationForm.controls['email'].touched || userRegistrationForm.controls['email'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                    class="block rounded-full h-12 w-full text-base text-[#FB9D9D] text-bold bg-[#270202] border-none appearance-none  focus:ring-[#FB9D9D] focus:ring-2 peer" placeholder="" />
+                <label 
+                    for="email"
+                    class="absolute text-base text-[#FB9D9D] duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    Email
+                </label>
+            </div>
+            <!-- name -->
+            <div class="relative">
+                <input
+                    type="text" 
+                    id="name"
+                    formControlName="name"
+                    [ngClass]="[userRegistrationForm.controls['name'].invalid && (userRegistrationForm.controls['name'].touched || userRegistrationForm.controls['name'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                    class="block rounded-full h-12 w-full text-base text-[#FB9D9D] text-bold bg-[#270202] border-none appearance-none  focus:ring-[#FB9D9D] focus:ring-2 peer" placeholder="" />
+                <label 
+                    for="name"
+                    class="absolute text-base text-[#FB9D9D] duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    Name
+                </label>
+            </div>
+            <!-- surname -->
+            <div class="relative">
+                <input
+                    type="text" 
+                    id="surname"
+                    formControlName="surname"
+                    [ngClass]="[userRegistrationForm.controls['surname'].invalid && (userRegistrationForm.controls['surname'].touched || userRegistrationForm.controls['surname'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                    class="block rounded-full h-12 w-full text-base text-[#FB9D9D] text-bold bg-[#270202] border-none appearance-none  focus:ring-[#FB9D9D] focus:ring-2 peer" placeholder="" />
+                <label 
+                    for="surname"
+                    class="absolute text-base text-[#FB9D9D] duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    Surname
+                </label>
+            </div>
+            <!-- Birthday -->
+            <div class="relative">
+                <input
+                    type="text" 
+                    id="birthday"
+                    formControlName="birthday"
+                    [ngClass]="[userRegistrationForm.controls['birthday'].invalid && (userRegistrationForm.controls['birthday'].touched || userRegistrationForm.controls['birthday'].dirty) ? 'ring-[#FF1941] ring-2 focus:ring-[#FF1941]' : '']"
+                    class="block rounded-full h-12 w-full text-base text-[#FB9D9D] text-bold bg-[#270202] border-none appearance-none  focus:ring-[#FB9D9D] focus:ring-2 peer" placeholder="" />
+                <label 
+                    for="birthday"
+                    class="absolute text-base text-[#FB9D9D] duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] start-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                    Birthday
+                </label>
+            </div>
+        </div>
+    </form>
+</div>

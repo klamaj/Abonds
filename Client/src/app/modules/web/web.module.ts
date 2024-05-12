@@ -10,6 +10,7 @@ import { SocialComponent } from './client-home/footer/social/social.component';
 import { CalendarComponent } from './client-home/calendar/calendar.component';
 import { NgbDatepicker, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarFormComponent } from './client-home/calendar/calendar-form/calendar-form.component';
+import { PaymentComponent } from './client-home/calendar/payment/payment.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
     SocialComponent,
     CalendarComponent,
     CalendarFormComponent,
+    PaymentComponent,
   ],
   imports: [
     CommonModule,
