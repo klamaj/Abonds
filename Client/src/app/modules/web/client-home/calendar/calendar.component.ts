@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDate, NgbDatepicker, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { TimeModel } from './models/time.model';
+import { BasketItem } from './models/basket.model';
+import { BasketService } from './basket/basket.service';
 
 @Component({
   selector: 'app-calendar',
@@ -17,7 +19,14 @@ export class CalendarComponent implements OnInit{
   timeSelection: FormGroup;
   battonValue: string = "Next & Time Selection";
 
-  constructor() {
+  private item: BasketItem = {
+    id: 1,
+    price: 60,
+    productName: 'meet',
+    quantity: 1,
+  }
+
+  constructor(private basketService: BasketService) {
     this.minDate = new NgbDate (
       new Date().getFullYear(),
       new Date().getMonth() + 1,
@@ -47,6 +56,7 @@ export class CalendarComponent implements OnInit{
     switch (this.step) {
       case "time":
         this.step = "personal";
+        this.item && this.basketService.addItemsToBasket(this.item);
         break;
       case "date":
         this.step = "time";

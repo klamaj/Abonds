@@ -41,6 +41,18 @@ input.primary:focus {
     gap: 25px;
 }
 
+@media screen and (min-width: 1024px) {
+    .ngb-dp-week {
+        color: white;
+        gap: 56px;
+        margin-bottom: 25px;
+    }
+}
+
+.ngb-dp-header {
+    padding-top: 0px !important;
+}
+
 .ngb-dp-day[tabindex="0"] {
     background-color: #C5C5C5 !important;
     // color: #000000 !important;

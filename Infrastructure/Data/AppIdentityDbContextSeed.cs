@@ -11,8 +11,8 @@ namespace Infrastructure.Data
             {
                 var user = new  UserModel
                 {
-                    Email = "klamaj@fondivita.com",
-                    UserName = "klamaj@fondivita.com"
+                    Email = "team@alphabondsdating.com",
+                    UserName = "team@alphabondsdating.com"
                 };
 
                 await userManager.CreateAsync(user, "Aa123456!");
